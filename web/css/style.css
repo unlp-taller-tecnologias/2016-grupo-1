@@ -1,1 +1,7 @@
-/* Estilos */
+.hide-spinners::-webkit-inner-spin-button,
+.hide-spinners::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
