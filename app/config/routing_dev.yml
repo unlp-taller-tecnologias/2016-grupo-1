@@ -12,3 +12,23 @@ _errors:
 
 _main:
     resource: routing.yml
+
+factor_index:
+    defaults: {_controller: AppBundle/Controller/Factor:index}
+    path: /factor
+    
+factor_new:
+    defaults: {_controller: AppBundle/Controller/Factor:new}
+    path: /factor/nuevo
+    
+factor_edit:
+    defaults: {_controller: AppBundle/Controller/Factor:edit}
+    path: /factor/editar
+    
+factor_delete:
+    defaults: {_controller: AppBundle/Controller/Factor:delete}
+    path: /factor/eliminar
+    
+factor_show:
+    defaults: {_controller: AppBundle/Controller/Factor:show}
+    path: /factor/ver/{factor}
