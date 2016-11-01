@@ -12,13 +12,14 @@ use AppBundle\Form\MedicacionType;
 /**
  * Medicacion controller.
  *
+ * @Route("/medicacion")
  */
 class MedicacionController extends Controller
 {
     /**
      * Listar todas las opciones de "recibe medicación".
      *
-     * @Route("/medicacion", name="medicacion_index")
+     * @Route("/", name="medicacion_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -35,7 +36,7 @@ class MedicacionController extends Controller
     /**
      * Crea una nueva opción de medicación
      *
-     * @Route("/medicacion/nueva", name="medicacion_new")
+     * @Route("/crear", name="medicacion_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -61,7 +62,7 @@ class MedicacionController extends Controller
     /**
      * Vista detalle de una opción de medicación.
      *
-     * @Route("/medicacion/{id}", name="medicacion_show")
+     * @Route("/{id}", name="medicacion_show")
      * @Method("GET")
      */
     public function showAction(Medicacion $medicacion)
@@ -77,7 +78,7 @@ class MedicacionController extends Controller
     /**
      * Formulario de edición de medicación.
      *
-     * @Route("/medicacion/{id}/editar", name="medicacion_edit")
+     * @Route("/{id}/editar", name="medicacion_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Medicacion $medicacion)
@@ -104,7 +105,7 @@ class MedicacionController extends Controller
     /**
      * Eliminar una opción de medicación.
      *
-     * @Route("/medicacion/{id}", name="medicacion_delete")
+     * @Route("/{id}", name="medicacion_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Medicacion $medicacion)

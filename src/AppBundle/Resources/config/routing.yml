@@ -1,4 +1,0 @@
-app_factor:
-    resource: "@AppBundle/Resources/config/routing/factor.php"
-    prefix:   /factor
-

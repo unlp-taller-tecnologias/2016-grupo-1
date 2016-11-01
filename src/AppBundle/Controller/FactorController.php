@@ -4,19 +4,23 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Factor;
 use AppBundle\Form\FactorType;
 
 /**
- * Controlador del ABM de factores de riesgo.
- * 
+ * Controlador de factores de riesgo.
+ *
+ * @Route("/factor")
  */
 class FactorController extends Controller
 {
     /**
      * Lista todos los factores de riesgo.
-     * @Route("/factor")
+     *
+     * @Route("/", name="factor_index")
+     * @Method("GET")
      */
     public function indexAction()
     {
@@ -31,7 +35,9 @@ class FactorController extends Controller
 
     /**
      * Crear un nuevo factor de riesgo.
-     * @Route("/factor/nuevo")
+     *
+     * @Route("/crear", name="factor_new")
+     * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -55,7 +61,9 @@ class FactorController extends Controller
 
     /**
      * Mostrar un factor de riesgo en particular.
-     * @Route("/factor/{factor}")
+     *
+     * @Route("/{id}", name="factor_show")
+     * @Method("GET")
      */
     public function showAction(Factor $factor)
     {
@@ -69,7 +77,9 @@ class FactorController extends Controller
 
     /**
      * Edición de un factor de riesgo.
-     * @Route("/factor/editar")
+     *
+     * @Route("/{id}/editar", name="factor_edit")
+     * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Factor $factor)
     {
@@ -94,7 +104,9 @@ class FactorController extends Controller
 
     /**
      * Eliminar un factor de riesgo.
-     * @Route("/factor/eliminar")
+     *
+     * @Route("/{id}", name="factor_delete")
+     * @Method("DELETE")
      */
     public function deleteAction(Request $request, Factor $factor)
     {
