@@ -30,7 +30,7 @@ class Partido
     protected $partido;
 
     /**
-     * @ORM\OneToMany(targetEntity="Localidad", mappedBy="Partido")
+     * @ORM\OneToMany(targetEntity="Localidad", mappedBy="partido")
      */
     protected $localidades;
 
