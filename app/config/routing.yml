@@ -24,3 +24,23 @@ factor_delete:
 factor_show:
     defaults: {_controller: AppBundle/Controller/Factor:show}
     path: /factor/ver/{factor}
+    
+medicacion_index:
+    defaults: {_controller: AppBundle/Controller/Medicacion:index}
+    path: /medicacion
+    
+medicacion_new:
+    defaults: {_controller: AppBundle/Controller/Medicacion:new}
+    path: /medicacion/nueva
+    
+medicacion_edit:
+    defaults: {_controller: AppBundle/Controller/Medicacion:edit}
+    path: /medicacion/{id}/editar
+    
+medicacion_delete:
+    defaults: {_controller: AppBundle/Controller/Medicacion:delete}
+    path: /medicacion/{id}/eliminar
+    
+medicacion_show:
+    defaults: {_controller: AppBundle/Controller/Medicacion:show}
+    path: /medicacion/{id}

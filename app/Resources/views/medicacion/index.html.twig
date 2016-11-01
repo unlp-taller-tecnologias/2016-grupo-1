@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de opciones de medicación (examen prequirúrgico)</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Medicación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for medicacion in medicacions %}
+            <tr>
+                <td><a href="{{ path('medicacion_show', { 'id': medicacion.id }) }}">{{ medicacion.id }}</a></td>
+                <td>{{ medicacion.medicacion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('medicacion_show', { 'id': medicacion.id }) }}">ver</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('medicacion_edit', { 'id': medicacion.id }) }}">editar</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('medicacion_new') }}">Crear una nueva opción de medicaciones</a>
+        </li>
+    </ul>
+{% endblock %}

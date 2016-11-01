@@ -55,7 +55,7 @@ class FactorController extends Controller
 
     /**
      * Mostrar un factor de riesgo en particular.
-     * @Route("/factor/ver/{factor}")
+     * @Route("/factor/{factor}")
      */
     public function showAction(Factor $factor)
     {
