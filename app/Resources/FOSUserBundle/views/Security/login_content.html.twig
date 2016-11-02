@@ -1,8 +1,5 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-{% endblock %}
 
 <form id="form-login" action="{{ path("fos_user_security_check") }}" method="post">
     <h2 id="form-login-heading">Iniciar sesión</h2>
