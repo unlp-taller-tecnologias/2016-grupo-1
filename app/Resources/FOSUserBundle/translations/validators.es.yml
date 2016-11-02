@@ -1,0 +1,6 @@
+fos_user:
+    username:
+        already_used: 'El DNI ya está en uso'
+        blank: 'Por favor, ingrese su DNI'
+        short: 'El DNI es demasiado corto'
+        long: 'El DNI es demasiado largo'
