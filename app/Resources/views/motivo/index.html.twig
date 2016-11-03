@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de motivos de consulta</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Motivo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for motivo in motivos %}
+            <tr>
+                <td><a href="{{ path('motivo_show', { 'id': motivo.id }) }}">{{ motivo.id }}</a></td>
+                <td>{{ motivo.motivo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('motivo_show', { 'id': motivo.id }) }}">Ver</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}">Editar</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('motivo_new') }}">Agregar nuevo motivo de consulta</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ver motivo de consulta</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ motivo.id }}</td>
+            </tr>
+            <tr>
+                <th>Motivo</th>
+                <td>{{ motivo.motivo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('motivo_index') }}">Volver a la lista</a>
+        </li>
+        <li>
+            <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}">Editar</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Eliminar">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
