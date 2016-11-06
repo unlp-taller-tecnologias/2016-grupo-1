@@ -1,39 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Partido list</h1>
+{% block body_id 'admin_partido_index' %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Partido</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for partido in partidos %}
-            <tr>
-                <td><a href="{{ path('partido_show', { 'id': partido.id }) }}">{{ partido.id }}</a></td>
-                <td>{{ partido.partido }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('partido_show', { 'id': partido.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('partido_edit', { 'id': partido.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block main %}
+        <h1>Listado de partidos</h1>
 
-    <ul>
-        <li>
-            <a href="{{ path('partido_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Partido</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for partido in partidos %}
+                <tr>
+                    <td>{{ partido.partido }}</td>
+                    <td>
+                        <div class="item-actions">
+                            <a href="{{ path('partido_show', { 'id': partido.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                            <a href="{{ path('partido_edit', { 'id': partido.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" align="center">No se ha registrado ningún partido.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        <a href="{{ path('partido_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Agregar partido
+        </a>
+    </div>
+
+    {{ parent() }}
 {% endblock %}

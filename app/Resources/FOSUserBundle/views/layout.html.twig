@@ -1,5 +1,13 @@
 {% extends '::base.html.twig' %}
+
+{# Esta es la página de inicio (login), no tiene header, sidebar, ni footer, para esto
+ de definen los bloques correspondientes y se dejan vacios. #}
+
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+
 {% block body %}
+
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div>
             {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |

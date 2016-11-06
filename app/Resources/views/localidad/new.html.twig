@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Localidad creation</h1>
+{% block body_id 'admin_localidad_new' %}
+
+{% block main %}
+    <h1>Registrar localidad</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
 
-    <ul>
-        <li>
-            <a href="{{ path('localidad_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        <a class="btn btn-link" href="{{ path('localidad_index') }}">Volver a listado</a>
+    {{ form_end(form) }}
 {% endblock %}

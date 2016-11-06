@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Localidad edit</h1>
+{% block body_id "admin_localidad_edit" %}
+
+{% block main %}
+    <h1>Editar localidad</h1>
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+
+        <a class="btn btn-link" href="{{ path('localidad_index') }}">Volver a listado</a>
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('localidad_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        {{ include('localidad/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar localidad',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}

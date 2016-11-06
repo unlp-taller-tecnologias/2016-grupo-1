@@ -1,36 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body_id "admin_localidad_show" %}
+
+{% block main %}
     <h1>Localidad</h1>
 
-    <table>
+    <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th scope="row">Id</th>
+                <th scope="row">Localidad</th>
+                <th scope="row">Codpostal</th>
+            </tr>
+            <tr>
                 <td>{{ localidad.id }}</td>
-            </tr>
-            <tr>
-                <th>Localidad</th>
                 <td>{{ localidad.localidad }}</td>
-            </tr>
-            <tr>
-                <th>Codpostal</th>
                 <td>{{ localidad.codPostal }}</td>
             </tr>
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('localidad_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('localidad_edit', { 'id': localidad.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="btn btn-link" href="{{ path('localidad_index') }}">Volver a listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('localidad_edit', { 'id': localidad.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar localidad
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('localidad/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar localidad',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}

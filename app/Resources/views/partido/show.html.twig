@@ -1,32 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body_id "admin_partido_show" %}
+
+{% block main %}
     <h1>Partido</h1>
 
-    <table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="row">Id</th>
+                <th scope="row">Partido</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
-                <th>Id</th>
                 <td>{{ partido.id }}</td>
-            </tr>
-            <tr>
-                <th>Partido</th>
                 <td>{{ partido.partido }}</td>
             </tr>
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('partido_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('partido_edit', { 'id': partido.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="btn btn-link" href="{{ path('partido_index') }}">Volver a listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('partido_edit', { 'id': partido.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar partido
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('partido/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar partido',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}
