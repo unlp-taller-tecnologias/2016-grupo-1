@@ -13,8 +13,12 @@
     <input class="form-control" type="password" id="password" name="_password"
            placeholder="{{ 'security.login.password'|trans }}" required="required" />
 
-    <input class="btn btn-primary btn-lg btn-block" type="submit" id="_submit" name="_submit"
+    <input class="btn btn-primary btn-md btn-block" type="submit" id="_submit" name="_submit"
            value="{{ 'security.login.submit'|trans }}" />
+
+    <div class="text-center">
+        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-link">Registrarse</a>
+    </div>
 </form>
 {% if error %}
     <div class="col-md-offset-3 col-md-6">
