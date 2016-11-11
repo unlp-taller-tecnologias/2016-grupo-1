@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Usuario extends FOSUser
 {
-    const PROFESION_MEDICO     = 1;
-    const PROFESION_SECRETARIO = 2;
+    const PROFESION_MEDICO     = "médico";
+    const PROFESION_SECRETARIO = "secretario";
 
     /**
      * @ORM\Id
@@ -44,7 +44,7 @@ class Usuario extends FOSUser
     protected $telefono;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Por favor, seleccione una opción", groups={"Registration", "Profile"})
      */
     protected $profesion;
