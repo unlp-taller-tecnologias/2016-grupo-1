@@ -1,32 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Ver factor de riesgo</h1>
+{% block body_id "admin_factor_show" %}
 
-    <table>
+{% block main %}
+    <h1>Factores de riesgo</h1>
+
+    <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ factor.id }}</td>
+                <th scope="row">Id</th>
+                <th scope="row">Factor de riesgo</th>
             </tr>
             <tr>
-                <th>Factor de riesgo</th>
-                <td>{{ factor.factor }}</td>
+                <td>{{ factor.id }}</td>
+                <td>{{ factor.factor}}</td>
             </tr>
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('factor_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('factor_edit', { 'id': factor.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="btn btn-link" href="{{ path('factor_index') }}">Volver a listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('factor_edit', { 'id': factor.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar factor de riesgo
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('factor/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar factor de riesgo',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}

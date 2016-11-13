@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Crear nueva opción de medicaciones para examen prequirúrgico</h1>
+{% block body_id "admin_medicacion_new" %}
+
+{% block main %}
+    <h1>Nueva opción de medicaciones para examen prequirúrgico</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Crear" />
-    {{ form_end(form) }}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
 
-    <ul>
-        <li>
-            <a href="{{ path('medicacion_index') }}">Volver a la lista</a>
-        </li>
-    </ul>
+        <a class="btn btn-link" href="{{ path('medicacion_index') }}">Volver a listado</a>
+        {{ form_end(form) }}
 {% endblock %}

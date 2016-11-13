@@ -1,21 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Editar factor de riesgo</h1>
+{% block body_id "admin_factor_edit" %}
 
-    {{ form_start(edit_form) }}
-    {{ form_widget(edit_form) }}
-    <input type="submit" value="Editar" />
-    {{ form_end(edit_form) }}
+    {% block main %}
+        <h1>Editar factor de riesgo</h1>
 
-    <ul>
-        <li>
-            <a href="{{ path('factor_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-            <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
-{% endblock %}
+        {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+
+        <a class="btn btn-link" href="{{ path('factor_index') }}">Volver a listado</a>
+
+        {{ form_end(edit_form) }}
+    {% endblock %}
+
+    {% block sidebar %}
+        <div class="section actions">
+            {{ include('factor/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar factor de riesgo',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+        </div>
+
+        {{ parent() }}
+    {% endblock %}

@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Lista de factores de riesgo</h1>
+{% block body_id "admin_factor_index" %}
+    
+    {% block main %}
+        <h1>Lista de factores de riesgo</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Factor de riesgo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for factor in factors %}
-            <tr>
-                <td><a href="{{ path('factor_show', { 'id': factor.id }) }}">{{ factor.id }}</a></td>
-                <td>{{ factor.factor }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('factor_show', { 'id': factor.id }) }}">ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('factor_edit', { 'id': factor.id }) }}">editar</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Factor de riesgo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factor in factors %}
+                    <tr>
+                        <td>{{ factor.factor }}</td>
+                        <td>
+                            <div class="item-actions">
+                                <a href="{{ path('factor_edit', { 'id': factor.id }) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2" align="center">No se ha registrado ningún factor de riesgo.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('factor_new') }}">Agregar nuevo factor de riesgo</a>
-        </li>
-    </ul>
-{% endblock %}
+    {% block sidebar %}
+        <div class="section actions">
+            <a href="{{ path('factor_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar factor de riesgo
+            </a>
+        </div>
+
+        {{ parent() }}
+    {% endblock %}

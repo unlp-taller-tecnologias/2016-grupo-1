@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Nuevo factor de riesgo</h1>
+{% block body_id 'admin_factor_new' %}
 
-    {{ form_start(form) }}
+    {% block main %}
+        <h1>Nuevo factor de riesgo</h1>
+
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Crear" />
-    {{ form_end(form) }}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
 
-    <ul>
-        <li>
-            <a href="{{ path('factor_index') }}">Volver al listado</a>
-        </li>
-    </ul>
-{% endblock %}
+        <a class="btn btn-link" href="{{ path('factor_index') }}">Volver a listado</a>
+        {{ form_end(form) }}
+
+    {% endblock %}

@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Lista de opciones de medicación (examen prequirúrgico)</h1>
+{% block body_id "admin_medicacion_index" %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Medicación</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for medicacion in medicacions %}
-            <tr>
-                <td><a href="{{ path('medicacion_show', { 'id': medicacion.id }) }}">{{ medicacion.id }}</a></td>
-                <td>{{ medicacion.medicacion }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('medicacion_show', { 'id': medicacion.id }) }}">ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('medicacion_edit', { 'id': medicacion.id }) }}">editar</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% block main %}
+        <h1>Lista de opciones de medicación (examen prequirúrgico)</h1>
 
-    <ul>
-        <li>
-            <a href="{{ path('medicacion_new') }}">Crear una nueva opción de medicaciones</a>
-        </li>
-    </ul>
-{% endblock %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Medicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicacion in medicacions %}
+                    <tr>
+                        <td>{{ medicacion.medicacion }}</td>
+                        <td>
+                            <div class="item-actions">
+                                <a href="{{ path('medicacion_edit', { 'id': medicacion.id }) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2" align="center">No se ha registrado ninguna opción de medicación.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+
+    {% block sidebar %}
+        <div class="section actions">
+            <a href="{{ path('medicacion_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar opción
+            </a>
+        </div>
+
+        {{ parent() }}
+    {% endblock %}

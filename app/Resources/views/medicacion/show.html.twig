@@ -1,32 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body_id "admin_medicacion_show" %}
+
+{% block main %}
     <h1>Opción de medicación para examen prequirúrgico</h1>
 
-    <table>
+    <table class="table table-striped">
         <tbody>
             <tr>
-                <th>#</th>
-                <td>{{ medicacion.id }}</td>
+                <th scope="row">Id</th>
+                <th scope="row">Opción de medicación</th>
             </tr>
             <tr>
-                <th>Medicación</th>
-                <td>{{ medicacion.medicacion }}</td>
+                <td>{{ medicacion.id }}</td>
+                <td>{{ medicacion.factor}}</td>
             </tr>
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('medicacion_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('medicacion_edit', { 'id': medicacion.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="btn btn-link" href="{{ path('medicacion_index') }}">Volver a listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('medicacion_edit', { 'id': medicacion.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar opción
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('medicacion/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar opción',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}
