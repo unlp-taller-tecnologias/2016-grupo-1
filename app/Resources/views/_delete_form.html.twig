@@ -1,0 +1,10 @@
+{% set attr = attr|default({})|merge({'data-confirmation': 'true'}) %}
+
+{{ include('_delete_entity_confirmation.html.twig') }}
+
+{{ form_start(form, { attr: attr }) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-danger {{ button_css|default("") }}">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>{{ button_label|default('Eliminar') }}
+    </button>
+{{ form_end(form) }}
