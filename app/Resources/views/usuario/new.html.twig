@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Alta de usuario</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.apellido) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.telefono) }}
+        {{ form_row(form.profesion) }}
+        <div id="registration-medico-fields" style="display: none">
+            {{ form_row(form.matricula) }}
+            {{ form_row(form.especialidad) }}
+        </div>
+        {{ form_row(form.plainPassword) }}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('usuario_index') }}">Volver al listado</a>
+    {{ form_end(form) }}
+{% endblock %}

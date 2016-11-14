@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% set PROFESION_MEDICO = constant('AppBundle\\Entity\\Usuario::PROFESION_MEDICO') %}
+
+{% block main %}
+    <h1>Editar usuario</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_row(edit_form.nombre) }}
+        {{ form_row(edit_form.apellido) }}
+        {{ form_row(edit_form.username) }}
+        {{ form_row(edit_form.email) }}
+        {{ form_row(edit_form.telefono) }}
+        {{ form_row(edit_form.profesion) }}
+        <div id="registration-medico-fields"
+                {% if usuario.profesion != PROFESION_MEDICO %} style="display: none"{% endif %}>
+            {{ form_row(edit_form.matricula) }}
+            {{ form_row(edit_form.especialidad) }}
+        </div>
+        {{ form_row(edit_form.plainPassword) }}
+
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('usuario_index') }}">Volver al listado</a>
+    {{ form_end(edit_form) }}
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar usuario',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
+{% endblock %}
