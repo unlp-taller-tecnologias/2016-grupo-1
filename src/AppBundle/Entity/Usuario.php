@@ -6,12 +6,14 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Usuario
  *
  * @ORM\Entity
  * @ORM\Table(name="usuario")
+ * @UniqueEntity(fields="matricula", message="La matrícula ya está en uso")
  */
 class Usuario extends FOSUser
 {
