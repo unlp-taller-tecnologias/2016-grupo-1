@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Lista de pacientes</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Edad</th>
+              <th>Sexo</th>
+              <th>Localidad</th>
+              <th>Obra Social</th>
+              <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for paciente in pacientes %}
+            <tr>
+                <td>{{ paciente.dni}}</td>
+                <td>{{ paciente.nombre }}</td>
+                <td>{{ paciente.apellido }}</td>
+                <td>{{ paciente.edad }}</td>
+                <td>{{ paciente.sexo }}</td>
+                <td>{{ paciente.localidad }}</td>
+                <td>{{ paciente.obraSocial}}</td>
+                <td>
+                    <div class="item-actions">
+                        <a href="{{ path('paciente_show', { 'id': paciente.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                        <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                        </a>
+                        {{ include('_delete_form.html.twig', {
+                            attr: {'style': 'display: inline-block'},
+                            form: delete_forms[paciente.id],
+                            button_label: 'Eliminar',
+                            button_css: 'btn-sm',
+                        }) }}
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" align="center">No se ha registrado ningun paciente.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+
+    {% block sidebar %}
+        <div class="section-actions">
+            <a href="{{ path('paciente_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
+            </a>
+        </div>
+
+        {{ parent() }}
+
+{% endblock %}

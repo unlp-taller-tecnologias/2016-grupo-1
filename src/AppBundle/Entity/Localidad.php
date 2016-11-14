@@ -41,11 +41,22 @@ class Localidad
      */
     protected $partido;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Paciente", mappedBy="localidad")
+     */
+    protected $pacientes;
+
+    public function __construct()
+    {
+        $this->pacientes = new ArrayCollection();
+    }
+
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,7 +79,7 @@ class Localidad
     /**
      * Get localidad
      *
-     * @return string 
+     * @return string
      */
     public function getLocalidad()
     {
@@ -91,7 +102,7 @@ class Localidad
     /**
      * Get codPostal
      *
-     * @return string 
+     * @return string
      */
     public function getCodPostal()
     {
@@ -114,10 +125,47 @@ class Localidad
     /**
      * Get partido
      *
-     * @return \AppBundle\Entity\Partido 
+     * @return \AppBundle\Entity\Partido
      */
     public function getPartido()
     {
         return $this->partido;
+    }
+
+    /**
+     * Add pacientes
+     *
+     * @param \AppBundle\Entity\Paciente $pacientes
+     * @return Localidad
+     */
+    public function addPaciente(\AppBundle\Entity\Paciente $pacientes)
+    {
+        $this->pacientes[] = $pacientes;
+
+        return $this;
+    }
+
+    /**
+     * Remove pacientes
+     *
+     * @param \AppBundle\Entity\Paciente $pacientes
+     */
+    public function removePaciente(\AppBundle\Entity\Paciente $pacientes)
+    {
+        $this->pacientes->removeElement($pacientes);
+    }
+
+    /**
+     * Get pacientes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPacientes()
+    {
+        return $this->pacientes;
+    }
+
+    public function __toString() {
+        return $this->localidad;
     }
 }

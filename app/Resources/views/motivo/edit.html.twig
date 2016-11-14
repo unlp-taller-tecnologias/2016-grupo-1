@@ -1,21 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body_id "admin_motivo_edit" %}
+
+{% block main %}
     <h1>Editar motivo de consulta</h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Editar" />
+        {{ form_row(edit_form.motivo) }}
+
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('motivo_index') }}">Volver al listado</a>
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('motivo_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section-actions">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar motivo de consulta',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}

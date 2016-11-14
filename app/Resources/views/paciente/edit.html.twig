@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+
+{% block main %}
+    <h1>Editar paciente</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_row(edit_form.dni) }}
+        {{ form_row(edit_form.nombre) }}
+        {{ form_row(edit_form.apellido) }}
+        {{ form_row(edit_form.edad) }}
+        {{ form_row(edit_form.sexo) }}
+        {{ form_row(edit_form.localidad) }}
+        {{ form_row(edit_form.obraSocial) }}
+
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
+    {{ form_end(edit_form) }}
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar paciente',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
+{% endblock %}

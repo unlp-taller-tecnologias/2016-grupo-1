@@ -1,39 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Lista de diagnosticos</h1>
+{% block main %}
+    <h1>Lista de diagn&oacutesticos</h1>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Diagnostico</th>
-                <th>Actions</th>
+                <th>Diagn&oacutestico</th>
+                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for diagnostico in diagnosticos %}
             <tr>
-                <td><a href="{{ path('diagnostico_show', { 'id': diagnostico.id }) }}">{{ diagnostico.id }}</a></td>
-                <td>{{ diagnostico.diagnostico }}</td>
+                <td>{{ diagnostico.diagnostico}}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('diagnostico_show', { 'id': diagnostico.id }) }}">Ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('diagnostico_edit', { 'id': diagnostico.id }) }}">Editar</a>
-                        </li>
-                    </ul>
+                    <div class="item-actions">
+                        <a href="{{ path('diagnostico_show', { 'id': diagnostico.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                        <a href="{{ path('diagnostico_edit', { 'id': diagnostico.id }) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                        </a>
+                        {{ include('_delete_form.html.twig', {
+                            attr: {'style': 'display: inline-block'},
+                            form: delete_forms[diagnostico.id],
+                            button_label: 'Eliminar',
+                            button_css: 'btn-sm',
+                        }) }}
+                    </div>
                 </td>
             </tr>
-        {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2" align="center">No se ha registrado ningun diagn&oacutestico.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    {% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('diagnostico_new') }}">Agregar nuevo diagnostico</a>
-        </li>
-    </ul>
+    {% block sidebar %}
+        <div class="section-actions">
+            <a href="{{ path('diagnostico_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar diagn&oacutestico
+            </a>
+        </div>
+
+        {{ parent() }}
+
 {% endblock %}

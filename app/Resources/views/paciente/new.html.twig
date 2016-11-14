@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Alta de paciente</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.dni) }}
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.apellido) }}
+        {{ form_row(form.edad) }}
+        {{ form_row(form.sexo) }}
+        {{ form_row(form.localidad) }}
+        {{ form_row(form.obraSocial) }}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
+    {{ form_end(form) }}
+{% endblock %}

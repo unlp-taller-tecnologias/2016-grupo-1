@@ -257,3 +257,20 @@ body#admin_partido_index .item-actions {
 body#admin_partido_index .item-actions a.btn + a.btn {
   margin-left: 4px
 }
+
+body#admin_motivo_index .section-actions {
+  width: 110%;
+  margin-bottom: 10%
+
+}
+
+body#admin_motivo_show .section-actions {
+  width: 110%;
+  margin-bottom: 10%
+}
+
+body#admin_motivo_edit .section-actions {
+  width: 110%;
+  margin-bottom: 10%
+
+}
