@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Examen list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Otrosfactores</th>
+                <th>Otrasmedicaciones</th>
+                <th>Derivadodesde</th>
+                <th>Gradoriesgo</th>
+                <th>Antecedentes</th>
+                <th>Procedimiento</th>
+                <th>Ruido1</th>
+                <th>Ruido2</th>
+                <th>Ruido3</th>
+                <th>Ruido4</th>
+                <th>Tensionarterialsistolica</th>
+                <th>Tensionarterialdiastolica</th>
+                <th>Soplos</th>
+                <th>Comentarios</th>
+                <th>Aparatorespiratorio</th>
+                <th>Electrocardiograma</th>
+                <th>Spoloscomentario</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for examan in examens %}
+            <tr>
+                <td><a href="{{ path('examen_show', { 'id': examan.id }) }}">{{ examan.id }}</a></td>
+                <td>{% if examan.fecha %}{{ examan.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ examan.otrosFactores }}</td>
+                <td>{{ examan.otrasMedicaciones }}</td>
+                <td>{{ examan.derivadoDesde }}</td>
+                <td>{{ examan.gradoRiesgo }}</td>
+                <td>{{ examan.antecedentes }}</td>
+                <td>{{ examan.procedimiento }}</td>
+                <td>{% if examan.ruido1 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if examan.ruido2 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if examan.ruido3 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if examan.ruido4 %}Yes{% else %}No{% endif %}</td>
+                <td>{{ examan.tensionArterialSistolica }}</td>
+                <td>{{ examan.tensionArterialDiastolica }}</td>
+                <td>{% if examan.soplos %}Yes{% else %}No{% endif %}</td>
+                <td>{{ examan.comentarios }}</td>
+                <td>{{ examan.aparatoRespiratorio }}</td>
+                <td>{{ examan.electrocardiograma }}</td>
+                <td>{{ examan.spolosComentario }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('examen_show', { 'id': examan.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('examen_edit', { 'id': examan.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('examen_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

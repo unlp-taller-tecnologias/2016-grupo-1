@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Factor;
 use AppBundle\Form\FactorType;
 
@@ -13,6 +14,7 @@ use AppBundle\Form\FactorType;
  * Controlador de factores de riesgo.
  *
  * @Route("/factor")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class FactorController extends Controller
 {
@@ -36,7 +38,7 @@ class FactorController extends Controller
     /**
      * Crear un nuevo factor de riesgo.
      *
-     * @Route("/crear", name="factor_new")
+     * @Route("/nuevo", name="factor_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
