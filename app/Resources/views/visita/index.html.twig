@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Registro de visitas de un paciente</h1>
+    {# TODO: sólo se debe llegar desde un paciente #}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Observaciones</th>
+                <th>Notaspersonales</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for visitum in visitas %}
+            <tr>
+                <td>{% if visitum.fecha %}{{ visitum.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ visitum.observaciones }}</td>
+                <td>{{ visitum.notasPersonales }}</td>
+                <td>
+                    <div class="item-actions">
+                        <a href="{{ path('visita_show', { 'id': visitum.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                        <a href="{{ path('visita_edit', { 'id': visitum.id }) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" align="center">Aún no existe ningún registro de visitas para el paciente.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        <a href="{{ path('visita_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nueva visita
+        </a>
+    </div>
+
+    {{ parent() }}
+{% endblock %}

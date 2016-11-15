@@ -71,6 +71,11 @@ class Paciente
      */
     private $obraSocial;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente")
+     */
+    private $visitas;
+
 
     /**
      * Get id

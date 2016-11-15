@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Visita de un paciente</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if visitum.fecha %}{{ visitum.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Observaciones</th>
+                <td>{{ visitum.observaciones }}</td>
+            </tr>
+            <tr>
+                <th>Notaspersonales</th>
+                <td>{{ visitum.notasPersonales }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-link" href="{{ path('visita_index') }}">Volver a listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('visita_edit', { 'id': visitum.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar visita
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('visita/_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar visita',
+            button_css: 'btn btn-lg btn-block btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+
+    {{ parent() }}
+{% endblock %}
