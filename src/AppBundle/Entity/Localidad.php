@@ -38,7 +38,7 @@ class Localidad
 
     /**
      * @ORM\ManyToOne(targetEntity="Partido", inversedBy="localidades")
-     * @ORM\JoinColumn(name="partido_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="partido_id", referencedColumnName="id", nullable=false)
      */
     protected $partido;
 
