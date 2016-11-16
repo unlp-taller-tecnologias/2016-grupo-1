@@ -57,7 +57,7 @@ class MotivoController extends Controller
             $em->persist($motivo);
             $em->flush();
 
-            return $this->redirectToRoute('motivo_show', array('id' => $motivo->getId()));
+            return $this->redirectToRoute('motivo_index');
         }
 
         return $this->render('motivo/new.html.twig', array(

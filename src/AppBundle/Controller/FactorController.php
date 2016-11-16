@@ -57,7 +57,7 @@ class FactorController extends Controller
             $em->persist($factor);
             $em->flush();
 
-            return $this->redirectToRoute('factor_show', array('id' => $factor->getId()));
+            return $this->redirectToRoute('factor_index');
         }
 
         return $this->render('factor/new.html.twig', array(
