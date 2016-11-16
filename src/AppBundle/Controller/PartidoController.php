@@ -28,8 +28,15 @@ class PartidoController extends Controller
 
         $partidos = $em->getRepository('AppBundle:Partido')->findAll();
 
+        $deleteForms = [];
+        /** @var Partido $partido */
+        foreach ($partidos as $partido){
+            $deleteForms[$partido->getId()] = $this->createDeleteForm($partido)->createView();
+        }
+
         return $this->render('partido/index.html.twig', array(
             'partidos' => $partidos,
+            'delete_forms' => $deleteForms,
         ));
     }
 

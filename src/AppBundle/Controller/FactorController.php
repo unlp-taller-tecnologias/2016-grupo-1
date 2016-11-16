@@ -28,8 +28,15 @@ class FactorController extends Controller
 
         $factors = $em->getRepository('AppBundle:Factor')->findAll();
 
+        $deleteForms = [];
+        /** @var Factor $factor */
+        foreach ($factors as $factor){
+            $deleteForms[$factor->getId()] = $this->createDeleteForm($factor)->createView();
+        }
+
         return $this->render('factor/index.html.twig', array(
             'factors' => $factors,
+            'delete_forms' => $deleteForms,
         ));
     }
 

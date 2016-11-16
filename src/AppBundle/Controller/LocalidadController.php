@@ -28,8 +28,15 @@ class LocalidadController extends Controller
 
         $localidads = $em->getRepository('AppBundle:Localidad')->findAll();
 
+        $deleteForms = [];
+        /** @var Localidad $localidad */
+        foreach ($localidads as $localidad){
+            $deleteForms[$localidad->getId()] = $this->createDeleteForm($localidad)->createView();
+        }
+
         return $this->render('localidad/index.html.twig', array(
             'localidads' => $localidads,
+            'delete_forms' => $deleteForms,
         ));
     }
 

@@ -28,8 +28,15 @@ class MedicacionController extends Controller
 
         $medicacions = $em->getRepository('AppBundle:Medicacion')->findAll();
 
+        $deleteForms = [];
+        /** @var Medicacion $medicacion */
+        foreach ($medicacions as $medicacion){
+            $deleteForms[$medicacion->getId()] = $this->createDeleteForm($medicacion)->createView();
+        }
+
         return $this->render('medicacion/index.html.twig', array(
             'medicacions' => $medicacions,
+            'delete_forms' => $deleteForms,
         ));
     }
 

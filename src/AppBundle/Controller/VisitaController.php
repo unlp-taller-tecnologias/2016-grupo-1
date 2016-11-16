@@ -27,9 +27,16 @@ class VisitaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $visitas = $em->getRepository('AppBundle:Visita')->findAll();
+        
+        $deleteForms = [];
+        /** @var Visita $visita */
+        foreach ($visitas as $visita){
+            $deleteForms[$visita->getId()] = $this->createDeleteForm($visita)->createView();
+        }
 
         return $this->render('visita/index.html.twig', array(
             'visitas' => $visitas,
+            'delete_forms' => $deleteForms,
         ));
     }
 
