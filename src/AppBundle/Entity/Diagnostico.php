@@ -64,4 +64,13 @@ class Diagnostico
     {
         return $this->diagnostico;
     }
+
+    /**
+     * Diagnóstico to string
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->diagnostico;
+    }
 }

@@ -64,4 +64,13 @@ class Motivo
     {
         return $this->motivo;
     }
+
+    /**
+     * Motivo to string
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->motivo;
+    }
 }
