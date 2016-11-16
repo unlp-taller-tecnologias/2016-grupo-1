@@ -15,12 +15,11 @@
 
     {% block sidebar %}
         <div class="section">
-            {{ include('medicacion/_form.html.twig', {
+            {{ include('_delete_form.html.twig', {
             form: delete_form,
             button_label: 'Eliminar opción',
-            button_css: 'btn btn-lg btn-block btn-danger',
-            show_confirmation: true,
-        }, with_context = false) }}
+            button_css: 'btn-lg btn-block',
+        }) }}
         </div>
 
         {{ parent() }}

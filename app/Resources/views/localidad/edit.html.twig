@@ -17,12 +17,11 @@
 
 {% block sidebar %}
     <div class="section">
-        {{ include('localidad/_form.html.twig', {
+        {{ include('_delete_form.html.twig', {
             form: delete_form,
             button_label: 'Eliminar localidad',
-            button_css: 'btn btn-lg btn-block btn-danger',
-            show_confirmation: true,
-        }, with_context = false) }}
+            button_css: 'btn-lg btn-block',
+        }) }}
     </div>
 
     {{ parent() }}
