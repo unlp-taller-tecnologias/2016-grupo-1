@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Factor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Controlador de factores de riesgo.
  *
  * @Route("/factor")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class FactorController extends Controller
 {

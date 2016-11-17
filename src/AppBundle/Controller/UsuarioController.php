@@ -7,6 +7,7 @@ use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Controlador de Usuario.
  *
  * @Route("/usuario")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class UsuarioController extends Controller
 {
@@ -23,6 +25,7 @@ class UsuarioController extends Controller
      *
      * @Route("/", name="usuario_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction()
     {
@@ -77,6 +80,7 @@ class UsuarioController extends Controller
      *
      * @Route("/{id}", name="usuario_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(Usuario $usuario)
     {

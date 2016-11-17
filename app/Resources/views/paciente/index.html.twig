@@ -27,12 +27,14 @@
                         <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-sm btn-primary">
                             <i class="fa fa-edit" aria-hidden="true"></i> Editar
                         </a>
-                        {{ include('_delete_form.html.twig', {
-                            attr: {'style': 'display: inline-block'},
-                            form: delete_forms[paciente.id],
-                            button_label: 'Eliminar',
-                            button_css: 'btn-sm',
-                        }) }}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            {{ include('_delete_form.html.twig', {
+                                attr: {'style': 'display: inline-block'},
+                                form: delete_forms[paciente.id],
+                                button_label: 'Eliminar',
+                                button_css: 'btn-sm',
+                            }) }}
+                        {% endif %}
                     </div>
                 </td>
             </tr>

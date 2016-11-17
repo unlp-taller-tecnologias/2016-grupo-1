@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Diagnostico;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Diagnostico controller.
  *
  * @Route("/diagnostico")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class DiagnosticoController extends Controller
 {
