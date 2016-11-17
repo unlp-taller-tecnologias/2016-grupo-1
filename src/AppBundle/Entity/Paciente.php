@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
@@ -49,6 +50,7 @@ class Paciente
      * @var int
      *
      * @ORM\Column(name="edad", type="integer")
+     * @Assert\Range(max=122, maxMessage="La edad no puede superar los 122 años")
      */
     private $edad;
 
