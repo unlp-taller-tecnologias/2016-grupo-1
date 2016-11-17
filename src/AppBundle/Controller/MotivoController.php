@@ -28,8 +28,15 @@ class MotivoController extends Controller
 
         $motivos = $em->getRepository('AppBundle:Motivo')->findAll();
 
+        $deleteForms = [];
+        /** @var Motivo $motivo */
+        foreach ($motivos as $motivo) {
+            $deleteForms[$motivo->getId()] = $this->createDeleteForm($motivo)->createView();
+        }
+
         return $this->render('motivo/index.html.twig', array(
             'motivos' => $motivos,
+            'delete_forms' => $deleteForms,
         ));
     }
 
@@ -50,7 +57,7 @@ class MotivoController extends Controller
             $em->persist($motivo);
             $em->flush();
 
-            return $this->redirectToRoute('motivo_show', array('id' => $motivo->getId()));
+            return $this->redirectToRoute('motivo_index');
         }
 
         return $this->render('motivo/new.html.twig', array(

@@ -30,8 +30,15 @@ class FactorController extends Controller
 
         $factors = $em->getRepository('AppBundle:Factor')->findAll();
 
+        $deleteForms = [];
+        /** @var Factor $factor */
+        foreach ($factors as $factor){
+            $deleteForms[$factor->getId()] = $this->createDeleteForm($factor)->createView();
+        }
+
         return $this->render('factor/index.html.twig', array(
             'factors' => $factors,
+            'delete_forms' => $deleteForms,
         ));
     }
 
@@ -52,7 +59,7 @@ class FactorController extends Controller
             $em->persist($factor);
             $em->flush();
 
-            return $this->redirectToRoute('factor_show', array('id' => $factor->getId()));
+            return $this->redirectToRoute('factor_index');
         }
 
         return $this->render('factor/new.html.twig', array(

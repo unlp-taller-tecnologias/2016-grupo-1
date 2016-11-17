@@ -19,7 +19,7 @@
             <div class="navbar navbar-default navbar-static-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="">
+                        <a class="navbar-brand" href="/">
                             Servicio de Cardiología
                         </a>
 
@@ -37,7 +37,7 @@
 
                             {% block header_navigation_links %}
                                 <li>
-                                    <a href="">
+                                    <a href="/">
                                         <i class="fa fa-home" aria-hidden="true"></i> Inicio
                                     </a>
                                 </li>
@@ -45,7 +45,7 @@
 
                             {% if app.user %}
                                 <li>
-                                    <a href="">
+                                    <a href="{{ path('fos_user_security_logout') }}">
                                         <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
                                     </a>
                                 </li>

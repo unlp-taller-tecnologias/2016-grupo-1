@@ -1,39 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body_id 'admin_motivo_index' %}
+
+{% block main %}
     <h1>Lista de motivos de consulta</h1>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Motivo</th>
-                <th>Actions</th>
+                <th>Motivo de consulta</th>
+                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for motivo in motivos %}
             <tr>
-                <td><a href="{{ path('motivo_show', { 'id': motivo.id }) }}">{{ motivo.id }}</a></td>
                 <td>{{ motivo.motivo }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('motivo_show', { 'id': motivo.id }) }}">Ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}">Editar</a>
-                        </li>
-                    </ul>
+                    <div class="item-actions">
+                        <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                        </a>
+                        {{ include('_delete_form.html.twig', {
+                            attr: {'style': 'display: inline-block'},
+                            form: delete_forms[motivo.id],
+                            button_label: 'Eliminar',
+                            button_css: 'btn-sm',
+                        }) }}
+                    </div>
                 </td>
             </tr>
-        {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2" align="center">No se ha registrado ningun motivo de consulta.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    {% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('motivo_new') }}">Agregar nuevo motivo de consulta</a>
-        </li>
-    </ul>
+    {% block sidebar %}
+        <div class="section">
+            <a href="{{ path('motivo_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar motivo de consulta
+            </a>
+        </div>
+
+        {{ parent() }}
+
 {% endblock %}

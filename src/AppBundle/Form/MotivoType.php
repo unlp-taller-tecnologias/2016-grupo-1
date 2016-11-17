@@ -15,10 +15,10 @@ class MotivoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('motivo')
+            ->add('motivo', null, ['label' => 'Motivo de consulta'])
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

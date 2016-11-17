@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -79,10 +80,12 @@ class UsuarioController extends Controller
     public function showAction(Usuario $usuario)
     {
         $deleteForm = $this->createDeleteForm($usuario);
+        $switchEnabledForm = $this->createSwitchEnabledForm($usuario);
 
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
             'delete_form' => $deleteForm->createView(),
+            'switch_enabled_form' => $switchEnabledForm->createView(),
         ]);
     }
 
@@ -140,6 +143,44 @@ class UsuarioController extends Controller
     }
 
     /**
+     * Habilitar un usuario
+     *
+     * @Route("/{id}/habilitar", name="usuario_enable")
+     * @Method("POST")
+     */
+    public function enableAction(Usuario $usuario)
+    {
+        return $this->toggleEnabled($usuario, true);
+    }
+
+    /**
+     * Deshabilitar un usuario
+     *
+     * @Route("/{id}/deshabilitar", name="usuario_disable")
+     * @Method("POST")
+     */
+    public function disableAction(Usuario $usuario)
+    {
+        return $this->toggleEnabled($usuario, false);
+    }
+
+    /**
+     * Habilitar/Deshabilitar un usuario
+     *
+     * @param boolean $enable
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    protected function toggleEnabled(Usuario $usuario, $enable)
+    {
+        $usuario->setEnabled($enable);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($usuario);
+        $em->flush();
+
+        return $this->redirectToRoute('usuario_show', ['id' => $usuario->getId()]);
+    }
+
+    /**
      * Crea un formulario para eliminar un usuario
      *
      * @param Usuario $usuario
@@ -152,5 +193,25 @@ class UsuarioController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Crea un formulario para habilitar/deshabilitar un usuario
+     *
+     * @param Usuario $usuario
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createSwitchEnabledForm(Usuario $usuario)
+    {
+        if ($usuario->isEnabled()) {
+            $action = 'usuario_disable';
+        } else {
+            $action = 'usuario_enable';
+        }
+
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl($action, ['id' => $usuario->getId()]))
+            ->add('usuario_enabled', HiddenType::class, ['data' => $usuario->isEnabled()])
+            ->getForm();
     }
 }

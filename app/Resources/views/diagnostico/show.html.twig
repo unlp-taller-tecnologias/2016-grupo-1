@@ -1,32 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Ver diagnostico</h1>
+{% block main %}
+  <h1>{{ diagnostico.diagnostico }}</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ diagnostico.id }}</td>
-            </tr>
-            <tr>
-                <th>Diagnostico</th>
-                <td>{{ diagnostico.diagnostico }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <a class="btn btn-link" href="{{ path('diagnostico_index') }}">Volver al listado</a>
 
-    <ul>
-        <li>
-            <a href="{{ path('diagnostico_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('diagnostico_edit', { 'id': diagnostico.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('diagnostico_edit', { 'id': diagnostico.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar diagn&oacutestico
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar diagnóstico',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}

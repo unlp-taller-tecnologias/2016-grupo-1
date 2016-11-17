@@ -7,6 +7,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Usuario;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\UserBundle\Util\LegacyFormHelper;
@@ -19,7 +20,13 @@ class RegistrationType extends AbstractType
          $builder
             ->add('nombre')
             ->add('apellido')
-            ->add('username', null, ['label' => 'DNI'])
+            ->add('username', IntegerType::class, [
+                'label' => 'DNI',
+                'attr' => [
+                    'min' => '10000000',
+                    'max' => '99999999',
+                ]
+            ])
             ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), [
                 'label' => 'form.email',
                 'translation_domain' => 'FOSUserBundle'

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+  <h1>{{ paciente.nombre }}</h1>
+  <table class="table">
+      <tr>
+          <th>DNI</th>
+          <td>{{ paciente.dni }}</td>
+      </tr>
+      <tr>
+          <th>Apellido</th>
+          <td>{{ paciente.apellido }}</td>
+      </tr>
+      <tr>
+          <th>Edad</th>
+          <td>{{ paciente.edad }}</td>
+      </tr>
+      <tr>
+          <th>Sexo</th>
+          <td>{{ paciente.sexo}}</td>
+      </tr>
+      <tr>
+          <th>Localidad</th>
+          <td>{{ paciente.localidad}}</td>
+      </tr>
+      <tr>
+          <th>Obra Social</th>
+          <td>{{ paciente.obraSocial}}</td>
+      </tr>
+
+  </table>
+
+    <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar paciente
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar paciente',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
+{% endblock %}

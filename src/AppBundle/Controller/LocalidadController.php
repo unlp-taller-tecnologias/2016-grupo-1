@@ -28,8 +28,15 @@ class LocalidadController extends Controller
 
         $localidads = $em->getRepository('AppBundle:Localidad')->findAll();
 
+        $deleteForms = [];
+        /** @var Localidad $localidad */
+        foreach ($localidads as $localidad){
+            $deleteForms[$localidad->getId()] = $this->createDeleteForm($localidad)->createView();
+        }
+
         return $this->render('localidad/index.html.twig', array(
             'localidads' => $localidads,
+            'delete_forms' => $deleteForms,
         ));
     }
 
@@ -50,7 +57,7 @@ class LocalidadController extends Controller
             $em->persist($localidad);
             $em->flush();
 
-            return $this->redirectToRoute('localidad_show', array('id' => $localidad->getId()));
+            return $this->redirectToRoute('localidad_index');
         }
 
         return $this->render('localidad/new.html.twig', array(

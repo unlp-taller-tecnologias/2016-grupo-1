@@ -1,16 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Nuevo diagnostico</h1>
+{% block main %}
+    <h1>Alta de diagn&oacutestico</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Crear" />
-    {{ form_end(form) }}
+        {{ form_row(form.diagnostico) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('diagnostico_index') }}">Volver a la lista</a>
-        </li>
-    </ul>
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('diagnostico_index') }}">Volver al listado</a>
+    {{ form_end(form) }}
 {% endblock %}

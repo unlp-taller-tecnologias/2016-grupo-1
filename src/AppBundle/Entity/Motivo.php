@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Motivo
  *
  * @ORM\Table(name="motivo")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MotivoRepository")
+ *@UniqueEntity("motivo")
  */
 class Motivo
 {
@@ -32,7 +35,7 @@ class Motivo
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,7 +58,7 @@ class Motivo
     /**
      * Get motivo
      *
-     * @return string 
+     * @return string
      */
     public function getMotivo()
     {

@@ -28,8 +28,15 @@ class DiagnosticoController extends Controller
 
         $diagnosticos = $em->getRepository('AppBundle:Diagnostico')->findAll();
 
+        $deleteForms = [];
+        /** @var Diagnostico $diagnostico */
+        foreach ($diagnosticos as $diagnostico) {
+            $deleteForms[$diagnostico->getId()] = $this->createDeleteForm($diagnostico)->createView();
+        }
+
         return $this->render('diagnostico/index.html.twig', array(
             'diagnosticos' => $diagnosticos,
+            'delete_forms' => $deleteForms,
         ));
     }
 
@@ -50,7 +57,7 @@ class DiagnosticoController extends Controller
             $em->persist($diagnostico);
             $em->flush();
 
-            return $this->redirectToRoute('diagnostico_show', array('id' => $diagnostico->getId()));
+            return $this->redirectToRoute('diagnostico_index');
         }
 
         return $this->render('diagnostico/new.html.twig', array(

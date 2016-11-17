@@ -1,32 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Ver motivo de consulta</h1>
+{% block body_id 'admin_motivo_index' %}
 
-    <table>
+{% block main %}
+    <h1>{{ motivo.motivo }}</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="row">Id</th>
+            <th scope="row">Motivo</th>
+        </tr>
+        </thead>
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ motivo.id }}</td>
-            </tr>
-            <tr>
-                <th>Motivo</th>
-                <td>{{ motivo.motivo }}</td>
-            </tr>
+        <tr>
+            <td>{{ motivo.id }}</td>
+            <td>{{ motivo.motivo }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('motivo_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Eliminar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="btn btn-link" href="{{ path('motivo_index') }}">Volver al listado</a>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('motivo_edit', { 'id': motivo.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar motivo de consulta
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar motivo de consulta',
+            button_css: 'btn-lg btn-block',
+        }) }}
+    </div>
+
+    {{ parent() }}
 {% endblock %}
