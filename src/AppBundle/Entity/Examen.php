@@ -90,6 +90,12 @@ class Examen {
     private $medicaciones;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     */
+    private $paciente;
+    
+    /**
      * @var bool
      *
      * @ORM\Column(name="ruido_1", type="boolean")
@@ -215,6 +221,27 @@ class Examen {
      */
     public function getOtrosFactores() {
         return $this->otrosFactores;
+    }
+    
+    /**
+     * Set otrosFactores
+     *
+     * @param int $paciente
+     * @return Examen
+     */
+    public function setPaciente($paciente) {
+        $this->paciente = paciente;
+
+        return $this;
+    }
+
+    /**
+     * Get paciente
+     *
+     * @return int 
+     */
+    public function getPaciente() {
+        return $this->paciente;
     }
 
     /**
