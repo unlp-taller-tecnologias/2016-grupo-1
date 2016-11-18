@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Visita;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Visita;
-use AppBundle\Form\VisitaType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Visita controller.
@@ -34,36 +33,36 @@ class VisitaController extends Controller
             $deleteForms[$visita->getId()] = $this->createDeleteForm($visita)->createView();
         }
 
-        return $this->render('visita/index.html.twig', array(
+        return $this->render('visita/index.html.twig', [
             'visitas' => $visitas,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Visita entity.
      *
-     * @Route("/new", name="visita_new")
+     * @Route("/agregar", name="visita_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        $visitum = new Visita();
-        $form = $this->createForm('AppBundle\Form\VisitaType', $visitum);
+        $visita = new Visita();
+        $form = $this->createForm('AppBundle\Form\VisitaType', $visita);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($visitum);
+            $em->persist($visita);
             $em->flush();
 
-            return $this->redirectToRoute('visita_show', array('id' => $visitum->getId()));
+            return $this->redirectToRoute('visita_show', ['id' => $visita->getId()]);
         }
 
-        return $this->render('visita/new.html.twig', array(
-            'visitum' => $visitum,
+        return $this->render('visita/new.html.twig', [
+            'visita' => $visita,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -72,41 +71,41 @@ class VisitaController extends Controller
      * @Route("/{id}", name="visita_show")
      * @Method("GET")
      */
-    public function showAction(Visita $visitum)
+    public function showAction(Visita $visita)
     {
-        $deleteForm = $this->createDeleteForm($visitum);
+        $deleteForm = $this->createDeleteForm($visita);
 
-        return $this->render('visita/show.html.twig', array(
-            'visitum' => $visitum,
+        return $this->render('visita/show.html.twig', [
+            'visita' => $visita,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Visita entity.
      *
-     * @Route("/{id}/edit", name="visita_edit")
+     * @Route("/{id}/editar", name="visita_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Visita $visitum)
+    public function editAction(Request $request, Visita $visita)
     {
-        $deleteForm = $this->createDeleteForm($visitum);
-        $editForm = $this->createForm('AppBundle\Form\VisitaType', $visitum);
+        $deleteForm = $this->createDeleteForm($visita);
+        $editForm = $this->createForm('AppBundle\Form\VisitaType', $visita);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($visitum);
+            $em->persist($visita);
             $em->flush();
 
-            return $this->redirectToRoute('visita_edit', array('id' => $visitum->getId()));
+            return $this->redirectToRoute('visita_edit', ['id' => $visita->getId()]);
         }
 
-        return $this->render('visita/edit.html.twig', array(
-            'visitum' => $visitum,
+        return $this->render('visita/edit.html.twig', [
+            'visita' => $visita,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -115,14 +114,14 @@ class VisitaController extends Controller
      * @Route("/{id}", name="visita_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Visita $visitum)
+    public function deleteAction(Request $request, Visita $visita)
     {
-        $form = $this->createDeleteForm($visitum);
+        $form = $this->createDeleteForm($visita);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($visitum);
+            $em->remove($visita);
             $em->flush();
         }
 
@@ -132,14 +131,14 @@ class VisitaController extends Controller
     /**
      * Creates a form to delete a Visita entity.
      *
-     * @param Visita $visitum The Visita entity
+     * @param Visita $visita The Visita entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Visita $visitum)
+    private function createDeleteForm(Visita $visita)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('visita_delete', array('id' => $visitum->getId())))
+            ->setAction($this->generateUrl('visita_delete', ['id' => $visita->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

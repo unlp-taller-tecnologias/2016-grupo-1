@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Paciente;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Paciente;
-use AppBundle\Form\PacienteType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Paciente controller.
@@ -34,16 +33,16 @@ class PacienteController extends Controller
             $deleteForms[$paciente->getId()] = $this->createDeleteForm($paciente)->createView();
         }
 
-        return $this->render('paciente/index.html.twig', array(
+        return $this->render('paciente/index.html.twig', [
             'pacientes' => $pacientes,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Paciente entity.
      *
-     * @Route("/new", name="paciente_new")
+     * @Route("/agregar", name="paciente_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -57,13 +56,13 @@ class PacienteController extends Controller
             $em->persist($paciente);
             $em->flush();
 
-            return $this->redirectToRoute('paciente_show', array('id' => $paciente->getId()));
+            return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
-        return $this->render('paciente/new.html.twig', array(
+        return $this->render('paciente/new.html.twig', [
             'paciente' => $paciente,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -76,16 +75,16 @@ class PacienteController extends Controller
     {
         $deleteForm = $this->createDeleteForm($paciente);
 
-        return $this->render('paciente/show.html.twig', array(
+        return $this->render('paciente/show.html.twig', [
             'paciente' => $paciente,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Paciente entity.
      *
-     * @Route("/{id}/edit", name="paciente_edit")
+     * @Route("/{id}/editar", name="paciente_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Paciente $paciente)
@@ -99,14 +98,14 @@ class PacienteController extends Controller
             $em->persist($paciente);
             $em->flush();
 
-            return $this->redirectToRoute('paciente_edit', array('id' => $paciente->getId()));
+            return $this->redirectToRoute('paciente_edit', ['id' => $paciente->getId()]);
         }
 
-        return $this->render('paciente/edit.html.twig', array(
+        return $this->render('paciente/edit.html.twig', [
             'paciente' => $paciente,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +138,7 @@ class PacienteController extends Controller
     private function createDeleteForm(Paciente $paciente)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('paciente_delete', array('id' => $paciente->getId())))
+            ->setAction($this->generateUrl('paciente_delete', ['id' => $paciente->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'visita_index' %}
+
 {% block main %}
     <h1>Registro de visitas de un paciente</h1>
     {# TODO: sólo se debe llegar desde un paciente #}
@@ -9,25 +11,25 @@
             <tr>
                 <th>Fecha</th>
                 <th>Observaciones</th>
-                <th>Notaspersonales</th>
-                <th>Actions</th>
+                <th>Notas personales</th>
+                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
         <tbody>
-        {% for visitum in visitas %}
+        {% for visita in visitas %}
             <tr>
-                <td>{% if visitum.fecha %}{{ visitum.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ visitum.observaciones }}</td>
-                <td>{{ visitum.notasPersonales }}</td>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ visita.observaciones }}</td>
+                <td>{{ visita.notasPersonales }}</td>
                 <td>
                     <div class="item-actions">
-                        <a href="{{ path('visita_show', { 'id': visitum.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                        <a href="{{ path('visita_edit', { 'id': visitum.id }) }}" class="btn btn-sm btn-primary">
+                        <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                        <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-sm btn-primary">
                             <i class="fa fa-edit" aria-hidden="true"></i> Editar
                         </a>
                         {{ include('_delete_form.html.twig', {
                             attr: {'style': 'display: inline-block'},
-                            form: delete_forms[visitum.id],
+                            form: delete_forms[visita.id],
                             button_label: 'Eliminar',
                             button_css: 'btn-sm',
                         }) }}

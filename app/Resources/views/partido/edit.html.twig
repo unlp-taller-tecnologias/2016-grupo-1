@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body_id "admin_partido_edit" %}
+{% block body_id 'partido_edit' %}
 
 {% block main %}
     <h1>Editar partido</h1>
@@ -9,7 +9,6 @@
         {{ form_widget(edit_form) }}
 
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-
-        <a class="btn btn-link" href="{{ path('partido_index') }}">Volver a listado</a>
+        <a class="btn btn-link" href="{{ path('partido_index') }}">Volver al listado</a>
     {{ form_end(edit_form) }}
 {% endblock %}

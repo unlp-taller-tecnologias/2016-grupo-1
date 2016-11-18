@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Localidad;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Localidad;
-use AppBundle\Form\LocalidadType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Localidad controller.
@@ -25,25 +24,24 @@ class LocalidadController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $localidads = $em->getRepository('AppBundle:Localidad')->findAll();
+        $localidades = $em->getRepository('AppBundle:Localidad')->findAll();
 
         $deleteForms = [];
         /** @var Localidad $localidad */
-        foreach ($localidads as $localidad){
+        foreach ($localidades as $localidad) {
             $deleteForms[$localidad->getId()] = $this->createDeleteForm($localidad)->createView();
         }
 
-        return $this->render('localidad/index.html.twig', array(
-            'localidads' => $localidads,
+        return $this->render('localidad/index.html.twig', [
+            'localidades' => $localidades,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Localidad entity.
      *
-     * @Route("/new", name="localidad_new")
+     * @Route("/agregar", name="localidad_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,32 +58,16 @@ class LocalidadController extends Controller
             return $this->redirectToRoute('localidad_index');
         }
 
-        return $this->render('localidad/new.html.twig', array(
+        return $this->render('localidad/new.html.twig', [
             'localidad' => $localidad,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Localidad entity.
-     *
-     * @Route("/{id}", name="localidad_show")
-     * @Method("GET")
-     */
-    public function showAction(Localidad $localidad)
-    {
-        $deleteForm = $this->createDeleteForm($localidad);
-
-        return $this->render('localidad/show.html.twig', array(
-            'localidad' => $localidad,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Localidad entity.
      *
-     * @Route("/{id}/edit", name="localidad_edit")
+     * @Route("/{id}/editar", name="localidad_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Localidad $localidad)
@@ -99,14 +81,14 @@ class LocalidadController extends Controller
             $em->persist($localidad);
             $em->flush();
 
-            return $this->redirectToRoute('localidad_edit', array('id' => $localidad->getId()));
+            return $this->redirectToRoute('localidad_edit', ['id' => $localidad->getId()]);
         }
 
-        return $this->render('localidad/edit.html.twig', array(
+        return $this->render('localidad/edit.html.twig', [
             'localidad' => $localidad,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +121,7 @@ class LocalidadController extends Controller
     private function createDeleteForm(Localidad $localidad)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('localidad_delete', array('id' => $localidad->getId())))
+            ->setAction($this->generateUrl('localidad_delete', ['id' => $localidad->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

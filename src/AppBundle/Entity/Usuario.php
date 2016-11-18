@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as FOSUser;
@@ -13,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity
  * @ORM\Table(name="usuario")
- * @UniqueEntity(fields="matricula", message="La matrícula ya está en uso")
+ * @UniqueEntity("matricula", message="La matrícula ya está en uso")
  */
 class Usuario extends FOSUser
 {
@@ -21,8 +20,8 @@ class Usuario extends FOSUser
     const PROFESION_SECRETARIO = "secretario";
 
     /**
-     * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -56,6 +55,7 @@ class Usuario extends FOSUser
 
     /** @ORM\Column(type="string", nullable=true) */
     protected $especialidad;
+
 
     /**
      * Set dni

@@ -29,6 +29,7 @@ class UsuarioController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+
         $deleteForms = [];
         /** @var Usuario $usuario */
         foreach ($usuarios as $usuario) {
@@ -44,7 +45,7 @@ class UsuarioController extends Controller
     /**
      * Crea un nuevo usuario
      *
-     * @Route("/nuevo", name="usuario_new")
+     * @Route("/agregar", name="usuario_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -115,11 +116,11 @@ class UsuarioController extends Controller
             return $this->redirectToRoute('usuario_show', ['id' => $usuario->getId()]);
         }
 
-        return $this->render('usuario/edit.html.twig', array(
+        return $this->render('usuario/edit.html.twig', [
             'usuario' => $usuario,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**

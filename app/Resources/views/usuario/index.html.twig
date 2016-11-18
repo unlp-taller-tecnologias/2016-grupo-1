@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'usuario_index' %}
+
 {% block main %}
     <h1>Listado de usuarios</h1>
 
+    {% if usuarios is not empty %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -35,13 +38,12 @@
                     </div>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="2" align="center">No se ha registrado ningún usuario.</td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>Aún no se ha registrado ningún usuario.</p>
+    {% endif %}
 {% endblock %}
 
 {% block sidebar %}

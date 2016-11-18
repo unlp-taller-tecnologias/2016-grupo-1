@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body_id "admin_motivo_edit" %}
+{% block body_id 'motivo_edit' %}
 
 {% block main %}
     <h1>Editar motivo de consulta</h1>
@@ -11,5 +11,4 @@
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
         <a class="btn btn-link" href="{{ path('motivo_index') }}">Volver al listado</a>
     {{ form_end(edit_form) }}
-
 {% endblock %}

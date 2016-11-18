@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\EventListener;
-
 
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -10,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RegistrationListener implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents()
     {
         return [
@@ -22,5 +19,4 @@ class RegistrationListener implements EventSubscriberInterface
     {
         $event->getUser()->setEnabled(false);
     }
-
 }

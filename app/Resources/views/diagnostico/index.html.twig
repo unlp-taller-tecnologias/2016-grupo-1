@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
-    <h1>Lista de diagn&oacutesticos</h1>
+{% block body_id 'diagnostico_index' %}
 
+{% block main %}
+    <h1>Listado de diagnósticos</h1>
+
+    {% if diagnosticos is not empty %}
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Diagn&oacutestico</th>
+                <th>Diagnóstico</th>
                 <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
@@ -28,22 +31,20 @@
                     </div>
                 </td>
             </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2" align="center">No se ha registrado ningun diagn&oacutestico.</td>
-                </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% endblock %}
+    {% else %}
+        <p>Aún no se ha registrado ningún diagnóstico.</p>
+    {% endif %}
+{% endblock %}
 
-    {% block sidebar %}
-        <div class="section">
-            <a href="{{ path('diagnostico_new') }}" class="btn btn-lg btn-block btn-success">
-                <i class="fa fa-plus" aria-hidden="true"></i> Agregar diagn&oacutestico
-            </a>
-        </div>
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('diagnostico_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Agregar diagnóstico
+        </a>
+    </div>
 
-        {{ parent() }}
-
+    {{ parent() }}
 {% endblock %}

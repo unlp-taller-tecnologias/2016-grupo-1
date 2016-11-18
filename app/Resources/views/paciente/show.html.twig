@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'paciente_show' %}
+
 {% block main %}
-  <h1>{{ paciente.nombre }}</h1>
+  <h1>{{ paciente.nombre }} {{ paciente.apellido }}</h1>
+
   <table class="table">
       <tr>
           <th>DNI</th>
-          <td>{{ paciente.dni }}</td>
-      </tr>
-      <tr>
-          <th>Apellido</th>
-          <td>{{ paciente.apellido }}</td>
+          <td>{{ paciente.dni|default('-') }}</td>
       </tr>
       <tr>
           <th>Edad</th>
@@ -17,21 +16,19 @@
       </tr>
       <tr>
           <th>Sexo</th>
-          <td>{{ paciente.sexo}}</td>
+          <td>{{ paciente.sexo }}</td>
       </tr>
       <tr>
           <th>Localidad</th>
-          <td>{{ paciente.localidad}}</td>
+          <td>{{ paciente.localidad }}</td>
       </tr>
       <tr>
           <th>Obra Social</th>
-          <td>{{ paciente.obraSocial}}</td>
+          <td>{{ paciente.obraSocial|default('-') }}</td>
       </tr>
-
   </table>
 
     <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
-
 {% endblock %}
 
 {% block sidebar %}

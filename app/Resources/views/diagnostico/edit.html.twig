@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'diagnostico_edit' %}
 
 {% block main %}
-    <h1>Editar diagn&oacutestico</h1>
+    <h1>Editar diagnóstico</h1>
 
     {{ form_start(edit_form) }}
         {{ form_row(edit_form.diagnostico) }}

@@ -6,77 +6,57 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
  * Paciente
  *
+ * @ORM\Entity
  * @ORM\Table(name="paciente")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PacienteRepository")
- *@UniqueEntity("dni")
+ * @UniqueEntity("dni")
  */
 class Paciente
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
+    /** @ORM\Column(name="dni", type="integer", nullable=true, unique=true) */
+    protected $dni;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
+     * @ORM\Column(name="nombre", type="string")
      */
-    private $dni;
+    protected $nombre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=255)
+     * @ORM\Column(name="apellido", type="string")
      */
-    private $nombre;
+    protected $apellido;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="apellido", type="string", length=255)
-     */
-    private $apellido;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="edad", type="integer")
      * @Assert\Range(max=122, maxMessage="La edad no puede superar los 122 años")
      */
-    private $edad;
+    protected $edad;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="sexo", type="string", length=255)
+     * @ORM\Column(name="sexo", type="string")
      */
-    private $sexo;
+    protected $sexo;
+
     /**
      * @ORM\ManyToOne(targetEntity="Localidad", inversedBy="pacientes")
-     * @ORM\JoinColumn(name="localidad_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $localidad;
+    protected $localidad;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="obra_social", type="string", length=255, nullable=true)
-     */
-    private $obraSocial;
+    /** @ORM\Column(name="obra_social", type="string", nullable=true) */
+    protected $obraSocial;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente")
-     */
-    private $visitas;
+    /** @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") */
+    protected $visitas;
 
 
     /**
@@ -204,7 +184,7 @@ class Paciente
         return $this->sexo;
     }
 
-    /*/**
+    /**
      * Set localidad
      *
      * @param \AppBundle\Entity\Localidad $localidad

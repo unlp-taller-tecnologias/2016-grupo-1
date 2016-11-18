@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Diagnostico;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Diagnostico;
-use AppBundle\Form\DiagnosticoType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Diagnostico controller.
@@ -25,7 +24,6 @@ class DiagnosticoController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $diagnosticos = $em->getRepository('AppBundle:Diagnostico')->findAll();
 
         $deleteForms = [];
@@ -34,16 +32,16 @@ class DiagnosticoController extends Controller
             $deleteForms[$diagnostico->getId()] = $this->createDeleteForm($diagnostico)->createView();
         }
 
-        return $this->render('diagnostico/index.html.twig', array(
+        return $this->render('diagnostico/index.html.twig', [
             'diagnosticos' => $diagnosticos,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Diagnostico entity.
      *
-     * @Route("/new", name="diagnostico_new")
+     * @Route("/agregar", name="diagnostico_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,32 +58,16 @@ class DiagnosticoController extends Controller
             return $this->redirectToRoute('diagnostico_index');
         }
 
-        return $this->render('diagnostico/new.html.twig', array(
+        return $this->render('diagnostico/new.html.twig', [
             'diagnostico' => $diagnostico,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Diagnostico entity.
-     *
-     * @Route("/{id}", name="diagnostico_show")
-     * @Method("GET")
-     */
-    public function showAction(Diagnostico $diagnostico)
-    {
-        $deleteForm = $this->createDeleteForm($diagnostico);
-
-        return $this->render('diagnostico/show.html.twig', array(
-            'diagnostico' => $diagnostico,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Diagnostico entity.
      *
-     * @Route("/{id}/edit", name="diagnostico_edit")
+     * @Route("/{id}/editar", name="diagnostico_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Diagnostico $diagnostico)
@@ -99,14 +81,14 @@ class DiagnosticoController extends Controller
             $em->persist($diagnostico);
             $em->flush();
 
-            return $this->redirectToRoute('diagnostico_edit', array('id' => $diagnostico->getId()));
+            return $this->redirectToRoute('diagnostico_edit', ['id' => $diagnostico->getId()]);
         }
 
-        return $this->render('diagnostico/edit.html.twig', array(
+        return $this->render('diagnostico/edit.html.twig', [
             'diagnostico' => $diagnostico,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +121,7 @@ class DiagnosticoController extends Controller
     private function createDeleteForm(Diagnostico $diagnostico)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('diagnostico_delete', array('id' => $diagnostico->getId())))
+            ->setAction($this->generateUrl('diagnostico_delete', ['id' => $diagnostico->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Motivo;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Motivo;
-use AppBundle\Form\MotivoType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Motivo controller.
@@ -25,7 +24,6 @@ class MotivoController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $motivos = $em->getRepository('AppBundle:Motivo')->findAll();
 
         $deleteForms = [];
@@ -34,16 +32,16 @@ class MotivoController extends Controller
             $deleteForms[$motivo->getId()] = $this->createDeleteForm($motivo)->createView();
         }
 
-        return $this->render('motivo/index.html.twig', array(
+        return $this->render('motivo/index.html.twig', [
             'motivos' => $motivos,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Motivo entity.
      *
-     * @Route("/new", name="motivo_new")
+     * @Route("/agregar", name="motivo_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,32 +58,16 @@ class MotivoController extends Controller
             return $this->redirectToRoute('motivo_index');
         }
 
-        return $this->render('motivo/new.html.twig', array(
+        return $this->render('motivo/new.html.twig', [
             'motivo' => $motivo,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Motivo entity.
-     *
-     * @Route("/{id}", name="motivo_show")
-     * @Method("GET")
-     */
-    public function showAction(Motivo $motivo)
-    {
-        $deleteForm = $this->createDeleteForm($motivo);
-
-        return $this->render('motivo/show.html.twig', array(
-            'motivo' => $motivo,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Motivo entity.
      *
-     * @Route("/{id}/edit", name="motivo_edit")
+     * @Route("/{id}/editar", name="motivo_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Motivo $motivo)
@@ -99,14 +81,14 @@ class MotivoController extends Controller
             $em->persist($motivo);
             $em->flush();
 
-            return $this->redirectToRoute('motivo_edit', array('id' => $motivo->getId()));
+            return $this->redirectToRoute('motivo_edit', ['id' => $motivo->getId()]);
         }
 
-        return $this->render('motivo/edit.html.twig', array(
+        return $this->render('motivo/edit.html.twig', [
             'motivo' => $motivo,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +121,7 @@ class MotivoController extends Controller
     private function createDeleteForm(Motivo $motivo)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('motivo_delete', array('id' => $motivo->getId())))
+            ->setAction($this->generateUrl('motivo_delete', ['id' => $motivo->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Factor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Factor;
-use AppBundle\Form\FactorType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Controlador de factores de riesgo.
@@ -25,25 +24,24 @@ class FactorController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $factors = $em->getRepository('AppBundle:Factor')->findAll();
+        $factores = $em->getRepository('AppBundle:Factor')->findAll();
 
         $deleteForms = [];
         /** @var Factor $factor */
-        foreach ($factors as $factor){
+        foreach ($factores as $factor) {
             $deleteForms[$factor->getId()] = $this->createDeleteForm($factor)->createView();
         }
 
-        return $this->render('factor/index.html.twig', array(
-            'factors' => $factors,
+        return $this->render('factor/index.html.twig', [
+            'factores' => $factores,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Crear un nuevo factor de riesgo.
      *
-     * @Route("/crear", name="factor_new")
+     * @Route("/agregar", name="factor_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,26 +58,10 @@ class FactorController extends Controller
             return $this->redirectToRoute('factor_index');
         }
 
-        return $this->render('factor/new.html.twig', array(
+        return $this->render('factor/new.html.twig', [
             'factor' => $factor,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Mostrar un factor de riesgo en particular.
-     *
-     * @Route("/{id}", name="factor_show")
-     * @Method("GET")
-     */
-    public function showAction(Factor $factor)
-    {
-        $deleteForm = $this->createDeleteForm($factor);
-
-        return $this->render('factor/show.html.twig', array(
-            'factor' => $factor,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -99,14 +81,14 @@ class FactorController extends Controller
             $em->persist($factor);
             $em->flush();
 
-            return $this->redirectToRoute('factor_edit', array('id' => $factor->getId()));
+            return $this->redirectToRoute('factor_edit', ['id' => $factor->getId()]);
         }
 
-        return $this->render('factor/edit.html.twig', array(
+        return $this->render('factor/edit.html.twig', [
             'factor' => $factor,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +121,7 @@ class FactorController extends Controller
     private function createDeleteForm(Factor $factor)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('factor_delete', array('id' => $factor->getId())))
+            ->setAction($this->generateUrl('factor_delete', ['id' => $factor->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

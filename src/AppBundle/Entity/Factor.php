@@ -7,26 +7,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Factor
  *
+ * @ORM\Entity
  * @ORM\Table(name="factor_de_riesgo")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FactorRepository")
  */
 class Factor
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="factor", type="string", length=255, unique=true)
+     * @ORM\Column(name="factor", type="string", unique=true)
      */
-    private $factor;
+    protected $factor;
 
 
     /**

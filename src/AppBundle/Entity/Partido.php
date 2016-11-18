@@ -8,24 +8,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Partido
  *
+ * @ORM\Entity
  * @ORM\Table(name="partido")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PartidoRepository")
  */
 class Partido
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="partido", type="string", length=255, unique=true)
+     * @ORM\Column(name="partido", type="string", unique=true)
      */
     protected $partido;
 
@@ -34,11 +30,11 @@ class Partido
      */
     protected $localidades;
 
+
     public function __construct()
     {
         $this->localidades = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -76,7 +72,7 @@ class Partido
     /**
      * Add localidades
      *
-     * @param \AppBundle\Entity\Localidad $localidades
+     * @param Localidad $localidades
      * @return Partido
      */
     public function addLocalidade(Localidad $localidades)
@@ -89,7 +85,7 @@ class Partido
     /**
      * Remove localidades
      *
-     * @param \AppBundle\Entity\Localidad $localidades
+     * @param Localidad $localidades
      */
     public function removeLocalidade(Localidad $localidades)
     {

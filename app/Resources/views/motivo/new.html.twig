@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'motivo_new' %}
+
 {% block main %}
-    <h1>Alta de motivo de consulta</h1>
+    <h1>Agregar motivo de consulta</h1>
 
     {{ form_start(form) }}
         {{ form_row(form.motivo) }}

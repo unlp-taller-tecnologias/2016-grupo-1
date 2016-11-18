@@ -5,31 +5,26 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
  * Motivo
  *
+ * @ORM\Entity
  * @ORM\Table(name="motivo")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MotivoRepository")
- *@UniqueEntity("motivo")
+ * @UniqueEntity("motivo")
  */
 class Motivo
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="motivo", type="string", length=255, unique=true)
+     * @ORM\Column(name="motivo", type="string", unique=true)
      */
-    private $motivo;
+    protected $motivo;
 
 
     /**

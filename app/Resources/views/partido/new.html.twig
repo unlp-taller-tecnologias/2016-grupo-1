@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body_id 'admin_partido_new' %}
+{% block body_id 'partido_new' %}
 
 {% block main %}
-    <h1>Registrar partido</h1>
+    <h1>Agregar partido</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
 
         <input type="submit" value="Guardar" class="btn btn-primary" />
-
-        <a class="btn btn-link" href="{{ path('partido_index') }}">Volver a listado</a>
+        <a class="btn btn-link" href="{{ path('partido_index') }}">Volver al listado</a>
     {{ form_end(form) }}
 
 {% endblock %}

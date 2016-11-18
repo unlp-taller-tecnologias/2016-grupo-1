@@ -1,31 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
-    <h1>Lista de pacientes</h1>
+{% block body_id 'paciente_index' %}
 
+{% block main %}
+    <h1>Listado de pacientes</h1>
+
+    {% if pacientes is not empty %}
     <table class="table table-striped">
         <thead>
             <tr>
               <th>DNI</th>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Edad</th>
-              <th>Sexo</th>
-              <th>Localidad</th>
-              <th>Obra Social</th>
               <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for paciente in pacientes %}
             <tr>
-                <td>{{ paciente.dni}}</td>
+                <td>{{ paciente.dni|default('-') }}</td>
                 <td>{{ paciente.nombre }}</td>
                 <td>{{ paciente.apellido }}</td>
-                <td>{{ paciente.edad }}</td>
-                <td>{{ paciente.sexo }}</td>
-                <td>{{ paciente.localidad }}</td>
-                <td>{{ paciente.obraSocial}}</td>
                 <td>
                     <div class="item-actions">
                         <a href="{{ path('paciente_show', { 'id': paciente.id }) }}" class="btn btn-sm btn-default">Ver</a>
@@ -41,22 +36,20 @@
                     </div>
                 </td>
             </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2" align="center">No se ha registrado ningun paciente.</td>
-                </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
-    {% endblock %}
+    {% else %}
+        <p>Aún no se ha registrado ningún paciente.</p>
+    {% endif %}
+{% endblock %}
 
-    {% block sidebar %}
-        <div class="section">
-            <a href="{{ path('paciente_new') }}" class="btn btn-lg btn-block btn-success">
-                <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
-            </a>
-        </div>
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('paciente_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
+        </a>
+    </div>
 
-        {{ parent() }}
-
+    {{ parent() }}
 {% endblock %}

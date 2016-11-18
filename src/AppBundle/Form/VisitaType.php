@@ -19,8 +19,8 @@ class VisitaType extends AbstractType
             ->add('observaciones')
             ->add('notasPersonales')
             ->add('motivos')
-            ->add('diagnosticos')
-            ->add('medico')
+            ->add('diagnosticos', null, ['label' => 'Diagnósticos'])
+            ->add('medico', null, ['label' => 'Médico'])
         ;
     }
     
@@ -29,8 +29,6 @@ class VisitaType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Visita'
-        ));
+        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Visita']);
     }
 }
