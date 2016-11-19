@@ -70,9 +70,16 @@ class ExamenController extends Controller {
     public function listarAction(Paciente $paciente) {
         $em = $this->getDoctrine()->getManager();
         $examens = $em->getRepository('AppBundle:Examen')->findByPaciente($paciente->getId());
-        return $this->render('examen/index.html.twig', array(
+        $deleteForms = [];
+        /** @var Examen $examen */
+        foreach ($examens as $examen) {
+            $deleteForms[$examen->getId()] = $this->createDeleteForm($examen)->createView();
+        }
+
+        return $this->render('examen/index.html.twig', [
                     'examens' => $examens,
-        ));
+                    'delete_forms' => $deleteForms,
+        ]);
     }
 
     /**
