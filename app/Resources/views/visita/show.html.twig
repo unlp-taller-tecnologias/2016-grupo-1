@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'visita_show' %}
+
 {% block main %}
     <h1>Visita de un paciente</h1>
 
@@ -7,26 +9,26 @@
         <tbody>
             <tr>
                 <th>Fecha</th>
-                <td>{% if visitum.fecha %}{{ visitum.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Observaciones</th>
-                <td>{{ visitum.observaciones }}</td>
+                <td>{{ visita.observaciones }}</td>
             </tr>
             <tr>
                 <th>Notaspersonales</th>
-                <td>{{ visitum.notasPersonales }}</td>
+                <td>{{ visita.notasPersonales }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-link" href="{{ path('visita_index') }}">Volver a listado</a>
+    <a class="btn btn-link" href="{{ path('visita_index') }}">Volver al listado</a>
 
 {% endblock %}
 
 {% block sidebar %}
     <div class="section">
-        <a href="{{ path('visita_edit', { 'id': visitum.id }) }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-edit" aria-hidden="true"></i> Editar visita
         </a>
     </div>

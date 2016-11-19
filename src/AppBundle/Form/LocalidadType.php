@@ -16,7 +16,7 @@ class LocalidadType extends AbstractType
     {
         $builder
             ->add('localidad')
-            ->add('codPostal')
+            ->add('codPostal', null, ['label' => 'Código postal'])
             ->add('partido')
         ;
     }
@@ -26,8 +26,6 @@ class LocalidadType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Localidad'
-        ));
+        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Localidad']);
     }
 }

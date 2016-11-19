@@ -4,32 +4,29 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Motivo
  *
+ * @ORM\Entity
  * @ORM\Table(name="motivo")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MotivoRepository")
- *@UniqueEntity("motivo")
+ * @UniqueEntity("motivo", message="El motivo de consulta ya existe")
  */
 class Motivo
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="motivo", type="string", length=255, unique=true)
+     * @ORM\Column(name="motivo", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un motivo de consulta")
      */
-    private $motivo;
+    protected $motivo;
 
 
     /**
@@ -64,8 +61,13 @@ class Motivo
     {
         return $this->motivo;
     }
-    
+
+    /**
+     * Motivo to string
+     *
+     * @return string
+     */
     public function __toString() {
-        return $this->getMotivo();
+        return $this->motivo;
     }
 }

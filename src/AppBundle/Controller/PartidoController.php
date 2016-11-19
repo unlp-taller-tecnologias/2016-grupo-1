@@ -2,17 +2,18 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Partido;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Partido;
-use AppBundle\Form\PartidoType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Partido controller.
  *
  * @Route("/partido")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class PartidoController extends Controller
 {
@@ -30,20 +31,20 @@ class PartidoController extends Controller
 
         $deleteForms = [];
         /** @var Partido $partido */
-        foreach ($partidos as $partido){
+        foreach ($partidos as $partido) {
             $deleteForms[$partido->getId()] = $this->createDeleteForm($partido)->createView();
         }
 
-        return $this->render('partido/index.html.twig', array(
+        return $this->render('partido/index.html.twig', [
             'partidos' => $partidos,
             'delete_forms' => $deleteForms,
-        ));
+        ]);
     }
 
     /**
      * Creates a new Partido entity.
      *
-     * @Route("/new", name="partido_new")
+     * @Route("/agregar", name="partido_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,32 +61,16 @@ class PartidoController extends Controller
             return $this->redirectToRoute('partido_index');
         }
 
-        return $this->render('partido/new.html.twig', array(
+        return $this->render('partido/new.html.twig', [
             'partido' => $partido,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Partido entity.
-     *
-     * @Route("/{id}", name="partido_show")
-     * @Method("GET")
-     */
-    public function showAction(Partido $partido)
-    {
-        $deleteForm = $this->createDeleteForm($partido);
-
-        return $this->render('partido/show.html.twig', array(
-            'partido' => $partido,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * Displays a form to edit an existing Partido entity.
      *
-     * @Route("/{id}/edit", name="partido_edit")
+     * @Route("/{id}/editar", name="partido_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Partido $partido)
@@ -99,14 +84,14 @@ class PartidoController extends Controller
             $em->persist($partido);
             $em->flush();
 
-            return $this->redirectToRoute('partido_edit', array('id' => $partido->getId()));
+            return $this->redirectToRoute('partido_edit', ['id' => $partido->getId()]);
         }
 
-        return $this->render('partido/edit.html.twig', array(
+        return $this->render('partido/edit.html.twig', [
             'partido' => $partido,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -139,7 +124,7 @@ class PartidoController extends Controller
     private function createDeleteForm(Partido $partido)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('partido_delete', array('id' => $partido->getId())))
+            ->setAction($this->generateUrl('partido_delete', ['id' => $partido->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

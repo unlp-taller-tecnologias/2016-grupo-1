@@ -7,6 +7,7 @@ use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Controlador de Usuario.
  *
  * @Route("/usuario")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class UsuarioController extends Controller
 {
@@ -23,12 +25,14 @@ class UsuarioController extends Controller
      *
      * @Route("/", name="usuario_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+
         $deleteForms = [];
         /** @var Usuario $usuario */
         foreach ($usuarios as $usuario) {
@@ -44,7 +48,7 @@ class UsuarioController extends Controller
     /**
      * Crea un nuevo usuario
      *
-     * @Route("/nuevo", name="usuario_new")
+     * @Route("/agregar", name="usuario_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -76,6 +80,7 @@ class UsuarioController extends Controller
      *
      * @Route("/{id}", name="usuario_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(Usuario $usuario)
     {
@@ -115,11 +120,11 @@ class UsuarioController extends Controller
             return $this->redirectToRoute('usuario_show', ['id' => $usuario->getId()]);
         }
 
-        return $this->render('usuario/edit.html.twig', array(
+        return $this->render('usuario/edit.html.twig', [
             'usuario' => $usuario,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**

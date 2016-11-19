@@ -41,7 +41,6 @@ class UsuarioType extends AbstractType
                     'Secretario' => Usuario::PROFESION_SECRETARIO,
                 ],
                 'choices_as_values' => true,
-                'required'          => true,
             ])
             ->add('matricula', null, ['label' => 'Matrícula'])
             ->add('especialidad')

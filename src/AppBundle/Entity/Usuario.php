@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as FOSUser;
@@ -13,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity
  * @ORM\Table(name="usuario")
- * @UniqueEntity(fields="matricula", message="La matrícula ya está en uso")
+ * @UniqueEntity("matricula", message="La matrícula ya está en uso")
  */
 class Usuario extends FOSUser
 {
@@ -21,11 +20,17 @@ class Usuario extends FOSUser
     const PROFESION_SECRETARIO = "secretario";
 
     /**
-     * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @Assert\Type(type="integer", message="El DNI sólo puede contener dígitos")
+     * @Assert\Length(min=8, max=8, exactMessage="El DNI debe estar compuesto por 8 dígitos")
+     */
+    protected $username;
 
     /**
      * @ORM\Column(type="string", length=35)
@@ -56,6 +61,7 @@ class Usuario extends FOSUser
 
     /** @ORM\Column(type="string", nullable=true) */
     protected $especialidad;
+
 
     /**
      * Set dni

@@ -3,80 +3,68 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paciente
  *
+ * @ORM\Entity
  * @ORM\Table(name="paciente")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PacienteRepository")
- *@UniqueEntity("dni")
+ * @UniqueEntity("dni", message="El DNI ya existe")
  */
 class Paciente
 {
+    const SEXO_MASCULINO = 'masculino';
+    const SEXO_FEMENINO = 'femenino';
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
+    /** @ORM\Column(name="dni", type="integer", nullable=true, unique=true) */
+    protected $dni;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
+     * @ORM\Column(name="nombre", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese un nombre")
      */
-    private $dni;
+    protected $nombre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=255)
+     * @ORM\Column(name="apellido", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese un apellido")
      */
-    private $nombre;
+    protected $apellido;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="apellido", type="string", length=255)
-     */
-    private $apellido;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="edad", type="integer")
+     * @Assert\NotBlank(message="Por favor, ingrese la edad del paciente")
      * @Assert\Range(max=122, maxMessage="La edad no puede superar los 122 años")
      */
-    private $edad;
+    protected $edad;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="sexo", type="string", length=255)
+     * @ORM\Column(name="sexo", type="string")
+     * @Assert\NotBlank(message="Por favor, seleccione un sexo")
      */
-    private $sexo;
+    protected $sexo;
+
     /**
      * @ORM\ManyToOne(targetEntity="Localidad", inversedBy="pacientes")
-     * @ORM\JoinColumn(name="localidad_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Por favor, seleccione una localidad")
      */
-    private $localidad;
+    protected $localidad;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="obra_social", type="string", length=255, nullable=true)
-     */
-    private $obraSocial;
+    /** @ORM\Column(name="obra_social", type="string", nullable=true) */
+    protected $obraSocial;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente")
-     */
-    private $visitas;
+    /** @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") */
+    protected $visitas;
 
 
     /**
@@ -189,6 +177,12 @@ class Paciente
      */
     public function setSexo($sexo)
     {
+        if (!in_array($sexo, [
+            self::SEXO_FEMENINO,
+            self::SEXO_MASCULINO,
+        ])) {
+            throw new \InvalidArgumentException("Sexo inválido");
+        }
         $this->sexo = $sexo;
 
         return $this;
@@ -204,7 +198,7 @@ class Paciente
         return $this->sexo;
     }
 
-    /*/**
+    /**
      * Set localidad
      *
      * @param \AppBundle\Entity\Localidad $localidad

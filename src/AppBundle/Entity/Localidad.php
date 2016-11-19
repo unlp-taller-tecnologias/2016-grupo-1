@@ -2,43 +2,40 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Localidad
  *
+ * @ORM\Entity
  * @ORM\Table(name="localidad")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\LocalidadRepository")
+ * @UniqueEntity("codPostal", message="El código postal ya existe")
  */
 class Localidad
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="localidad", type="string", length=255)
+     * @ORM\Column(name="localidad", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese una localidad")
      */
-    private $localidad;
+    protected $localidad;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="cod_postal", type="string", length=60, unique=true)
-     */
-    private $codPostal;
+    /** @ORM\Column(name="cod_postal", type="string", length=60, unique=true) */
+    protected $codPostal;
 
     /**
      * @ORM\ManyToOne(targetEntity="Partido", inversedBy="localidades")
-     * @ORM\JoinColumn(name="partido_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Por favor, seleccione un partido")
      */
     protected $partido;
 
@@ -47,12 +44,11 @@ class Localidad
      */
     protected $pacientes;
 
+
     public function __construct()
     {
         $this->pacientes = new ArrayCollection();
     }
-
-
 
     /**
      * Get id
@@ -113,7 +109,7 @@ class Localidad
     /**
      * Set partido
      *
-     * @param \AppBundle\Entity\Partido $partido
+     * @param Partido $partido
      * @return Localidad
      */
     public function setPartido(Partido $partido = null)
@@ -126,7 +122,7 @@ class Localidad
     /**
      * Get partido
      *
-     * @return \AppBundle\Entity\Partido
+     * @return Partido
      */
     public function getPartido()
     {
@@ -136,10 +132,10 @@ class Localidad
     /**
      * Add pacientes
      *
-     * @param \AppBundle\Entity\Paciente $pacientes
+     * @param Paciente $pacientes
      * @return Localidad
      */
-    public function addPaciente(\AppBundle\Entity\Paciente $pacientes)
+    public function addPaciente(Paciente $pacientes)
     {
         $this->pacientes[] = $pacientes;
 
@@ -149,9 +145,9 @@ class Localidad
     /**
      * Remove pacientes
      *
-     * @param \AppBundle\Entity\Paciente $pacientes
+     * @param Paciente $pacientes
      */
-    public function removePaciente(\AppBundle\Entity\Paciente $pacientes)
+    public function removePaciente(Paciente $pacientes)
     {
         $this->pacientes->removeElement($pacientes);
     }
@@ -166,7 +162,8 @@ class Localidad
         return $this->pacientes;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->localidad;
     }
 }

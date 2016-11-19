@@ -3,30 +3,30 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Factor
  *
+ * @ORM\Entity
  * @ORM\Table(name="factor_de_riesgo")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FactorRepository")
+ * @UniqueEntity("factor", message="El factor de riesgo ya existe")
  */
 class Factor
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="factor", type="string", length=255, unique=true)
+     * @ORM\Column(name="factor", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un factor de riesgo")
      */
-    private $factor;
+    protected $factor;
 
 
     /**

@@ -2,11 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Paciente;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class PacienteType extends AbstractType
@@ -22,10 +22,15 @@ class PacienteType extends AbstractType
             ->add('nombre')
             ->add('apellido')
             ->add('edad')
-            ->add('sexo')
+            ->add('sexo', ChoiceType::class, [
+                'placeholder' => "- Seleccione una opción -",
+                'choices' => [
+                    'Femenino'  => Paciente::SEXO_FEMENINO,
+                    'Masculino' => Paciente::SEXO_MASCULINO,
+                ],
+            ])
             ->add('obraSocial')
-            ->add('localidad',null,[
-                'placeholder' => "- Seleccione una opción -"])
+            ->add('localidad', null, ['placeholder' => '- Seleccione una opción -'])
         ;
     }
 
@@ -34,8 +39,6 @@ class PacienteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Paciente'
-        ));
+        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Paciente']);
     }
 }

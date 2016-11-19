@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block body_id 'usuario_index' %}
+
 {% block main %}
     <h1>Listado de usuarios</h1>
 
+    {% if usuarios is not empty %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -23,33 +26,36 @@
                 <td>
                     <div class="item-actions">
                         <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                        <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                        </a>
-                        {{ include('_delete_form.html.twig', {
-                            attr: {'style': 'display: inline-block'},
-                            form: delete_forms[usuario.id],
-                            button_label: 'Eliminar',
-                            button_css: 'btn-sm',
-                        }) }}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                            </a>
+                            {{ include('_delete_form.html.twig', {
+                                attr: {'style': 'display: inline-block'},
+                                form: delete_forms[usuario.id],
+                                button_label: 'Eliminar',
+                                button_css: 'btn-sm',
+                            }) }}
+                        {% endif %}
                     </div>
                 </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2" align="center">No se ha registrado ningún usuario.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>Aún no se ha registrado ningún usuario.</p>
+    {% endif %}
 {% endblock %}
 
 {% block sidebar %}
-    <div class="section">
-        <a href="{{ path('usuario_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> Agregar usuario
-        </a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="section">
+            <a href="{{ path('usuario_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar usuario
+            </a>
+        </div>
+    {% endif %}
 
     {{ parent() }}
 {% endblock %}

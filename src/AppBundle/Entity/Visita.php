@@ -4,72 +4,60 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * VisitaMedica
  *
- * @ORM\Table(name="visita_medica")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\VisitaMedicaRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="visita")
  */
 class Visita
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha", type="datetime")
+     * @ORM\Column(name="fecha", type="date")
+     * @Assert\NotBlank(message="Por favor, ingrese una fecha")
      */
-    private $fecha;
+    protected $fecha;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="observaciones", type="string", length=900, nullable=true)
+     * @Assert\Length(max=900)
      */
-    private $observaciones;
+    protected $observaciones;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="notas_personales", type="string", length=900, nullable=true)
+     * @Assert\Length(max=900)
      */
-    private $notasPersonales;
+    protected $notasPersonales;
 
     /**
      * @ORM\ManyToMany(targetEntity="Motivo")
-     * @ORM\JoinTable(name="visita_motivo",
-     *      joinColumns={@ORM\JoinColumn(name="motivo_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")}
-     *      )
      */
-    private $motivos;
+    protected $motivos;
 
     /**
      * @ORM\ManyToMany(targetEntity="Diagnostico")
-     * @ORM\JoinTable(name="visita_diagnostico",
-     *      joinColumns={@ORM\JoinColumn(name="diagnostico_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")}
-     *      )
      */
-    private $diagnosticos;
+    protected $diagnosticos;
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente", inversedBy="visitas")
-     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $paciente;
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $medico;
 

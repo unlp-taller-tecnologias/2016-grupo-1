@@ -24,8 +24,6 @@ class DiagnosticoType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Diagnostico'
-        ));
+        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Diagnostico']);
     }
 }

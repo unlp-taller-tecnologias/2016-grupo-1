@@ -3,30 +3,30 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Medicacion
  *
+ * @ORM\Entity
  * @ORM\Table(name="medicacion")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MedicacionRepository")
+ * @UniqueEntity("medicacion", message="La medicación ya existe")
  */
 class Medicacion
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="medicacion", type="string", length=255, unique=true)
+     * @ORM\Column(name="medicacion", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese una medicación")
      */
-    private $medicacion;
+    protected $medicacion;
 
 
     /**

@@ -16,7 +16,7 @@ class MedicacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medicacion', TextType::class, array("label" => "Medicación"));
+            ->add('medicacion', TextType::class, ['label' => 'Medicación']);
     }
     
     /**
@@ -24,8 +24,6 @@ class MedicacionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Medicacion'
-        ));
+        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Medicacion']);
     }
 }

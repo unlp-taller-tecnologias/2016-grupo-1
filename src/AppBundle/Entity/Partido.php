@@ -4,28 +4,28 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Partido
  *
+ * @ORM\Entity
  * @ORM\Table(name="partido")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PartidoRepository")
+ * @UniqueEntity("partido", message="El partido ya existe")
  */
 class Partido
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="partido", type="string", length=255, unique=true)
+     * @ORM\Column(name="partido", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un partido")
      */
     protected $partido;
 
@@ -34,11 +34,11 @@ class Partido
      */
     protected $localidades;
 
+
     public function __construct()
     {
         $this->localidades = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -76,7 +76,7 @@ class Partido
     /**
      * Add localidades
      *
-     * @param \AppBundle\Entity\Localidad $localidades
+     * @param Localidad $localidades
      * @return Partido
      */
     public function addLocalidade(Localidad $localidades)
@@ -89,7 +89,7 @@ class Partido
     /**
      * Remove localidades
      *
-     * @param \AppBundle\Entity\Localidad $localidades
+     * @param Localidad $localidades
      */
     public function removeLocalidade(Localidad $localidades)
     {
