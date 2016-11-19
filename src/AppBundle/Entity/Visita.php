@@ -22,7 +22,7 @@ class Visita
     protected $id;
 
     /**
-     * @ORM\Column(name="fecha", type="datetime")
+     * @ORM\Column(name="fecha", type="date")
      * @Assert\NotBlank(message="Por favor, ingrese una fecha")
      */
     protected $fecha;

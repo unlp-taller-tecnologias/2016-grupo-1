@@ -16,7 +16,7 @@ class VisitaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha', 'datetime')
+            ->add('fecha')
             ->add('observaciones', TextareaType::class, [
                 'required' => false,
             ])
