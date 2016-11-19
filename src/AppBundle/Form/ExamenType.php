@@ -15,8 +15,10 @@ class ExamenType extends AbstractType {
         $builder
                 ->add('fecha', DateType::class, array('widget' => 'single_text',
                     'html5' => false,
-                    'attr' => ['class' => 'input-datepicker'],
-                    'format' => 'dd/MM/yyyy'
+                    'attr' => ['class' => 'input-datepicker', 'readonly' => true],
+                    'placeholder' => 'Haga clic para seleccionar una fecha',
+                    'format' => 'dd/MM/yyyy',
+                    'data' => new \DateTime()
                         )
                 )
                 ->add('paciente', EntityType::class, array(
