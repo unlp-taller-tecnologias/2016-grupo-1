@@ -15,6 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Paciente
 {
+    const SEXO_MASCULINO = 'masculino';
+    const SEXO_FEMENINO = 'femenino';
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -174,6 +177,12 @@ class Paciente
      */
     public function setSexo($sexo)
     {
+        if (!in_array($sexo, [
+            self::SEXO_FEMENINO,
+            self::SEXO_MASCULINO,
+        ])) {
+            throw new \InvalidArgumentException("Sexo inválido");
+        }
         $this->sexo = $sexo;
 
         return $this;
