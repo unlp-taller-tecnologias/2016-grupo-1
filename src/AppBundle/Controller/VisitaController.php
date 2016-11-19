@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Visita;
+use AppBundle\Entity\Paciente;
+use Symfony\Component\Asset\PackageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Visita controller.
@@ -18,16 +20,14 @@ use Symfony\Component\HttpFoundation\Request;
 class VisitaController extends Controller
 {
     /**
-     * Lists all Visita entities.
+     * Muestra la historia clínica de un paciente.
      *
-     * @Route("/", name="visita_index")
+     * @Route("/{id}/historiaclinica", name="visita_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Paciente $paciente)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $visitas = $em->getRepository('AppBundle:Visita')->findAll();
+        $visitas = $paciente->getVisitas();
         
         $deleteForms = [];
         /** @var Visita $visita */
@@ -37,38 +37,42 @@ class VisitaController extends Controller
 
         return $this->render('visita/index.html.twig', [
             'visitas' => $visitas,
+            'paciente' => $paciente,
             'delete_forms' => $deleteForms,
         ]);
     }
 
     /**
-     * Creates a new Visita entity.
+     * Crear una nueva visita para un paciente.
      *
-     * @Route("/agregar", name="visita_new")
+     * @Route("/{id}/agregar", name="visita_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Paciente $paciente)
     {
         $visita = new Visita();
         $form = $this->createForm('AppBundle\Form\VisitaType', $visita);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $visita->setPaciente($paciente);
+            $visita->setMedico($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($visita);
             $em->flush();
 
-            return $this->redirectToRoute('visita_show', ['id' => $visita->getId()]);
+            return $this->redirectToRoute('visita_index', array('id' => $visita->getPaciente()->getId()));
         }
 
-        return $this->render('visita/new.html.twig', [
+        return $this->render('visita/new.html.twig',[
             'visita' => $visita,
+            'paciente' => $paciente,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Finds and displays a Visita entity.
+     * Muestra una visita en particular de un paciente.
      *
      * @Route("/{id}", name="visita_show")
      * @Method("GET")
@@ -100,7 +104,7 @@ class VisitaController extends Controller
             $em->persist($visita);
             $em->flush();
 
-            return $this->redirectToRoute('visita_edit', ['id' => $visita->getId()]);
+            return $this->redirectToRoute('visita_show', array('id' => $visita->getId()));
         }
 
         return $this->render('visita/edit.html.twig', [
@@ -122,12 +126,13 @@ class VisitaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $paciente_id = $visita->getPaciente()->getId();
             $em = $this->getDoctrine()->getManager();
             $em->remove($visita);
             $em->flush();
         }
 
-        return $this->redirectToRoute('visita_index');
+        return $this->redirectToRoute('visita_index', array('id' => $paciente_id));
     }
 
     /**

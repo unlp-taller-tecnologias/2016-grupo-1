@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Paciente
@@ -204,7 +205,7 @@ class Paciente
      * @param \AppBundle\Entity\Localidad $localidad
      * @return Paciente
      */
-    public function setLocalidad(Localidad $localidad = null)
+    public function setLocalidad(Localidad $localidad)
     {
         $this->localidad = $localidad;
 
@@ -247,7 +248,49 @@ class Paciente
      * Paciente toString
      * @return string
      */
-    public function __toString() {
-        return $this->getNombre()." ".$this->getApellido();
+    public function __toString()
+    {
+        return $this->getNombre() . " " . $this->getApellido();
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->visitas = new ArrayCollection();
+    }
+
+    /**
+     * Add visitas
+     *
+     * @param Visita $visitas
+     * @return Paciente
+     */
+    public function addVisita(Visita $visitas)
+    {
+        $this->visitas[] = $visitas;
+
+        return $this;
+    }
+
+    /**
+     * Remove visitas
+     *
+     * @param Visita $visitas
+     */
+    public function removeVisita(Visita $visitas)
+    {
+        $this->visitas->removeElement($visitas);
+    }
+
+    /**
+     * Get visitas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVisitas()
+    {
+        return $this->visitas;
     }
 }

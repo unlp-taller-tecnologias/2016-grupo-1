@@ -13,24 +13,22 @@ class VisitaType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('fecha', DateType::class, array('widget' => 'single_text',
-                    'html5' => false,
-                    'attr' => ['class' => 'input-datepicker', 'readonly' => true],
-                    'placeholder' => 'Haga clic para seleccionar una fecha',
-                    'format' => 'dd/MM/yyyy',
-                    'data' => new \DateTime()
-                        )
-                )
-                ->add('observaciones', TextareaType::class, [
-                    'required' => false,
-                ])
-                ->add('notasPersonales', TextareaType::class, [
-                    'required' => false,
-                ])
-                ->add('motivos')
-                ->add('diagnosticos', null, ['label' => 'Diagnósticos'])
-                ->add('medico', null, ['label' => 'Médico'])
-        ;
+            ->add('fecha', DateType::class, array('widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['class' => 'input-datepicker', 'readonly' => true],
+                'placeholder' => 'Haga clic para seleccionar una fecha',
+                'format' => 'dd/MM/yyyy',
+                'data' => new \DateTime()
+                    )
+            )
+            ->add('observaciones', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('notasPersonales', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('motivos')
+            ->add('diagnosticos', null, ['label' => 'Diagnósticos']);
     }
 
     /**

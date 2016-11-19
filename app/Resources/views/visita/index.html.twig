@@ -3,9 +3,9 @@
 {% block body_id 'visita_index' %}
 
 {% block main %}
-    <h1>Registro de visitas de un paciente</h1>
-    {# TODO: sólo se debe llegar desde un paciente #}
+    <h1>Registro de visitas de {{ paciente.nombre }} {{ paciente.apellido }}</h1>
 
+    {% if visitas is not empty %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -18,7 +18,7 @@
         <tbody>
         {% for visita in visitas %}
             <tr>
-                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ visita.observaciones }}</td>
                 <td>{{ visita.notasPersonales }}</td>
                 <td>
@@ -36,18 +36,17 @@
                     </div>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="4" align="center">Aún no existe ningún registro de visitas para el paciente.</td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p>Aún no existe ningún registro de visita para el paciente.</p>
+    {% endif %}
 {% endblock %}
 
 {% block sidebar %}
     <div class="section actions">
-        <a href="{{ path('visita_new') }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('visita_new', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> Nueva visita
         </a>
     </div>

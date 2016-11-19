@@ -27,7 +27,9 @@
           <td>{{ paciente.obraSocial|default('-') }}</td>
       </tr>
   </table>
-
+    <a class="btn btn-primary" href="{{ path('visita_index', { 'id': paciente.id }) }}">
+        <i class="fa fa-clipboard" aria-hidden="true"></i> Historia clínica del paciente
+    </a>
     <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
 {% endblock %}
 

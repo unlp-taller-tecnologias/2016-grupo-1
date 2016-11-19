@@ -41,17 +41,25 @@ class Visita
 
     /**
      * @ORM\ManyToMany(targetEntity="Motivo")
+     * @ORM\JoinTable(name="visita_motivo",
+     *      joinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="motivo_id", referencedColumnName="id")}
+     *      )
      */
     protected $motivos;
 
     /**
      * @ORM\ManyToMany(targetEntity="Diagnostico")
+     * @ORM\JoinTable(name="visita_diagnostico",
+     *      joinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="diagnostico_id", referencedColumnName="id")}
+     *      )
      */
     protected $diagnosticos;
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente", inversedBy="visitas")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id", nullable=false)
      */
     protected $paciente;
 
