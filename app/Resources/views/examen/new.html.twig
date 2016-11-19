@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Examen creation</h1>
+{% block body_id 'visita_new' %}
 
-    {{ form_start(form) }}
+    {% block main %}
+        <h1>Registrar examen prequirúrgico</h1>
+
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('examen_index') }}">Back to the list</a>
-        </li>
-    </ul>
-{% endblock %}
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a class="btn btn-link" href="{{ path('examen_index') }}">Volver al listado</a>
+        {{ form_end(form) }}
+
+    {% endblock %}

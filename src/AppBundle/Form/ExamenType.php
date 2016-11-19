@@ -40,6 +40,11 @@ class ExamenType extends AbstractType {
                     'multiple' => true,
                     'expanded' => true,
                 ))
+                ->add('paciente', EntityType::class, array(
+                    'class' => 'AppBundle:Paciente',
+                    'multiple' => false,
+                    'expanded' => false
+                ))
         ;
     }
 

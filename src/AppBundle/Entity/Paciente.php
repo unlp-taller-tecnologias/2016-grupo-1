@@ -242,4 +242,12 @@ class Paciente
     {
         return $this->obraSocial;
     }
+    
+    /**
+     * Paciente toString
+     * @return string
+     */
+    public function __toString() {
+        return $this->getNombre()." ".$this->getApellido();
+    }
 }

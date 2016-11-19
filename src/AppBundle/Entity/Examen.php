@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="examen")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExamenRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Examen {
-    public function __construct() {
+    public function __construct(Usuario $medico) {
         $this->factores = new \Doctrine\Common\Collections\ArrayCollection();
         $this->medicaciones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setMedico($medico);
     }
 
     /**
@@ -52,7 +54,7 @@ class Examen {
     private $derivadoDesde;
 
     /**
-     * @var array
+     * @var integer
      *
      * @ORM\Column(name="grado_riesgo", type="integer")
      */
@@ -61,7 +63,7 @@ class Examen {
     /**
      * @var string
      *
-     * @ORM\Column(name="antecedentes", type="blob", nullable=true)
+     * @ORM\Column(name="antecedentes", type="text", nullable=true)
      */
     private $antecedentes;
 
@@ -92,35 +94,41 @@ class Examen {
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente")
-     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id", nullable=false)
      */
     private $paciente;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(name="medico_id", referencedColumnName="id", nullable=false)
+     */
+    private $medico;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ruido_1", type="boolean")
+     * @ORM\Column(name="ruido_1", type="boolean", nullable=true)
      */
     private $ruido1;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ruido_2", type="boolean")
+     * @ORM\Column(name="ruido_2", type="boolean", nullable=true)
      */
     private $ruido2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ruido_3", type="boolean")
+     * @ORM\Column(name="ruido_3", type="boolean", nullable=true)
      */
     private $ruido3;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ruido_4", type="boolean")
+     * @ORM\Column(name="ruido_4", type="boolean", nullable=true)
      */
     private $ruido4;
 
@@ -148,21 +156,21 @@ class Examen {
     /**
      * @var string
      *
-     * @ORM\Column(name="comentarios", type="blob", nullable=true)
+     * @ORM\Column(name="comentarios", type="text", nullable=true)
      */
     private $comentarios;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="aparato_respiratorio", type="blob", nullable=true)
+     * @ORM\Column(name="aparato_respiratorio", type="text", nullable=true)
      */
     private $aparatoRespiratorio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="electrocardiograma", type="blob", nullable=true)
+     * @ORM\Column(name="electrocardiograma", type="text", nullable=true)
      */
     private $electrocardiograma;
 
@@ -285,9 +293,9 @@ class Examen {
     }
 
     /**
-     * Set otrosFactores
+     * Set paciente
      *
-     * @param int $paciente
+     * @param Paciente $paciente
      * @return Examen
      */
     public function setPaciente($paciente) {
@@ -299,10 +307,31 @@ class Examen {
     /**
      * Get paciente
      *
-     * @return int 
+     * @return Paciente 
      */
     public function getPaciente() {
         return $this->paciente;
+    }
+    
+    /**
+     * Set medico
+     *
+     * @param Usuario $usuario
+     * @return Examen
+     */
+    public function setMedico($usuario) {
+        $this->medico = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get medico
+     *
+     * @return Usuario 
+     */
+    public function getMedico() {
+        return $this->medico;
     }
 
     /**
@@ -350,7 +379,7 @@ class Examen {
     /**
      * Set gradoRiesgo
      *
-     * @param array $gradoRiesgo
+     * @param int $gradoRiesgo
      * @return Examen
      */
     public function setGradoRiesgo($gradoRiesgo) {
@@ -362,7 +391,7 @@ class Examen {
     /**
      * Get gradoRiesgo
      *
-     * @return array 
+     * @return int 
      */
     public function getGradoRiesgo() {
         return $this->gradoRiesgo;

@@ -1,100 +1,106 @@
 {% extends 'base.html.twig' %}
+{% block block_id "examen_show" %}
+    {% block main %}
+        <h1>Examen</h1>
 
-{% block body %}
-    <h1>Examen</h1>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ examen.id }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha</th>
+                    <td>{% if examen.fecha %}{{ examen.fecha|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Otrosfactores</th>
+                    <td>{{ examen.otrosFactores }}</td>
+                </tr>
+                <tr>
+                    <th>Otrasmedicaciones</th>
+                    <td>{{ examen.otrasMedicaciones }}</td>
+                </tr>
+                <tr>
+                    <th>Derivadodesde</th>
+                    <td>{{ examen.derivadoDesde }}</td>
+                </tr>
+                <tr>
+                    <th>Gradoriesgo</th>
+                    <td>{{ examen.gradoRiesgo }}</td>
+                </tr>
+                <tr>
+                    <th>Antecedentes</th>
+                    <td>{{ examen.antecedentes }}</td>
+                </tr>
+                <tr>
+                    <th>Procedimiento</th>
+                    <td>{{ examen.procedimiento }}</td>
+                </tr>
+                <tr>
+                    <th>Ruido1</th>
+                    <td>{% if examen.ruido1 %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Ruido2</th>
+                    <td>{% if examen.ruido2 %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Ruido3</th>
+                    <td>{% if examen.ruido3 %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Ruido4</th>
+                    <td>{% if examen.ruido4 %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Tensionarterialsistolica</th>
+                    <td>{{ examen.tensionArterialSistolica }}</td>
+                </tr>
+                <tr>
+                    <th>Tensionarterialdiastolica</th>
+                    <td>{{ examen.tensionArterialDiastolica }}</td>
+                </tr>
+                <tr>
+                    <th>Soplos</th>
+                    <td>{% if examen.soplos %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Comentarios</th>
+                    <td>{{ examen.comentarios }}</td>
+                </tr>
+                <tr>
+                    <th>Aparatorespiratorio</th>
+                    <td>{{ examen.aparatoRespiratorio }}</td>
+                </tr>
+                <tr>
+                    <th>Electrocardiograma</th>
+                    <td>{{ examen.electrocardiograma }}</td>
+                </tr>
+                <tr>
+                    <th>Spoloscomentario</th>
+                    <td>{{ examen.spolosComentario }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ examan.id }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{% if examan.fecha %}{{ examan.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Otrosfactores</th>
-                <td>{{ examan.otrosFactores }}</td>
-            </tr>
-            <tr>
-                <th>Otrasmedicaciones</th>
-                <td>{{ examan.otrasMedicaciones }}</td>
-            </tr>
-            <tr>
-                <th>Derivadodesde</th>
-                <td>{{ examan.derivadoDesde }}</td>
-            </tr>
-            <tr>
-                <th>Gradoriesgo</th>
-                <td>{{ examan.gradoRiesgo }}</td>
-            </tr>
-            <tr>
-                <th>Antecedentes</th>
-                <td>{{ examan.antecedentes }}</td>
-            </tr>
-            <tr>
-                <th>Procedimiento</th>
-                <td>{{ examan.procedimiento }}</td>
-            </tr>
-            <tr>
-                <th>Ruido1</th>
-                <td>{% if examan.ruido1 %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Ruido2</th>
-                <td>{% if examan.ruido2 %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Ruido3</th>
-                <td>{% if examan.ruido3 %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Ruido4</th>
-                <td>{% if examan.ruido4 %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Tensionarterialsistolica</th>
-                <td>{{ examan.tensionArterialSistolica }}</td>
-            </tr>
-            <tr>
-                <th>Tensionarterialdiastolica</th>
-                <td>{{ examan.tensionArterialDiastolica }}</td>
-            </tr>
-            <tr>
-                <th>Soplos</th>
-                <td>{% if examan.soplos %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Comentarios</th>
-                <td>{{ examan.comentarios }}</td>
-            </tr>
-            <tr>
-                <th>Aparatorespiratorio</th>
-                <td>{{ examan.aparatoRespiratorio }}</td>
-            </tr>
-            <tr>
-                <th>Electrocardiograma</th>
-                <td>{{ examan.electrocardiograma }}</td>
-            </tr>
-            <tr>
-                <th>Spoloscomentario</th>
-                <td>{{ examan.spolosComentario }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <a class="btn btn-link" href="{{ path('examen_index') }}">Volver al listado</a>
+    {% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('examen_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('examen_edit', { 'id': examan.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
-{% endblock %}
+    {% block sidebar %}
+        <div class="section">
+            <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-edit" aria-hidden="true"></i> Editar examen
+            </a>
+        </div>
+
+        <div class="section">
+            {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar examen',
+            button_css: 'btn-lg btn-block',
+        }) }}
+        </div>
+
+        {{ parent() }}
+    {% endblock %}

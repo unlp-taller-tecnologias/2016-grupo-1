@@ -6,7 +6,7 @@ use AppBundle\Entity\Medicacion;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Medicacion;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\MedicacionType;
 
 /**

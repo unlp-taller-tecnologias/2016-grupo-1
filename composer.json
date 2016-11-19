@@ -22,8 +22,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "symfony/intl": "^3.1",
-        "eternicode/bootstrap-datepicker": ">=1.6.4"
+        "symfony/intl": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

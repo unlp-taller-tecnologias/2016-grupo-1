@@ -3,10 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Factor;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Factor;
 use AppBundle\Form\FactorType;
 
 /**

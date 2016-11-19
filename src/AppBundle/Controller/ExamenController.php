@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Examen;
 use AppBundle\Form\ExamenType;
+use AppBundle\Entity\Paciente;
 
 /**
  * Examen controller.
@@ -21,12 +22,18 @@ class ExamenController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-
         $examens = $em->getRepository('AppBundle:Examen')->findAll();
 
-        return $this->render('examen/index.html.twig', array(
+        $deleteForms = [];
+        /** @var Examen $examen */
+        foreach ($examens as $examen) {
+            $deleteForms[$examen->getId()] = $this->createDeleteForm($examen)->createView();
+        }
+
+        return $this->render('examen/index.html.twig', [
                     'examens' => $examens,
-        ));
+                    'delete_forms' => $deleteForms,
+        ]);
     }
 
     /**
@@ -36,21 +43,35 @@ class ExamenController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $examan = new Examen();
-        $form = $this->createForm('AppBundle\Form\ExamenType', $examan);
+        $examen = new Examen($this->get("security.token_storage")->getToken()->getUser());
+        $form = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($examan);
+            $em->persist($examen);
             $em->flush();
 
-            return $this->redirectToRoute('examen_show', array('id' => $examan->getId()));
+            return $this->redirectToRoute('examen_show', array('id' => $examen->getId()));
         }
 
         return $this->render('examen/new.html.twig', array(
-                    'examan' => $examan,
+                    'examen' => $examen,
                     'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Muestra el listado de exámenes prequirúrgico de un paciente.
+     * 
+     * @Route("/listar/{id}", name="examen_paciente")
+     * @Method("GET")
+     */
+    public function listarAction(Paciente $paciente) {
+        $em = $this->getDoctrine()->getManager();
+        $examens = $em->getRepository('AppBundle:Examen')->findByPaciente($paciente->getId());
+        return $this->render('examen/index.html.twig', array(
+                    'examens' => $examens,
         ));
     }
 
@@ -60,11 +81,11 @@ class ExamenController extends Controller {
      * @Route("/{id}", name="examen_show")
      * @Method("GET")
      */
-    public function showAction(Examen $examan) {
-        $deleteForm = $this->createDeleteForm($examan);
+    public function showAction(Examen $examen) {
+        $deleteForm = $this->createDeleteForm($examen);
 
         return $this->render('examen/show.html.twig', array(
-                    'examan' => $examan,
+                    'examen' => $examen,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -75,21 +96,21 @@ class ExamenController extends Controller {
      * @Route("/{id}/editar", name="examen_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Examen $examan) {
-        $deleteForm = $this->createDeleteForm($examan);
-        $editForm = $this->createForm('AppBundle\Form\ExamenType', $examan);
+    public function editAction(Request $request, Examen $examen) {
+        $deleteForm = $this->createDeleteForm($examen);
+        $editForm = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($examan);
+            $em->persist($examen);
             $em->flush();
 
-            return $this->redirectToRoute('examen_edit', array('id' => $examan->getId()));
+            return $this->redirectToRoute('examen_edit', array('id' => $examen->getId()));
         }
 
         return $this->render('examen/edit.html.twig', array(
-                    'examan' => $examan,
+                    'examen' => $examen,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -101,13 +122,13 @@ class ExamenController extends Controller {
      * @Route("/{id}", name="examen_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Examen $examan) {
-        $form = $this->createDeleteForm($examan);
+    public function deleteAction(Request $request, Examen $examen) {
+        $form = $this->createDeleteForm($examen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($examan);
+            $em->remove($examen);
             $em->flush();
         }
 
