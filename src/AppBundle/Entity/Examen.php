@@ -2,7 +2,6 @@
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * Examen
  *
@@ -76,7 +75,8 @@ class Examen {
     /**
      * @ORM\ManyToMany(targetEntity="Factor")
      * @ORM\JoinTable(name="examen_factor", 
-     *  joinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
+     *  joinColumns={@ORM\JoinColumn(name="factor_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
      * )
      */
     private $factores;
@@ -84,17 +84,18 @@ class Examen {
     /**
      * @ORM\ManyToMany(targetEntity="Medicacion")
      * @ORM\JoinTable(name="examen_medicacion", 
-     *  joinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
+     *  joinColumns={@ORM\JoinColumn(name="medicacion_id", referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
      * )
      */
     private $medicaciones;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Paciente")
      * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id")
      */
     private $paciente;
-    
+
     /**
      * @var bool
      *
@@ -222,7 +223,67 @@ class Examen {
     public function getOtrosFactores() {
         return $this->otrosFactores;
     }
-    
+
+    /**
+     * Agregar medicacion
+     *
+     * @param Medicacion $medicacion
+     * @return Examen
+     */
+    public function addMedicacion(Medicacion $medicacion) {
+        $this->medicaciones[] = $medicacion;
+
+        return $this;
+    }
+
+    /**
+     * Eliminar medicacion
+     *
+     * @param Medicacion $medicacion
+     */
+    public function removeMedicacion(Medicacion $medicacion) {
+        $this->factores->removeElement($medicacion);
+    }
+
+    /**
+     * Get medicaciones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMedicaciones() {
+        return $this->medicaciones;
+    }
+
+    /**
+     * Agregar factor
+     *
+     * @param Factor $factor
+     * @return Examen
+     */
+    public function addFactor(Factor $factor) {
+        $this->factores[] = $factor;
+
+        return $this;
+    }
+
+    /**
+     * Eliminar factor
+     *
+     * @param Factor $factor
+     */
+    public function removeFactor(Factor $factor) {
+        $this->factores->removeElement($factor);
+    }
+
+    /**
+     * Get factores
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFactores() {
+        return $this->factores;
+    }
+
     /**
      * Set otrosFactores
      *
@@ -230,7 +291,7 @@ class Examen {
      * @return Examen
      */
     public function setPaciente($paciente) {
-        $this->paciente = paciente;
+        $this->paciente = $paciente;
 
         return $this;
     }

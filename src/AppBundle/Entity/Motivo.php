@@ -64,4 +64,8 @@ class Motivo
     {
         return $this->motivo;
     }
+    
+    public function __toString() {
+        return $this->getMotivo();
+    }
 }

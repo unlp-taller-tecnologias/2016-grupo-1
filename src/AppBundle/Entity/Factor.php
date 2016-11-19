@@ -61,4 +61,8 @@ class Factor
     {
         return $this->factor;
     }
+    
+    public function __toString() {
+        return $this->getFactor();
+    }
 }
