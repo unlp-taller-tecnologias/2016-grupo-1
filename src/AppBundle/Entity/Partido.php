@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Partido
  *
  * @ORM\Entity
  * @ORM\Table(name="partido")
+ * @UniqueEntity("partido", message="El partido ya existe")
  */
 class Partido
 {
@@ -22,6 +25,7 @@ class Partido
 
     /**
      * @ORM\Column(name="partido", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un partido")
      */
     protected $partido;
 

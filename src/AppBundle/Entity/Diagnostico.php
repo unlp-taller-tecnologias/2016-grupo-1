@@ -4,13 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Diagnostico
  *
  * @ORM\Entity
  * @ORM\Table(name="diagnostico")
- * @UniqueEntity("diagnostico")
+ * @UniqueEntity("diagnostico", message="El diagnóstico ya existe")
  */
 class Diagnostico
 {
@@ -23,6 +24,7 @@ class Diagnostico
 
     /**
      * @ORM\Column(name="diagnostico", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un diagnóstico")
      */
     protected $diagnostico;
 

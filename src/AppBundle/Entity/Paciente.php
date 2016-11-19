@@ -3,15 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paciente
  *
  * @ORM\Entity
  * @ORM\Table(name="paciente")
- * @UniqueEntity("dni")
+ * @UniqueEntity("dni", message="El DNI ya existe")
  */
 class Paciente
 {
@@ -27,28 +27,33 @@ class Paciente
 
     /**
      * @ORM\Column(name="nombre", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese un nombre")
      */
     protected $nombre;
 
     /**
      * @ORM\Column(name="apellido", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese un apellido")
      */
     protected $apellido;
 
     /**
      * @ORM\Column(name="edad", type="integer")
+     * @Assert\NotBlank(message="Por favor, ingrese la edad del paciente")
      * @Assert\Range(max=122, maxMessage="La edad no puede superar los 122 años")
      */
     protected $edad;
 
     /**
      * @ORM\Column(name="sexo", type="string")
+     * @Assert\NotBlank(message="Por favor, seleccione un sexo")
      */
     protected $sexo;
 
     /**
      * @ORM\ManyToOne(targetEntity="Localidad", inversedBy="pacientes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Por favor, seleccione una localidad")
      */
     protected $localidad;
 

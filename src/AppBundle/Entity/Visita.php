@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * VisitaMedica
@@ -22,16 +23,19 @@ class Visita
 
     /**
      * @ORM\Column(name="fecha", type="datetime")
+     * @Assert\NotBlank(message="Por favor, ingrese una fecha")
      */
     protected $fecha;
 
     /**
      * @ORM\Column(name="observaciones", type="string", length=900, nullable=true)
+     * @Assert\Length(max=900)
      */
     protected $observaciones;
 
     /**
      * @ORM\Column(name="notas_personales", type="string", length=900, nullable=true)
+     * @Assert\Length(max=900)
      */
     protected $notasPersonales;
 
@@ -47,11 +51,13 @@ class Visita
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente", inversedBy="visitas")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $paciente;
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $medico;
 

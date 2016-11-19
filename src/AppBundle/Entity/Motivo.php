@@ -4,13 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Motivo
  *
  * @ORM\Entity
  * @ORM\Table(name="motivo")
- * @UniqueEntity("motivo")
+ * @UniqueEntity("motivo", message="El motivo de consulta ya existe")
  */
 class Motivo
 {
@@ -23,6 +24,7 @@ class Motivo
 
     /**
      * @ORM\Column(name="motivo", type="string", unique=true)
+     * @Assert\NotBlank(message="Por favor, ingrese un motivo de consulta")
      */
     protected $motivo;
 

@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Localidad
  *
  * @ORM\Entity
  * @ORM\Table(name="localidad")
+ * @UniqueEntity("codPostal", message="El código postal ya existe")
  */
 class Localidad
 {
@@ -20,7 +23,10 @@ class Localidad
      */
     protected $id;
 
-    /** @ORM\Column(name="localidad", type="string") */
+    /**
+     * @ORM\Column(name="localidad", type="string")
+     * @Assert\NotBlank(message="Por favor, ingrese una localidad")
+     */
     protected $localidad;
 
     /** @ORM\Column(name="cod_postal", type="string", length=60, unique=true) */
@@ -29,6 +35,7 @@ class Localidad
     /**
      * @ORM\ManyToOne(targetEntity="Partido", inversedBy="localidades")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Por favor, seleccione un partido")
      */
     protected $partido;
 
