@@ -4,6 +4,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class ExamenType extends AbstractType {
     /**
@@ -12,39 +13,44 @@ class ExamenType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('fecha', 'datetime')
-                ->add('otrosFactores')
-                ->add('otrasMedicaciones')
-                ->add('derivadoDesde')
-                ->add('gradoRiesgo')
-                ->add('antecedentes')
-                ->add('procedimiento')
-                ->add('ruido1')
-                ->add('ruido2')
-                ->add('ruido3')
-                ->add('ruido4')
-                ->add('tensionArterialSistolica')
-                ->add('tensionArterialDiastolica')
-                ->add('soplos')
-                ->add('comentarios')
-                ->add('aparatoRespiratorio')
-                ->add('electrocardiograma')
-                ->add('spolosComentario')
-                ->add('medicaciones', EntityType::class, array(
-                    'class' => 'AppBundle:Medicacion',
-                    'multiple' => true,
-                    'expanded' => true,
-                ))
-                ->add('factores', EntityType::class, array(
-                    'class' => 'AppBundle:Factor',
-                    'multiple' => true,
-                    'expanded' => true,
-                ))
+                ->add('fecha', DateType::class, array('widget' => 'single_text',
+                    'html5' => false,
+                    'attr' => ['class' => 'input-datepicker'],
+                    'format' => 'dd/MM/yyyy'
+                        )
+                )
                 ->add('paciente', EntityType::class, array(
                     'class' => 'AppBundle:Paciente',
                     'multiple' => false,
                     'expanded' => false
                 ))
+                ->add('derivadoDesde')
+                ->add('procedimiento')
+                ->add('medicaciones', EntityType::class, array(
+                    'class' => 'AppBundle:Medicacion',
+                    'multiple' => true,
+                    'expanded' => true,
+                ))
+                ->add('otrasMedicaciones')
+                ->add('factores', EntityType::class, array(
+                    'class' => 'AppBundle:Factor',
+                    'multiple' => true,
+                    'expanded' => true,
+                ))
+                ->add('otrosFactores')
+                ->add('antecedentes')
+                ->add('tensionArterialSistolica')
+                ->add('tensionArterialDiastolica')
+                ->add('ruido1')
+                ->add('ruido2')
+                ->add('ruido3')
+                ->add('ruido4')
+                ->add('soplos')
+                ->add('spolosComentario')
+                ->add('gradoRiesgo')
+                ->add('aparatoRespiratorio')
+                ->add('electrocardiograma')
+                ->add('comentarios')
         ;
     }
 
