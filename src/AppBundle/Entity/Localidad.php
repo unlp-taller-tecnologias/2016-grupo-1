@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="localidad")
  * @UniqueEntity("codPostal", message="El código postal ya existe")
- * @UniqueEntity({"partido", "localidad"}, message="Ya existe una localidad con ese nombre en el partido seleccionado")
+ * @UniqueEntity({"localidad", "partido"}, message="Ya existe una localidad con ese nombre en el partido seleccionado")
  */
 class Localidad
 {
