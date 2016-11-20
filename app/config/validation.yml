@@ -1,3 +1,0 @@
-\AppBundle\Entity\Localidad:
-    constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\Unique
