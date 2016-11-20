@@ -3,12 +3,11 @@
 {% block body_id "examen_index" %}
     {% block main %}
         <h1>Registro de exámenes prequirúrgicos</h1>
-
+        Paciente: {{ paciente }}
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Paciente</th>
                     <th>Médico</th>
                     <th>Grado de riesgo</th>
                     <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
@@ -18,7 +17,6 @@
                 {% for examen in examens %}
                     <tr>
                         <td>{{ examen.fecha|date('d/m/Y') }}</td>
-                        <td>{{ examen.paciente }}</td>
                         <td>{{ examen.medico }}</td>
                         <td>{{ examen.gradoRiesgo }}</td>
                         <td>
@@ -46,5 +44,14 @@
     {% endblock %}
 
     {% block sidebar %}
+        <div class="section actions">
+            {{ form_start(new_form) }}
+            {{ form_widget(new_form) }}
+            <button type="submit" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
+            </button>
+            {{ form_end(new_form) }}
+        </div>
+
         {{ parent() }}
     {% endblock %}

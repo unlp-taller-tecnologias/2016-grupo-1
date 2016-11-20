@@ -10,10 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  */
 class Examen {
-    public function __construct(Usuario $medico) {
+    public function __construct(Usuario $medico = null, Paciente $paciente = null) {
         $this->factores = new \Doctrine\Common\Collections\ArrayCollection();
         $this->medicaciones = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setMedico($medico);
+        if ($medico !== null) {
+            $this->setMedico($medico);
+        }
+        if ($paciente !== null) {
+            $this->setPaciente($paciente);
+        }
     }
 
     /**
@@ -97,7 +102,7 @@ class Examen {
      * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id", nullable=false)
      */
     private $paciente;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumn(name="medico_id", referencedColumnName="id", nullable=false)
@@ -312,7 +317,7 @@ class Examen {
     public function getPaciente() {
         return $this->paciente;
     }
-    
+
     /**
      * Set medico
      *

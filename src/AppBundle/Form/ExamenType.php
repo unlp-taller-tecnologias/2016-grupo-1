@@ -5,6 +5,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class ExamenType extends AbstractType {
     /**
@@ -21,11 +22,6 @@ class ExamenType extends AbstractType {
                     'data' => new \DateTime()
                         )
                 )
-                ->add('paciente', EntityType::class, array(
-                    'class' => 'AppBundle:Paciente',
-                    'multiple' => false,
-                    'expanded' => false
-                ))
                 ->add('derivadoDesde')
                 ->add('procedimiento')
                 ->add('medicaciones', EntityType::class, array(
@@ -53,6 +49,14 @@ class ExamenType extends AbstractType {
                 ->add('aparatoRespiratorio')
                 ->add('electrocardiograma')
                 ->add('comentarios')
+                ->add('paciente', EntityType::class, array(
+                    'label' => false,
+                    'class' => 'AppBundle:Paciente',
+                    'attr' => array(
+                        'class' => 'hidden'
+                    )
+                        )
+                )
         ;
     }
 
@@ -60,9 +64,7 @@ class ExamenType extends AbstractType {
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver) {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Examen'
-        ));
+        $resolver->setDefaults(array('data_class' => 'AppBundle\Entity\Examen'));
     }
 
 }

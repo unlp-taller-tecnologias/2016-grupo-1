@@ -40,15 +40,16 @@ class ExamenController extends Controller {
      * Crea una nueva entidad de Examen prequirúrgico
      *
      * @Route("/nuevo", name="examen_new")
-     * @Method({"GET", "POST"})
+     * @Method({"POST"})
      */
     public function newAction(Request $request) {
-        $examen = new Examen($this->get("security.token_storage")->getToken()->getUser());
+        $em = $this->getDoctrine()->getManager();
+        $paciente = $em->getRepository('AppBundle:Paciente')->findOneById($request->request->get("form")["paciente_id"]);
+        $examen = new Examen($this->get("security.token_storage")->getToken()->getUser(), $paciente);
         $form = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($examen);
             $em->flush();
 
@@ -76,9 +77,11 @@ class ExamenController extends Controller {
             $deleteForms[$examen->getId()] = $this->createDeleteForm($examen)->createView();
         }
 
-        return $this->render('examen/index.html.twig', [
+        return $this->render('examen/index_paciente.html.twig', [
                     'examens' => $examens,
+                    'paciente' => $paciente,
                     'delete_forms' => $deleteForms,
+                    'new_form' => $this->createNewForm($paciente)->createView()
         ]);
     }
 
@@ -153,6 +156,15 @@ class ExamenController extends Controller {
         return $this->createFormBuilder()
                         ->setAction($this->generateUrl('examen_delete', array('id' => $examen->getId())))
                         ->setMethod('DELETE')
+                        ->getForm()
+        ;
+    }
+
+    private function createNewForm(Paciente $paciente) {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('examen_new'))
+                        ->setMethod('POST')
+                        ->add("paciente_id", "hidden", array("data" => $paciente->getId()))
                         ->getForm()
         ;
     }
