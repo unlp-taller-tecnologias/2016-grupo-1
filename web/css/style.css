@@ -8,6 +8,20 @@
   font-size: 14px;
 }
 
+/* Paginación
+-------------------------------------------------- */
+.pagination {
+  display: block;
+  margin: 32px auto;
+  text-align: center;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  float: none;
+  margin-left: -3px;
+}
+
 /* Sticky footer
 -------------------------------------------------- */
 html {

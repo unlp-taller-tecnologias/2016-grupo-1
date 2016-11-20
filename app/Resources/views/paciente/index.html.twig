@@ -41,6 +41,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pacientes) }}
+    </div>
     {% else %}
         <p>Aún no se ha registrado ningún paciente.</p>
     {% endif %}

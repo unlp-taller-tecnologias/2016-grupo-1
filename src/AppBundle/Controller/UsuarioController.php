@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Usuario;
+use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -27,11 +28,16 @@ class UsuarioController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        /** @var EntityRepository $usuariosRepo */
+        $usuariosRepo = $this->getDoctrine()->getRepository('AppBundle:Usuario');
+        $usuariosQuery = $usuariosRepo->createQueryBuilder('u')->getQuery();
+        $usuarios = $this->get('knp_paginator')->paginate(
+            $usuariosQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Usuario $usuario */

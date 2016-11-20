@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Paciente;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -23,11 +24,16 @@ class PacienteController extends Controller
      * @Route("/", name="paciente_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $pacientes = $em->getRepository('AppBundle:Paciente')->findAll();
+        /** @var EntityRepository $pacientesRepo */
+        $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
+        $pacientesQuery = $pacientesRepo->createQueryBuilder('p')->getQuery();
+        $pacientes = $this->get('knp_paginator')->paginate(
+            $pacientesQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Paciente $paciente */
