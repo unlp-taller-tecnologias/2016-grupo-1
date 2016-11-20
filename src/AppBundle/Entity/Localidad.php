@@ -164,6 +164,6 @@ class Localidad
 
     public function __toString()
     {
-        return $this->localidad;
+        return $this->localidad . ' - ' . $this->partido;
     }
 }
