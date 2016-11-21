@@ -55,6 +55,12 @@
             <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
         </a>
     </div>
-
-    {{ parent() }}
+        <div class="section search">
+            <div class="well well-lg">
+                {{ include('paciente/_search_form.html.twig', {
+                                attr: {'style': 'display: inline-block'},
+                                busqueda: search_form
+                            }) }}
+            </div>
+        </div>
 {% endblock %}

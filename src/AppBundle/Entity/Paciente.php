@@ -9,8 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Paciente
- *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PacienteRepository")
  * @ORM\Table(name="paciente")
  * @UniqueEntity("dni", message="El DNI ya existe")
  */
