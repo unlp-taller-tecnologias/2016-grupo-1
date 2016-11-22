@@ -6,6 +6,10 @@
     <h1>Registrar examen prequirúrgico</h1>
 
     {{ form_start(form) }}
+        <div class="form-group">
+            <label for="paciente" class="control-label">Paciente</label>
+            <input class="form-control" id="paciente" value="{{ examen.paciente }}" readonly>
+        </div>
         {{ form_widget(form) }}
 
         <input type="submit" value="Guardar" class="btn btn-primary" />

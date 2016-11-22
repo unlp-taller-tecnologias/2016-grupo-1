@@ -6,6 +6,10 @@
     <h1>Editar examen prequirúrgico</h1>
 
     {{ form_start(edit_form) }}
+        <div class="form-group">
+            <label for="paciente" class="control-label">Paciente</label>
+            <input class="form-control" id="paciente" value="{{ examen.paciente }}" readonly>
+        </div>
         {{ form_widget(edit_form) }}
 
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
