@@ -1,6 +1,10 @@
 {% set attr = attr|default({})|merge({'data-confirmation': 'true'}) %}
 
-{{ include('_delete_entity_confirmation.html.twig') }}
+{% if includeModal is not defined %}
+    {% set includeModal = true %}
+{% endif %}
+
+{% include includeModal?'_delete_entity_confirmation.html.twig':'' ignore missing %}
 
 {{ form_start(form, { attr: attr }) }}
     {{ form_widget(form) }}

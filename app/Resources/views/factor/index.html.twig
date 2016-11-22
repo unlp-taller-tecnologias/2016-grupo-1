@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'factor_index' %}
     
@@ -6,6 +6,7 @@
     <h1>Listado de factores de riesgo</h1>
 
     {% if factores is not empty %}
+    {{ include ('_delete_entity_confirmation.html.twig') }}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -25,6 +26,7 @@
                         {{ include('_delete_form.html.twig', {
                             attr: {'style': 'display: inline-block'},
                             form: delete_forms[factor.id],
+                            includeModal: false,
                             button_label: 'Eliminar',
                             button_css: 'btn-sm',
                         }) }}

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'usuario_new' %}
 
@@ -18,6 +18,6 @@
         </div>
         {{ form_row(form.plainPassword) }}
         <input type="submit" value="Guardar" class="btn btn-primary" />
-        <a class="btn btn-link" href="{{ path('usuario_index') }}">Volver al listado</a>
+        <a class="btn btn-danger" href="{{ path('usuario_index') }}">Cancelar</a>
     {{ form_end(form) }}
 {% endblock %}

@@ -1,113 +1,92 @@
-<?php namespace AppBundle\Controller;
+<?php
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+namespace AppBundle\Controller;
+
+use AppBundle\Entity\Examen;
+use AppBundle\Entity\Paciente;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Examen;
-use AppBundle\Form\ExamenType;
-use AppBundle\Entity\Paciente;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Examen controller.
- *
- * @Route("/examen")
  */
-class ExamenController extends Controller {
+class ExamenController extends Controller
+{
     /**
-     * Lists all Examen entities.
+     * Muestra el listado de exámenes prequirúrgico de un paciente
      *
-     * @Route("/", name="examen_index")
+     * @Route("/paciente/{id}/examenes", name="paciente_examenes")
      * @Method("GET")
      */
-    public function indexAction() {
-        $em = $this->getDoctrine()->getManager();
-        $examens = $em->getRepository('AppBundle:Examen')->findAll();
+    public function indexAction(Paciente $paciente)
+    {
+        $examenes = $paciente->getExamenes();
 
         $deleteForms = [];
         /** @var Examen $examen */
-        foreach ($examens as $examen) {
+        foreach ($examenes as $examen) {
             $deleteForms[$examen->getId()] = $this->createDeleteForm($examen)->createView();
         }
 
         return $this->render('examen/index.html.twig', [
-                    'examens' => $examens,
-                    'delete_forms' => $deleteForms,
+            'examenes' => $examenes,
+            'paciente' => $paciente,
+            'delete_forms' => $deleteForms,
         ]);
     }
 
     /**
-     * Crea una nueva entidad de Examen prequirúrgico
+     * Registra un examen realizado por un paciente.
      *
-     * @Route("/nuevo", name="examen_new")
-     * @Method({"POST"})
+     * @Route("/paciente/{id}/registrar-examen", name="paciente_registrar-examen")
+     * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $paciente = $em->getRepository('AppBundle:Paciente')->findOneById($request->request->get("form")["paciente_id"]);
-        $examen = new Examen($this->get("security.token_storage")->getToken()->getUser(), $paciente);
+    public function newAction(Request $request, Paciente $paciente)
+    {
+        $examen = new Examen($paciente, $this->getUser());
         $form = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($examen);
             $em->flush();
 
-            return $this->redirectToRoute('examen_show', array('id' => $examen->getId()));
+            return $this->redirectToRoute('paciente_examenes', ['id' => $paciente->getId()]);
         }
 
-        return $this->render('examen/new.html.twig', array(
-                    'examen' => $examen,
-                    'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Muestra el listado de exámenes prequirúrgico de un paciente.
-     * 
-     * @Route("/listar/{id}", name="examen_paciente")
-     * @Method("GET")
-     */
-    public function listarAction(Paciente $paciente) {
-        $em = $this->getDoctrine()->getManager();
-        $examens = $em->getRepository('AppBundle:Examen')->findByPaciente($paciente->getId());
-        $deleteForms = [];
-        /** @var Examen $examen */
-        foreach ($examens as $examen) {
-            $deleteForms[$examen->getId()] = $this->createDeleteForm($examen)->createView();
-        }
-
-        return $this->render('examen/index_paciente.html.twig', [
-                    'examens' => $examens,
-                    'paciente' => $paciente,
-                    'delete_forms' => $deleteForms,
-                    'new_form' => $this->createNewForm($paciente)->createView()
+        return $this->render('examen/new.html.twig', [
+            'examen' => $examen,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * Muestra un examen prequirúrgico en particular
      *
-     * @Route("/{id}", name="examen_show")
+     * @Route("/examen/{id}", name="examen_show")
      * @Method("GET")
      */
-    public function showAction(Examen $examen) {
+    public function showAction(Examen $examen)
+    {
         $deleteForm = $this->createDeleteForm($examen);
 
-        return $this->render('examen/show.html.twig', array(
-                    'examen' => $examen,
-                    'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render('examen/show.html.twig', [
+            'examen' => $examen,
+            'delete_form' => $deleteForm->createView(),
+        ]);
     }
 
     /**
      * Muestra el formulario de edición de un examen prequirúrgico
      *
-     * @Route("/{id}/editar", name="examen_edit")
+     * @Route("/examen/{id}/editar", name="examen_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Examen $examen) {
-        $deleteForm = $this->createDeleteForm($examen);
+    public function editAction(Request $request, Examen $examen)
+    {
         $editForm = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $editForm->handleRequest($request);
 
@@ -116,25 +95,27 @@ class ExamenController extends Controller {
             $em->persist($examen);
             $em->flush();
 
-            return $this->redirectToRoute('examen_edit', array('id' => $examen->getId()));
+            return $this->redirectToRoute('examen_edit', ['id' => $examen->getId()]);
         }
 
-        return $this->render('examen/edit.html.twig', array(
-                    'examen' => $examen,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render('examen/edit.html.twig', [
+            'examen' => $examen,
+            'edit_form' => $editForm->createView(),
+        ]);
     }
 
     /**
      * Elimina un examen prequirúrgico
      *
-     * @Route("/{id}", name="examen_delete")
+     * @Route("/examen/{id}", name="examen_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Examen $examen) {
+    public function deleteAction(Request $request, Examen $examen)
+    {
         $form = $this->createDeleteForm($examen);
         $form->handleRequest($request);
+
+        $pacienteID = $examen->getPaciente()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -142,31 +123,21 @@ class ExamenController extends Controller {
             $em->flush();
         }
 
-        return $this->redirectToRoute('examen_index');
+        return $this->redirectToRoute('paciente_examenes', ['id' => $pacienteID]);
     }
 
     /**
      * Crea el formulario para eliminar el examen prequirúrgico
      *
      * @param Examen $examen La entidad Examen a eliminar
-     *
      * @return \Symfony\Component\Form\Form El formulario
      */
-    private function createDeleteForm(Examen $examen) {
+    private function createDeleteForm(Examen $examen)
+    {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('examen_delete', array('id' => $examen->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
+            ->setAction($this->generateUrl('examen_delete', ['id' => $examen->getId()]))
+            ->setMethod('DELETE')
+            ->getForm()
         ;
     }
-
-    private function createNewForm(Paciente $paciente) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('examen_new'))
-                        ->setMethod('POST')
-                        ->add("paciente_id", "hidden", array("data" => $paciente->getId()))
-                        ->getForm()
-        ;
-    }
-
 }

@@ -34,25 +34,27 @@ class Usuario extends FOSUser
 
     /**
      * @ORM\Column(type="string", length=35)
-     * @Assert\NotBlank(message="Por favor, ingrese su nombre", groups={"Registration", "Profile"})
-     * @Assert\Length(max=35, maxMessage="El nombre es muy largo", groups={"Registration", "Profile"})
-     * )
+     * @Assert\NotBlank(message="Por favor, ingrese su nombre")
+     * @Assert\Length(max=35, maxMessage="El nombre es muy largo")
      */
     protected $nombre;
 
     /**
      * @ORM\Column(type="string", length=35)
-     * @Assert\NotBlank(message="Por favor, ingrese su apellido", groups={"Registration", "Profile"})
-     * @Assert\Length(max=35, maxMessage="El apellido es muy largo", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Por favor, ingrese su apellido")
+     * @Assert\Length(max=35, maxMessage="El apellido es muy largo")
      */
     protected $apellido;
 
-    /** @ORM\Column(type="string", length=20, nullable=true) */
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\Length(max=20)
+     */
     protected $telefono;
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Por favor, seleccione una opción", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Por favor, seleccione una opción")
      */
     protected $profesion;
 
@@ -214,7 +216,7 @@ class Usuario extends FOSUser
     /**
      * Set profesion
      *
-     * @param integer $profesion
+     * @param string $profesion
      * @return Usuario
      */
     public function setProfesion($profesion)
@@ -228,5 +230,10 @@ class Usuario extends FOSUser
         $this->profesion = $profesion;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nombre . ' ' . $this->apellido;
     }
 }

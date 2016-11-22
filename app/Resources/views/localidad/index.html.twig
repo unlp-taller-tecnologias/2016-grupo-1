@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'localidad_index' %}
 
@@ -6,6 +6,7 @@
     <h1>Listado de localidades</h1>
 
     {% if localidades is not empty %}
+    {{ include ('_delete_entity_confirmation.html.twig') }}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -29,6 +30,7 @@
                         {{ include('_delete_form.html.twig', {
                             attr: {'style': 'display: inline-block'},
                             form: delete_forms[localidad.id],
+                            includeModal: false,
                             button_label: 'Eliminar',
                             button_css: 'btn-sm',
                         }) }}

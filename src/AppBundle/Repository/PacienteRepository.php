@@ -1,65 +1,70 @@
-<?php namespace AppBundle\Repository;
+<?php
+
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * PacienteRepository
  */
-class PacienteRepository extends EntityRepository {
-    public function findAllPrequirugicos() {
-        return $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select("p")
-                ->from("AppBundle:Paciente", "p")
-                ->andwhere("EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)");
-        ;
+class PacienteRepository extends EntityRepository
+{
+    public function findAllServicio()
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder('p');
+        $qb->andWhere('EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)');
+
+        return $qb;
     }
-    
-    public function findAllServicio() {
-        return $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select("p")
-                ->from("AppBundle:Paciente", "p")
-                ->andwhere("EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)");
-        ;
+
+    public function findAllPrequirugicos()
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder('p');
+        $qb->andWhere('EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)');
+
+        return $qb;
     }
-    public function findAllByMultiParametros($parametros) {
-        $query = $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select("p")
-                ->from("AppBundle:Paciente", "p")
-        ;
+
+    public function findAllByMultiParametros($parametros)
+    {
+        $qb = $this->createQueryBuilder('p');
+
         if (!(is_array($parametros) && count($parametros) > 0)) {
-            return $query;
+            return $qb;
         }
 
-        if (isset($parametros["dni"]) && !empty($parametros["dni"])) {
-            $query->andwhere("p.dni = :dni");
-            $query->setParameter("dni", $parametros["dni"]);
-            return $query;
+        if (!empty($parametros['dni'])) {
+            $qb->andWhere('p.dni = :dni');
+            $qb->setParameter('dni', $parametros['dni']);
+
+            return $qb;
         }
 
-        if (isset($parametros["apellido"]) && !empty($parametros["apellido"])) {
-            $query->andwhere("p.apellido LIKE :apellido");
-            $query->setParameter("apellido", '%' . $parametros["apellido"] . '%');
+        if (!empty($parametros['apellido'])) {
+            $qb->andWhere('p.apellido LIKE :apellido');
+            $qb->setParameter('apellido', '%' . $parametros['apellido'] . '%');
         }
 
-        if (isset($parametros["nombre"]) && !empty($parametros["nombre"])) {
-            $query->andwhere("p.nombre LIKE :nombre");
-            $query->setParameter("nombre", '%' . $parametros["nombre"] . '%');
+        if (!empty($parametros['nombre'])) {
+            $qb->andWhere('p.nombre LIKE :nombre');
+            $qb->setParameter('nombre', '%' . $parametros['nombre'] . '%');
         }
 
-        if (isset($parametros["tipo"]) && !empty($parametros["tipo"]) && $parametros["tipo"] == "preq") {
-            $query->andwhere("EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)");
+        if (!empty($parametros['tipo'])) {
+            if ($parametros['tipo'] === 'preq') {
+                $qb->andWhere('EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)');
+            } elseif ($parametros['tipo'] === 'serv') {
+                $qb->andWhere('EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)');
+            } elseif ($parametros['tipo'] === 'nuevos') {
+                $qb->andWhere('NOT EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)');
+                $qb->andWhere('NOT EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)');
+            }
         }
-        if (isset($parametros["tipo"]) && !empty($parametros["tipo"]) && $parametros["tipo"] == "serv") {
-            $query->andwhere("EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)");
-        }
-        if (isset($parametros["tipo"]) && !empty($parametros["tipo"]) && $parametros["tipo"] == "nuevos") {
-            $query->andwhere("NOT EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)");
-            $query->andwhere("NOT EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)");
-        }
-        return $query;
+
+        return $qb;
     }
 
 }

@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Form\MedicacionType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Medicacion controller.
@@ -74,7 +74,6 @@ class MedicacionController extends Controller
      */
     public function editAction(Request $request, Medicacion $medicacion)
     {
-        $deleteForm = $this->createDeleteForm($medicacion);
         $editForm = $this->createForm('AppBundle\Form\MedicacionType', $medicacion);
         $editForm->handleRequest($request);
 
@@ -89,7 +88,6 @@ class MedicacionController extends Controller
         return $this->render('medicacion/edit.html.twig', [
             'medicacion' => $medicacion,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -117,7 +115,6 @@ class MedicacionController extends Controller
      * Formulario para eliminar una medicación.
      *
      * @param Medicacion $medicacion Entidad de Medicacion
-     *
      * @return \Symfony\Component\Form\Form Formulario
      */
     private function createDeleteForm(Medicacion $medicacion)

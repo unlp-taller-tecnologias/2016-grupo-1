@@ -1,14 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
-{% block body_id 'visita_new' %}
+{% block body_id 'paciente_registrar-visita' %}
 
 {% block main %}
     <h1>Registrar visita</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Guardar" class="btn btn-primary" />
-        <a class="btn btn-link" href="{{ path('visita_index', {'id': paciente.id}) }}">Volver a listado</a>
-    {{ form_end(form) }}
 
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a class="btn btn-danger" href="{{ path('paciente_historia-clinica', {'id': visita.paciente.id}) }}">Cancelar</a>
+    {{ form_end(form) }}
 {% endblock %}

@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -134,12 +133,12 @@ class Localidad
     /**
      * Add pacientes
      *
-     * @param Paciente $pacientes
+     * @param Paciente $paciente
      * @return Localidad
      */
-    public function addPaciente(Paciente $pacientes)
+    public function addPaciente(Paciente $paciente)
     {
-        $this->pacientes[] = $pacientes;
+        $this->pacientes[] = $paciente;
 
         return $this;
     }
@@ -147,11 +146,11 @@ class Localidad
     /**
      * Remove pacientes
      *
-     * @param Paciente $pacientes
+     * @param Paciente $paciente
      */
-    public function removePaciente(Paciente $pacientes)
+    public function removePaciente(Paciente $paciente)
     {
-        $this->pacientes->removeElement($pacientes);
+        $this->pacientes->removeElement($paciente);
     }
 
     /**

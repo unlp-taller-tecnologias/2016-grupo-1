@@ -1,44 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'visita_show' %}
 
 {% block main %}
-    <h1>Visita de un paciente</h1>
+    <h1>Visita de {{ visita.paciente }}</h1>
 
     <table class="table table-striped">
         <tbody>
             <tr>
                 <th>Fecha</th>
-                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Médico</th>
+                <td><a href="{{ path('usuario_show', {'id': visita.medico.id }) }}">{{ visita.medico }}</a></td>
             </tr>
             <tr>
                 <th>Observaciones</th>
-                <td>{{ visita.observaciones }}</td>
+                <td>
+                {% if visita.observaciones is not empty %}
+                    <textarea readonly>{{ visita.observaciones }}</textarea>
+                {% else %}-{% endif %}
+                </td>
             </tr>
             <tr>
                 <th>Notas personales</th>
-                <td>{{ visita.notasPersonales }}</td>
+                <td>
+                {% if visita.notasPersonales is not empty %}
+                    <textarea readonly>{{ visita.notasPersonales }}</textarea>
+                {% else %}-{% endif %}
+                </td>
             </tr>
             <tr>
                 <th>Motivos de consulta</th>
                 <td>
-                {% for motivo in visita.motivos %}
-                    <li>{{ motivo.motivo }}</li>
-                {% endfor %}
+                {% if visita.motivos is not empty %}
+                    <ul>
+                    {% for motivo in visita.motivos %}
+                        <li>{{ motivo.motivo }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}-{% endif %}
                 </td>
             </tr>
             <tr>
                 <th>Diagnósticos</th>
                 <td>
-                {% for diagnostico in visita.diagnosticos %}
-                    <li>{{ diagnostico.diagnostico }}</li>
-                {% endfor %}
+                {% if visita.diagnosticos is not empty %}
+                    <ul>
+                        {% for diagnostico in visita.diagnosticos %}
+                            <li>{{ diagnostico.diagnostico }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}-{% endif %}
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-link" href="{{ path('visita_index', {'id': visita.paciente.id}) }}">Volver a listado</a>
+    <a class="btn btn-link" href="{{ path('paciente_historia-clinica', {'id': visita.paciente.id}) }}">Volver a la historia clínica</a>
 
 {% endblock %}
 

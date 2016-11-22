@@ -108,8 +108,6 @@ class UsuarioController extends Controller
      */
     public function editAction(Request $request, Usuario $usuario)
     {
-        $deleteForm = $this->createDeleteForm($usuario);
-
         /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.profile.form.factory');
 
@@ -129,7 +127,6 @@ class UsuarioController extends Controller
         return $this->render('usuario/edit.html.twig', [
             'usuario' => $usuario,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -223,6 +220,7 @@ class UsuarioController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl($action, ['id' => $usuario->getId()]))
             ->add('usuario_enabled', HiddenType::class, ['data' => $usuario->isEnabled()])
-            ->getForm();
+            ->getForm()
+        ;
     }
 }

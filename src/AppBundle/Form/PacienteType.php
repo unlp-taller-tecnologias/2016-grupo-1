@@ -25,9 +25,10 @@ class PacienteType extends AbstractType
             ->add('sexo', ChoiceType::class, [
                 'placeholder' => "- Seleccione una opción -",
                 'choices' => [
-                    'femenino'  => Paciente::SEXO_FEMENINO,
-                    'masculino' => Paciente::SEXO_MASCULINO,
+                    'Femenino'  => Paciente::SEXO_FEMENINO,
+                    'Masculino' => Paciente::SEXO_MASCULINO,
                 ],
+                'choices_as_values' => true
             ])
             ->add('obraSocial')
             ->add('localidad', null, ['placeholder' => '- Seleccione una opción -'])

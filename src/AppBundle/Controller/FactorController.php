@@ -3,11 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Factor;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Form\FactorType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Controlador de factores de riesgo.
@@ -74,7 +74,6 @@ class FactorController extends Controller
      */
     public function editAction(Request $request, Factor $factor)
     {
-        $deleteForm = $this->createDeleteForm($factor);
         $editForm = $this->createForm('AppBundle\Form\FactorType', $factor);
         $editForm->handleRequest($request);
 
@@ -89,7 +88,6 @@ class FactorController extends Controller
         return $this->render('factor/edit.html.twig', [
             'factor' => $factor,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -117,7 +115,6 @@ class FactorController extends Controller
      * Crea el formulario para eliminar un factor de riesgo.
      *
      * @param Factor $factor Un elemento entidad de factor de riesgo.
-     *
      * @return \Symfony\Component\Form\Form Formulario.
      */
     private function createDeleteForm(Factor $factor)

@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Paciente
+ *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PacienteRepository")
  * @ORM\Table(name="paciente")
  * @UniqueEntity("dni", message="El DNI ya existe")
@@ -66,6 +67,18 @@ class Paciente
     /** @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") */
     protected $visitas;
 
+    /** @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente") */
+    protected $examenes;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->visitas = new ArrayCollection();
+        $this->examenes = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -242,54 +255,82 @@ class Paciente
     {
         return $this->obraSocial;
     }
-    
-    /**
-     * Paciente toString
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getNombre() . " " . $this->getApellido();
-    }
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->visitas = new ArrayCollection();
-    }
 
     /**
-     * Add visitas
+     * Add visita
      *
-     * @param Visita $visitas
+     * @param Visita $visita
      * @return Paciente
      */
-    public function addVisita(Visita $visitas)
+    public function addVisita(Visita $visita)
     {
-        $this->visitas[] = $visitas;
+        $this->visitas[] = $visita;
 
         return $this;
     }
 
     /**
-     * Remove visitas
+     * Remove visita
      *
-     * @param Visita $visitas
+     * @param Visita $visita
+     * @return Paciente
      */
-    public function removeVisita(Visita $visitas)
+    public function removeVisita(Visita $visita)
     {
-        $this->visitas->removeElement($visitas);
+        $this->visitas->removeElement($visita);
+
+        return $this;
     }
 
     /**
      * Get visitas
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getVisitas()
     {
         return $this->visitas;
+    }
+
+    /**
+     * Add examenes
+     *
+     * @param Examen $examen
+     * @return Paciente
+     */
+    public function addExamen(Examen $examen)
+    {
+        $this->examenes[] = $examen;
+
+        return $this;
+    }
+
+    /**
+     * Remove examenes
+     *
+     * @param Examen $examen
+     */
+    public function removeExamen(Visita $examen)
+    {
+        $this->visitas->removeElement($examen);
+    }
+
+    /**
+     * Get examenes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExamenes()
+    {
+        return $this->examenes;
+    }
+
+    /**
+    * Paciente toString
+    * @return string
+    */
+    public function __toString()
+    {
+       return $this->getNombre() . " " . $this->getApellido();
     }
 }

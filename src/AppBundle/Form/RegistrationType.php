@@ -24,8 +24,8 @@ class RegistrationType extends AbstractType
             ])
             ->add('telefono', null, ['label' => 'Teléfono'])
             ->add('profesion', ChoiceType::class, [
-                'placeholder' => "- Seleccione una opción -",
-                'label' => "Profesión",
+                'placeholder' => '- Seleccione una opción -',
+                'label' => 'Profesión',
                 'choices' => [
                     'Médico'     => Usuario::PROFESION_MEDICO,
                     'Secretario' => Usuario::PROFESION_SECRETARIO,

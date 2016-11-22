@@ -74,7 +74,6 @@ class LocalidadController extends Controller
      */
     public function editAction(Request $request, Localidad $localidad)
     {
-        $deleteForm = $this->createDeleteForm($localidad);
         $editForm = $this->createForm('AppBundle\Form\LocalidadType', $localidad);
         $editForm->handleRequest($request);
 
@@ -89,7 +88,6 @@ class LocalidadController extends Controller
         return $this->render('localidad/edit.html.twig', [
             'localidad' => $localidad,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -117,7 +115,6 @@ class LocalidadController extends Controller
      * Creates a form to delete a Localidad entity.
      *
      * @param Localidad $localidad The Localidad entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Localidad $localidad)

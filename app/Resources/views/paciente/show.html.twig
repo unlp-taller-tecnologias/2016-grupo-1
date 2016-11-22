@@ -1,57 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'paciente_show' %}
 
-    {% block main %}
-        <h1>{{ paciente.nombre }} {{ paciente.apellido }}</h1>
+{% block main %}
+    <h1>{{ paciente.nombre }} {{ paciente.apellido }}</h1>
 
-        <table class="table">
-            <tr>
-                <th>DNI</th>
-                <td>{{ paciente.dni|default('-') }}</td>
-            </tr>
-            <tr>
-                <th>Edad</th>
-                <td>{{ paciente.edad }}</td>
-            </tr>
-            <tr>
-                <th>Sexo</th>
-                <td>{{ paciente.sexo }}</td>
-            </tr>
-            <tr>
-                <th>Localidad</th>
-                <td>{{ paciente.localidad }}</td>
-            </tr>
-            <tr>
-                <th>Obra Social</th>
-                <td>{{ paciente.obraSocial|default('-') }}</td>
-            </tr>
-        </table>
-        <a class="btn btn-primary" href="{{ path('visita_index', { 'id': paciente.id }) }}">
-            <i class="fa fa-clipboard" aria-hidden="true"></i> Historia clínica del paciente
-        </a> 
-        <a class="btn btn-primary" href="{{ path('examen_paciente', { 'id': paciente.id }) }}">
-            <i class="fa fa-clipboard" aria-hidden="true"></i> Exámenes prequirúrgicos
+    <table class="table">
+        <tr>
+            <th>DNI</th>
+            <td>{{ paciente.dni|default('-') }}</td>
+        </tr>
+        <tr>
+            <th>Edad</th>
+            <td>{{ paciente.edad }}</td>
+        </tr>
+        <tr>
+            <th>Sexo</th>
+            <td>{{ paciente.sexo }}</td>
+        </tr>
+        <tr>
+            <th>Localidad</th>
+            <td>{{ paciente.localidad }}</td>
+        </tr>
+        <tr>
+            <th>Obra Social</th>
+            <td>{{ paciente.obraSocial|default('-') }}</td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" href="{{ path('paciente_historia-clinica', { 'id': paciente.id }) }}">
+        <i class="fa fa-clipboard" aria-hidden="true"></i> Historia clínica
+    </a>
+    <a class="btn btn-primary" href="{{ path('paciente_examenes', { 'id': paciente.id }) }}">
+        <i class="fa fa-clipboard" aria-hidden="true"></i> Exámenes prequirúrgicos
+    </a>
+    <div><a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado de pacientes</a></div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar paciente
         </a>
-        <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
-    {% endblock %}
+    </div>
 
-    {% block sidebar %}
+    {% if is_granted('ROLE_ADMIN') %}
         <div class="section">
-            <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-lg btn-block btn-success">
-                <i class="fa fa-edit" aria-hidden="true"></i> Editar paciente
-            </a>
+            {{ include('_delete_form.html.twig', {
+                form: delete_form,
+                button_label: 'Eliminar paciente',
+                button_css: 'btn-lg btn-block',
+            }) }}
         </div>
+    {% endif %}
 
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="section">
-                {{ include('_delete_form.html.twig', {
-            form: delete_form,
-            button_label: 'Eliminar paciente',
-            button_css: 'btn-lg btn-block',
-        }) }}
-            </div>
-        {% endif %}
-
-        {{ parent() }}
-    {% endblock %}
+    {{ parent() }}
+{% endblock %}

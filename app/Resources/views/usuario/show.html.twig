@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'usuario_show' %}
 
@@ -34,7 +34,7 @@
         {% endif %}
     </table>
 
-    <a class="btn btn-link" href="{{ path('usuario_index') }}">Volver al listado</a>
+    <a class="btn btn-link" href="{{ path('usuario_index') }}">Volver al listado de usuarios</a>
 
 {% endblock %}
 

@@ -26,7 +26,6 @@ class PartidoController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $partidos = $em->getRepository('AppBundle:Partido')->findAll();
 
         $deleteForms = [];
@@ -75,7 +74,6 @@ class PartidoController extends Controller
      */
     public function editAction(Request $request, Partido $partido)
     {
-        $deleteForm = $this->createDeleteForm($partido);
         $editForm = $this->createForm('AppBundle\Form\PartidoType', $partido);
         $editForm->handleRequest($request);
 
@@ -90,7 +88,6 @@ class PartidoController extends Controller
         return $this->render('partido/edit.html.twig', [
             'partido' => $partido,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -118,7 +115,6 @@ class PartidoController extends Controller
      * Creates a form to delete a Partido entity.
      *
      * @param Partido $partido The Partido entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Partido $partido)

@@ -1,197 +1,119 @@
-<?php namespace AppBundle\Entity;
+<?php
 
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Examen
  *
+ * @ORM\Entity
  * @ORM\Table(name="examen")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ExamenRepository")
- * @ORM\HasLifecycleCallbacks()
  */
-class Examen {
-    public function __construct(Usuario $medico = null, Paciente $paciente = null) {
-        $this->factores = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->medicaciones = new \Doctrine\Common\Collections\ArrayCollection();
-        if ($medico !== null) {
-            $this->setMedico($medico);
-        }
-        if ($paciente !== null) {
-            $this->setPaciente($paciente);
-        }
-    }
-
+class Examen
+{
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha", type="datetime")
-     */
-    private $fecha;
+    /** @ORM\Column(name="fecha", type="datetime") */
+    protected $fecha;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="otros_factores", type="string", length=255, nullable=true)
-     */
-    private $otrosFactores;
+    /** @ORM\Column(name="otros_factores", type="string", nullable=true) */
+    protected $otrosFactores;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="otras_medicaciones", type="string", length=255, nullable=true)
-     */
-    private $otrasMedicaciones;
+    /** @ORM\Column(name="otras_medicaciones", type="string", nullable=true) */
+    protected $otrasMedicaciones;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="derivado_desde", type="string", length=255, nullable=true)
-     */
-    private $derivadoDesde;
+    /** @ORM\Column(name="derivado_desde", type="string", nullable=true) */
+    protected $derivadoDesde;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="grado_riesgo", type="integer")
-     */
-    private $gradoRiesgo;
+    /** @ORM\Column(name="grado_riesgo", type="integer") */
+    protected $gradoRiesgo;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="antecedentes", type="text", nullable=true)
-     */
-    private $antecedentes;
+    /** @ORM\Column(name="antecedentes", type="text", nullable=true) */
+    protected $antecedentes;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="procedimiento", type="string", length=255)
-     */
-    private $procedimiento;
+    /** @ORM\Column(name="procedimiento", type="string") */
+    protected $procedimiento;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Factor")
-     * @ORM\JoinTable(name="examen_factor", 
-     *  joinColumns={@ORM\JoinColumn(name="factor_id", referencedColumnName="id")},
-     * inverseJoinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
-     * )
-     */
-    private $factores;
+    /** @ORM\ManyToMany(targetEntity="Factor") */
+    protected $factores;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Medicacion")
-     * @ORM\JoinTable(name="examen_medicacion", 
-     *  joinColumns={@ORM\JoinColumn(name="medicacion_id", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="examen_id", referencedColumnName="id")}
-     * )
-     */
-    private $medicaciones;
+    /** @ORM\ManyToMany(targetEntity="Medicacion") */
+    protected $medicaciones;
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente")
-     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $paciente;
+    protected $paciente;
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumn(name="medico_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $medico;
+    protected $medico;
+
+    /** @ORM\Column(name="ruido_1", type="boolean", nullable=true) */
+    protected $ruido1;
+
+    /** @ORM\Column(name="ruido_2", type="boolean", nullable=true) */
+    protected $ruido2;
+
+    /** @ORM\Column(name="ruido_3", type="boolean", nullable=true) */
+    protected $ruido3;
+
+    /** @ORM\Column(name="ruido_4", type="boolean", nullable=true) */
+    protected $ruido4;
+
+    /** @ORM\Column(name="tension_arterial_sistolica", type="integer") */
+    protected $tensionArterialSistolica;
+
+    /** @ORM\Column(name="tension_arterial_diastolica", type="integer") */
+    protected $tensionArterialDiastolica;
+
+    /** @ORM\Column(name="soplos", type="boolean") */
+    protected $soplos;
+
+    /** @ORM\Column(name="comentarios", type="text", nullable=true) */
+    protected $comentarios;
+
+    /** @ORM\Column(name="aparato_respiratorio", type="text", nullable=true) */
+    protected $aparatoRespiratorio;
+
+    /** @ORM\Column(name="electrocardiograma", type="text", nullable=true) */
+    protected $electrocardiograma;
+
+    /** @ORM\Column(name="soplos_comentario", type="string", nullable=true) */
+    protected $soplosComentario;
+
 
     /**
-     * @var bool
+     * Examen constructor.
      *
-     * @ORM\Column(name="ruido_1", type="boolean", nullable=true)
+     * @param Paciente $paciente
+     * @param Usuario $medico
      */
-    private $ruido1;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="ruido_2", type="boolean", nullable=true)
-     */
-    private $ruido2;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ruido_3", type="boolean", nullable=true)
-     */
-    private $ruido3;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="ruido_4", type="boolean", nullable=true)
-     */
-    private $ruido4;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="tension_arterial_sistolica", type="integer")
-     */
-    private $tensionArterialSistolica;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="tension_arterial_diastolica", type="integer")
-     */
-    private $tensionArterialDiastolica;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="soplos", type="boolean")
-     */
-    private $soplos;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="comentarios", type="text", nullable=true)
-     */
-    private $comentarios;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="aparato_respiratorio", type="text", nullable=true)
-     */
-    private $aparatoRespiratorio;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="electrocardiograma", type="text", nullable=true)
-     */
-    private $electrocardiograma;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="spolos_comentario", type="string", length=255, nullable=true)
-     */
-    private $spolosComentario;
+    public function __construct(Paciente $paciente, Usuario $medico)
+    {
+        $this->factores = new ArrayCollection();
+        $this->medicaciones = new ArrayCollection();
+        $this->paciente = $paciente;
+        $this->medico = $medico;
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -201,7 +123,8 @@ class Examen {
      * @param \DateTime $fecha
      * @return Examen
      */
-    public function setFecha($fecha) {
+    public function setFecha($fecha)
+    {
         $this->fecha = $fecha;
 
         return $this;
@@ -210,9 +133,10 @@ class Examen {
     /**
      * Get fecha
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getFecha() {
+    public function getFecha()
+    {
         return $this->fecha;
     }
 
@@ -222,7 +146,8 @@ class Examen {
      * @param string $otrosFactores
      * @return Examen
      */
-    public function setOtrosFactores($otrosFactores) {
+    public function setOtrosFactores($otrosFactores)
+    {
         $this->otrosFactores = $otrosFactores;
 
         return $this;
@@ -231,9 +156,10 @@ class Examen {
     /**
      * Get otrosFactores
      *
-     * @return string 
+     * @return string
      */
-    public function getOtrosFactores() {
+    public function getOtrosFactores()
+    {
         return $this->otrosFactores;
     }
 
@@ -243,7 +169,8 @@ class Examen {
      * @param Medicacion $medicacion
      * @return Examen
      */
-    public function addMedicacion(Medicacion $medicacion) {
+    public function addMedicacion(Medicacion $medicacion)
+    {
         $this->medicaciones[] = $medicacion;
 
         return $this;
@@ -254,16 +181,18 @@ class Examen {
      *
      * @param Medicacion $medicacion
      */
-    public function removeMedicacion(Medicacion $medicacion) {
+    public function removeMedicacion(Medicacion $medicacion)
+    {
         $this->factores->removeElement($medicacion);
     }
 
     /**
      * Get medicaciones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMedicaciones() {
+    public function getMedicaciones()
+    {
         return $this->medicaciones;
     }
 
@@ -273,7 +202,8 @@ class Examen {
      * @param Factor $factor
      * @return Examen
      */
-    public function addFactor(Factor $factor) {
+    public function addFactor(Factor $factor)
+    {
         $this->factores[] = $factor;
 
         return $this;
@@ -284,16 +214,18 @@ class Examen {
      *
      * @param Factor $factor
      */
-    public function removeFactor(Factor $factor) {
+    public function removeFactor(Factor $factor)
+    {
         $this->factores->removeElement($factor);
     }
 
     /**
      * Get factores
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFactores() {
+    public function getFactores()
+    {
         return $this->factores;
     }
 
@@ -303,7 +235,8 @@ class Examen {
      * @param Paciente $paciente
      * @return Examen
      */
-    public function setPaciente($paciente) {
+    public function setPaciente($paciente)
+    {
         $this->paciente = $paciente;
 
         return $this;
@@ -312,9 +245,10 @@ class Examen {
     /**
      * Get paciente
      *
-     * @return Paciente 
+     * @return Paciente
      */
-    public function getPaciente() {
+    public function getPaciente()
+    {
         return $this->paciente;
     }
 
@@ -324,7 +258,8 @@ class Examen {
      * @param Usuario $usuario
      * @return Examen
      */
-    public function setMedico($usuario) {
+    public function setMedico($usuario)
+    {
         $this->medico = $usuario;
 
         return $this;
@@ -333,9 +268,10 @@ class Examen {
     /**
      * Get medico
      *
-     * @return Usuario 
+     * @return Usuario
      */
-    public function getMedico() {
+    public function getMedico()
+    {
         return $this->medico;
     }
 
@@ -345,7 +281,8 @@ class Examen {
      * @param string $otrasMedicaciones
      * @return Examen
      */
-    public function setOtrasMedicaciones($otrasMedicaciones) {
+    public function setOtrasMedicaciones($otrasMedicaciones)
+    {
         $this->otrasMedicaciones = $otrasMedicaciones;
 
         return $this;
@@ -354,9 +291,10 @@ class Examen {
     /**
      * Get otrasMedicaciones
      *
-     * @return string 
+     * @return string
      */
-    public function getOtrasMedicaciones() {
+    public function getOtrasMedicaciones()
+    {
         return $this->otrasMedicaciones;
     }
 
@@ -366,7 +304,8 @@ class Examen {
      * @param string $derivadoDesde
      * @return Examen
      */
-    public function setDerivadoDesde($derivadoDesde) {
+    public function setDerivadoDesde($derivadoDesde)
+    {
         $this->derivadoDesde = $derivadoDesde;
 
         return $this;
@@ -375,9 +314,10 @@ class Examen {
     /**
      * Get derivadoDesde
      *
-     * @return string 
+     * @return string
      */
-    public function getDerivadoDesde() {
+    public function getDerivadoDesde()
+    {
         return $this->derivadoDesde;
     }
 
@@ -387,7 +327,8 @@ class Examen {
      * @param int $gradoRiesgo
      * @return Examen
      */
-    public function setGradoRiesgo($gradoRiesgo) {
+    public function setGradoRiesgo($gradoRiesgo)
+    {
         $this->gradoRiesgo = $gradoRiesgo;
 
         return $this;
@@ -396,9 +337,10 @@ class Examen {
     /**
      * Get gradoRiesgo
      *
-     * @return int 
+     * @return int
      */
-    public function getGradoRiesgo() {
+    public function getGradoRiesgo()
+    {
         return $this->gradoRiesgo;
     }
 
@@ -408,7 +350,8 @@ class Examen {
      * @param string $antecedentes
      * @return Examen
      */
-    public function setAntecedentes($antecedentes) {
+    public function setAntecedentes($antecedentes)
+    {
         $this->antecedentes = $antecedentes;
 
         return $this;
@@ -417,9 +360,10 @@ class Examen {
     /**
      * Get antecedentes
      *
-     * @return string 
+     * @return string
      */
-    public function getAntecedentes() {
+    public function getAntecedentes()
+    {
         return $this->antecedentes;
     }
 
@@ -429,7 +373,8 @@ class Examen {
      * @param string $procedimiento
      * @return Examen
      */
-    public function setProcedimiento($procedimiento) {
+    public function setProcedimiento($procedimiento)
+    {
         $this->procedimiento = $procedimiento;
 
         return $this;
@@ -438,9 +383,10 @@ class Examen {
     /**
      * Get procedimiento
      *
-     * @return string 
+     * @return string
      */
-    public function getProcedimiento() {
+    public function getProcedimiento()
+    {
         return $this->procedimiento;
     }
 
@@ -450,7 +396,8 @@ class Examen {
      * @param boolean $ruido1
      * @return Examen
      */
-    public function setRuido1($ruido1) {
+    public function setRuido1($ruido1)
+    {
         $this->ruido1 = $ruido1;
 
         return $this;
@@ -459,9 +406,10 @@ class Examen {
     /**
      * Get ruido1
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRuido1() {
+    public function getRuido1()
+    {
         return $this->ruido1;
     }
 
@@ -471,7 +419,8 @@ class Examen {
      * @param boolean $ruido2
      * @return Examen
      */
-    public function setRuido2($ruido2) {
+    public function setRuido2($ruido2)
+    {
         $this->ruido2 = $ruido2;
 
         return $this;
@@ -480,9 +429,10 @@ class Examen {
     /**
      * Get ruido2
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRuido2() {
+    public function getRuido2()
+    {
         return $this->ruido2;
     }
 
@@ -492,7 +442,8 @@ class Examen {
      * @param string $ruido3
      * @return Examen
      */
-    public function setRuido3($ruido3) {
+    public function setRuido3($ruido3)
+    {
         $this->ruido3 = $ruido3;
 
         return $this;
@@ -501,30 +452,33 @@ class Examen {
     /**
      * Get ruido3
      *
-     * @return string 
+     * @return string
      */
-    public function getRuido3() {
+    public function getRuido3()
+    {
         return $this->ruido3;
     }
 
     /**
-     * Set ruidp4
+     * Set ruido4
      *
      * @param boolean $ruido4
      * @return Examen
      */
-    public function setRuido4($ruido4) {
-        $this->ruidp4 = $ruido4;
+    public function setRuido4($ruido4)
+    {
+        $this->ruido4 = $ruido4;
 
         return $this;
     }
 
     /**
-     * Get ruidp4
+     * Get ruido4
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRuido4() {
+    public function getRuido4()
+    {
         return $this->ruido4;
     }
 
@@ -534,7 +488,8 @@ class Examen {
      * @param integer $tensionArterialSistolica
      * @return Examen
      */
-    public function setTensionArterialSistolica($tensionArterialSistolica) {
+    public function setTensionArterialSistolica($tensionArterialSistolica)
+    {
         $this->tensionArterialSistolica = $tensionArterialSistolica;
 
         return $this;
@@ -543,9 +498,10 @@ class Examen {
     /**
      * Get tensionArterialSistolica
      *
-     * @return integer 
+     * @return integer
      */
-    public function getTensionArterialSistolica() {
+    public function getTensionArterialSistolica()
+    {
         return $this->tensionArterialSistolica;
     }
 
@@ -555,7 +511,8 @@ class Examen {
      * @param integer $tensionArterialDiastolica
      * @return Examen
      */
-    public function setTensionArterialDiastolica($tensionArterialDiastolica) {
+    public function setTensionArterialDiastolica($tensionArterialDiastolica)
+    {
         $this->tensionArterialDiastolica = $tensionArterialDiastolica;
 
         return $this;
@@ -564,9 +521,10 @@ class Examen {
     /**
      * Get tensionArterialDiastolica
      *
-     * @return integer 
+     * @return integer
      */
-    public function getTensionArterialDiastolica() {
+    public function getTensionArterialDiastolica()
+    {
         return $this->tensionArterialDiastolica;
     }
 
@@ -576,7 +534,8 @@ class Examen {
      * @param boolean $soplos
      * @return Examen
      */
-    public function setSoplos($soplos) {
+    public function setSoplos($soplos)
+    {
         $this->soplos = $soplos;
 
         return $this;
@@ -585,9 +544,10 @@ class Examen {
     /**
      * Get soplos
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getSoplos() {
+    public function getSoplos()
+    {
         return $this->soplos;
     }
 
@@ -597,7 +557,8 @@ class Examen {
      * @param string $comentarios
      * @return Examen
      */
-    public function setComentarios($comentarios) {
+    public function setComentarios($comentarios)
+    {
         $this->comentarios = $comentarios;
 
         return $this;
@@ -606,9 +567,10 @@ class Examen {
     /**
      * Get comentarios
      *
-     * @return string 
+     * @return string
      */
-    public function getComentarios() {
+    public function getComentarios()
+    {
         return $this->comentarios;
     }
 
@@ -618,7 +580,8 @@ class Examen {
      * @param string $aparatoRespiratorio
      * @return Examen
      */
-    public function setAparatoRespiratorio($aparatoRespiratorio) {
+    public function setAparatoRespiratorio($aparatoRespiratorio)
+    {
         $this->aparatoRespiratorio = $aparatoRespiratorio;
 
         return $this;
@@ -627,9 +590,10 @@ class Examen {
     /**
      * Get aparatoRespiratorio
      *
-     * @return string 
+     * @return string
      */
-    public function getAparatoRespiratorio() {
+    public function getAparatoRespiratorio()
+    {
         return $this->aparatoRespiratorio;
     }
 
@@ -639,7 +603,8 @@ class Examen {
      * @param string $electrocardiograma
      * @return Examen
      */
-    public function setElectrocardiograma($electrocardiograma) {
+    public function setElectrocardiograma($electrocardiograma)
+    {
         $this->electrocardiograma = $electrocardiograma;
 
         return $this;
@@ -648,31 +613,34 @@ class Examen {
     /**
      * Get electrocardiograma
      *
-     * @return string 
+     * @return string
      */
-    public function getElectrocardiograma() {
+    public function getElectrocardiograma()
+    {
         return $this->electrocardiograma;
     }
 
     /**
-     * Set spolosComentario
+     * Set soplosComentario
      *
-     * @param string $spolosComentario
+     * @param string $soplosComentario
      * @return Examen
      */
-    public function setSpolosComentario($spolosComentario) {
-        $this->spolosComentario = $spolosComentario;
+    public function setSoplosComentario($soplosComentario)
+    {
+        $this->soplosComentario = $soplosComentario;
 
         return $this;
     }
 
     /**
-     * Get spolosComentario
+     * Get soplosComentario
      *
-     * @return string 
+     * @return string
      */
-    public function getSpolosComentario() {
-        return $this->spolosComentario;
+    public function getSoplosComentario()
+    {
+        return $this->soplosComentario;
     }
 
 }

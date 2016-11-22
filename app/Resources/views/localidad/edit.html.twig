@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'localidad_edit' %}
 
@@ -9,7 +9,6 @@
         {{ form_widget(edit_form) }}
 
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-
-        <a class="btn btn-link" href="{{ path('localidad_index') }}">Volver al listado</a>
+        <a class="btn btn-danger" href="{{ path('localidad_index') }}">Cancelar</a>
     {{ form_end(edit_form) }}
 {% endblock %}

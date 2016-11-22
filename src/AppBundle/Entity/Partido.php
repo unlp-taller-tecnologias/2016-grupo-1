@@ -76,12 +76,12 @@ class Partido
     /**
      * Add localidades
      *
-     * @param Localidad $localidades
+     * @param Localidad $localidad
      * @return Partido
      */
-    public function addLocalidade(Localidad $localidades)
+    public function addLocalidad(Localidad $localidad)
     {
-        $this->localidades[] = $localidades;
+        $this->localidades[] = $localidad;
 
         return $this;
     }
@@ -89,11 +89,11 @@ class Partido
     /**
      * Remove localidades
      *
-     * @param Localidad $localidades
+     * @param Localidad $localidad
      */
-    public function removeLocalidade(Localidad $localidades)
+    public function removeLocalidade(Localidad $localidad)
     {
-        $this->localidades->removeElement($localidades);
+        $this->localidades->removeElement($localidad);
     }
 
     /**
@@ -111,7 +111,8 @@ class Partido
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->partido;
     }
 }

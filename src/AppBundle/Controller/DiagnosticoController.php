@@ -74,7 +74,6 @@ class DiagnosticoController extends Controller
      */
     public function editAction(Request $request, Diagnostico $diagnostico)
     {
-        $deleteForm = $this->createDeleteForm($diagnostico);
         $editForm = $this->createForm('AppBundle\Form\DiagnosticoType', $diagnostico);
         $editForm->handleRequest($request);
 
@@ -89,7 +88,6 @@ class DiagnosticoController extends Controller
         return $this->render('diagnostico/edit.html.twig', [
             'diagnostico' => $diagnostico,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -117,7 +115,6 @@ class DiagnosticoController extends Controller
      * Creates a form to delete a Diagnostico entity.
      *
      * @param Diagnostico $diagnostico The Diagnostico entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Diagnostico $diagnostico)

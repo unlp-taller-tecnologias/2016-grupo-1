@@ -62,7 +62,8 @@ class Medicacion
         return $this->medicacion;
     }
     
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getMedicacion();
     }
 }

@@ -15,7 +15,7 @@ class FactorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('factor')
+            ->add('factor', null, ['label' => 'Factor de riesgo'])
         ;
     }
     

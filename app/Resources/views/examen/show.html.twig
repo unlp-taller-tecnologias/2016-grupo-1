@@ -1,106 +1,124 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
+
 {% block block_id "examen_show" %}
-    {% block main %}
-        <h1>Examen</h1>
 
-        <table>
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ examen.id }}</td>
-                </tr>
-                <tr>
-                    <th>Fecha</th>
-                    <td>{% if examen.fecha %}{{ examen.fecha|date('d/m/Y') }}{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Otrosfactores</th>
-                    <td>{{ examen.otrosFactores }}</td>
-                </tr>
-                <tr>
-                    <th>Otrasmedicaciones</th>
-                    <td>{{ examen.otrasMedicaciones }}</td>
-                </tr>
-                <tr>
-                    <th>Derivadodesde</th>
-                    <td>{{ examen.derivadoDesde }}</td>
-                </tr>
-                <tr>
-                    <th>Gradoriesgo</th>
-                    <td>{{ examen.gradoRiesgo }}</td>
-                </tr>
-                <tr>
-                    <th>Antecedentes</th>
-                    <td>{{ examen.antecedentes }}</td>
-                </tr>
-                <tr>
-                    <th>Procedimiento</th>
-                    <td>{{ examen.procedimiento }}</td>
-                </tr>
-                <tr>
-                    <th>Ruido1</th>
-                    <td>{% if examen.ruido1 %}Yes{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido2</th>
-                    <td>{% if examen.ruido2 %}Yes{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido3</th>
-                    <td>{% if examen.ruido3 %}Yes{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido4</th>
-                    <td>{% if examen.ruido4 %}Yes{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Tensionarterialsistolica</th>
-                    <td>{{ examen.tensionArterialSistolica }}</td>
-                </tr>
-                <tr>
-                    <th>Tensionarterialdiastolica</th>
-                    <td>{{ examen.tensionArterialDiastolica }}</td>
-                </tr>
-                <tr>
-                    <th>Soplos</th>
-                    <td>{% if examen.soplos %}Yes{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Comentarios</th>
-                    <td>{{ examen.comentarios }}</td>
-                </tr>
-                <tr>
-                    <th>Aparatorespiratorio</th>
-                    <td>{{ examen.aparatoRespiratorio }}</td>
-                </tr>
-                <tr>
-                    <th>Electrocardiograma</th>
-                    <td>{{ examen.electrocardiograma }}</td>
-                </tr>
-                <tr>
-                    <th>Spoloscomentario</th>
-                    <td>{{ examen.spolosComentario }}</td>
-                </tr>
-            </tbody>
-        </table>
+{% block main %}
+    <h1>Examen</h1>
 
-        <a class="btn btn-link" href="{{ path('examen_index') }}">Volver al listado</a>
-    {% endblock %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ examen.fecha|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Derivado desde</th>
+                <td>{{ examen.derivadoDesde|default('-') }}</td>
+            </tr>
+            <tr>
+                <th>Procedimiento</th>
+                <td>{{ examen.procedimiento }}</td>
+            </tr>
+            <tr>
+                <th>Otros factores</th>
+                <td>{{ examen.otrosFactores|default('-') }}</td>
+            </tr>
+            <tr>
+                <th>Otras medicaciones</th>
+                <td>{{ examen.otrasMedicaciones|default('-') }}</td>
+            </tr>
+            <tr>
+                <th>Antecedentes</th>
+                <td>
+                {% if examen.antecedentes is not empty %}
+                    <textarea readonly>{{ examen.antecedentes }}</textarea>
+                {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Tensión arterial sistólica</th>
+                <td>{{ examen.tensionArterialSistolica }}</td>
+            </tr>
+            <tr>
+                <th>Tensión arterial diastólica</th>
+                <td>{{ examen.tensionArterialDiastolica }}</td>
+            </tr>
+            <tr>
+                <th>Ruido 1</th>
+                <td>{% if examen.ruido1 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 2</th>
+                <td>{% if examen.ruido2 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 3</th>
+                <td>{% if examen.ruido3 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 4</th>
+                <td>{% if examen.ruido4 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Soplos</th>
+                <td>{% if examen.soplos %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Soplos comentario</th>
+                <td>
+                    {% if examen.soplosComentario is not empty %}
+                        <textarea readonly>{{ examen.soplosComentario }}</textarea>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Aparato respiratorio</th>
+                <td>
+                    {% if examen.aparatoRespiratorio is not empty %}
+                        <textarea readonly>{{ examen.aparatoRespiratorio }}</textarea>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Electrocardiograma</th>
+                <td>
+                    {% if examen.electrocardiograma is not empty %}
+                        <textarea readonly>{{ examen.electrocardiograma }}</textarea>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Comentarios</th>
+                <td>
+                    {% if examen.comentarios is not empty %}
+                        <textarea readonly>{{ examen.comentarios }}</textarea>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Grado riesgo</th>
+                <td>{{ examen.gradoRiesgo }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-    {% block sidebar %}
-        <div class="section">
-            <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-lg btn-block btn-success">
-                <i class="fa fa-edit" aria-hidden="true"></i> Editar examen
-            </a>
-        </div>
+    <a class="btn btn-link" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Volver al listado de exámenes</a>
+{% endblock %}
 
-        <div class="section">
-            {{ include('_delete_form.html.twig', {
-            form: delete_form,
-            button_label: 'Eliminar examen',
-            button_css: 'btn-lg btn-block',
-        }) }}
-        </div>
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar examen
+        </a>
+    </div>
 
-        {{ parent() }}
-    {% endblock %}
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+        form: delete_form,
+        button_label: 'Eliminar examen',
+        button_css: 'btn-lg btn-block',
+    }) }}
+    </div>
+
+    {{ parent() }}
+{% endblock %}

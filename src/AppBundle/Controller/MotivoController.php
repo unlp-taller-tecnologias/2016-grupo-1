@@ -74,7 +74,6 @@ class MotivoController extends Controller
      */
     public function editAction(Request $request, Motivo $motivo)
     {
-        $deleteForm = $this->createDeleteForm($motivo);
         $editForm = $this->createForm('AppBundle\Form\MotivoType', $motivo);
         $editForm->handleRequest($request);
 
@@ -89,7 +88,6 @@ class MotivoController extends Controller
         return $this->render('motivo/edit.html.twig', [
             'motivo' => $motivo,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -117,7 +115,6 @@ class MotivoController extends Controller
      * Creates a form to delete a Motivo entity.
      *
      * @param Motivo $motivo The Motivo entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Motivo $motivo)

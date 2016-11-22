@@ -39,27 +39,15 @@ class Visita
      */
     protected $notasPersonales;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Motivo")
-     * @ORM\JoinTable(name="visita_motivo",
-     *      joinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="motivo_id", referencedColumnName="id")}
-     *      )
-     */
+    /** @ORM\ManyToMany(targetEntity="Motivo") */
     protected $motivos;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Diagnostico")
-     * @ORM\JoinTable(name="visita_diagnostico",
-     *      joinColumns={@ORM\JoinColumn(name="visita_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="diagnostico_id", referencedColumnName="id")}
-     *      )
-     */
+    /** @ORM\ManyToMany(targetEntity="Diagnostico") */
     protected $diagnosticos;
 
     /**
      * @ORM\ManyToOne(targetEntity="Paciente", inversedBy="visitas")
-     * @ORM\JoinColumn(name="paciente_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $paciente;
 
@@ -71,12 +59,17 @@ class Visita
 
 
     /**
-     * Constructor
+     * Visita constructor
+     *
+     * @param Paciente $paciente
+     * @param Usuario $medico
      */
-    public function __construct()
+    public function __construct(Paciente $paciente, Usuario $medico)
     {
         $this->motivos = new ArrayCollection();
         $this->diagnosticos = new ArrayCollection();
+        $this->paciente = $paciente;
+        $this->medico = $medico;
     }
 
     /**
@@ -194,12 +187,12 @@ class Visita
     /**
      * Add diagnosticos
      *
-     * @param Diagnostico $diagnosticos
+     * @param Diagnostico $diagnostico
      * @return Visita
      */
-    public function addDiagnostico(Diagnostico $diagnosticos)
+    public function addDiagnostico(Diagnostico $diagnostico)
     {
-        $this->diagnosticos[] = $diagnosticos;
+        $this->diagnosticos[] = $diagnostico;
 
         return $this;
     }
@@ -207,11 +200,11 @@ class Visita
     /**
      * Remove diagnosticos
      *
-     * @param Diagnostico $diagnosticos
+     * @param Diagnostico $diagnostico
      */
-    public function removeDiagnostico(Diagnostico $diagnosticos)
+    public function removeDiagnostico(Diagnostico $diagnostico)
     {
-        $this->diagnosticos->removeElement($diagnosticos);
+        $this->diagnosticos->removeElement($diagnostico);
     }
 
     /**

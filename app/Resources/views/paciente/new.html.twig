@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
 {% block body_id 'paciente_new' %}
 
@@ -6,14 +6,15 @@
     <h1>Agregar paciente</h1>
 
     {{ form_start(form) }}
-        {{ form_row(form.dni) }}
+        {{ form_row(form.dni, { 'attr': {'class': 'hide-spinners'}}) }}
         {{ form_row(form.nombre) }}
         {{ form_row(form.apellido) }}
         {{ form_row(form.edad) }}
         {{ form_row(form.sexo) }}
         {{ form_row(form.localidad) }}
         {{ form_row(form.obraSocial) }}
+
         <input type="submit" value="Guardar" class="btn btn-primary" />
-        <a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado</a>
+        <a class="btn btn-danger" href="{{ path('paciente_index') }}">Cancelar</a>
     {{ form_end(form) }}
 {% endblock %}

@@ -1,17 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/base.html.twig' %}
 
-{% block body_id 'visita_index' %}
+{% block body_id 'paciente_historia-clinica' %}
 
 {% block main %}
-    <h1>Registro de visitas de {{ paciente.nombre }} {{ paciente.apellido }}</h1>
+    <h1>Historia clínica de {{ paciente }}</h1>
 
     {% if visitas is not empty %}
+    {{ include ('_delete_entity_confirmation.html.twig') }}
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Fecha</th>
-                <th>Observaciones</th>
-                <th>Notas personales</th>
+                <th>Médico</th>
                 <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
@@ -19,8 +19,7 @@
         {% for visita in visitas %}
             <tr>
                 <td>{% if visita.fecha %}{{ visita.fecha|date('d-m-Y') }}{% endif %}</td>
-                <td>{{ visita.observaciones }}</td>
-                <td>{{ visita.notasPersonales }}</td>
+                <td>{{ visita.medico }}</td>
                 <td>
                     <div class="item-actions">
                         <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
@@ -30,6 +29,7 @@
                         {{ include('_delete_form.html.twig', {
                             attr: {'style': 'display: inline-block'},
                             form: delete_forms[visita.id],
+                            includeModal: false,
                             button_label: 'Eliminar',
                             button_css: 'btn-sm',
                         }) }}
@@ -39,14 +39,15 @@
         {% endfor %}
         </tbody>
     </table>
+    <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
     {% else %}
-    <p>Aún no existe ningún registro de visita para el paciente.</p>
+        <p>Aún no se ha registrado ninguna visita para el paciente.</p>
     {% endif %}
 {% endblock %}
 
 {% block sidebar %}
-    <div class="section actions">
-        <a href="{{ path('visita_new', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
+    <div class="section">
+        <a href="{{ path('paciente_registrar-visita', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> Nueva visita
         </a>
     </div>
