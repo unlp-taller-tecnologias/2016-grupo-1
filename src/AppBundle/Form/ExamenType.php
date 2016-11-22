@@ -54,10 +54,10 @@ class ExamenType extends AbstractType
             ->add('comentarios')
             ->add('gradoRiesgo', ChoiceType::class, [
                 'choices' => [
-                    '1 (uno)' => 1,
-                    '2 (dos)' => 2,
-                    '3 (tres) con monitoreo cardiológico' => 3,
-                    '4 (cuatro) se contraindica cirugia' => 4,
+                    '1' => 1,
+                    '2' => 2,
+                    '3 (con monitoreo cardiológico)' => 3,
+                    '4 (se contraindica cirugía)' => 4,
                 ],
                 'multiple' => false,
                 'expanded' => true,
