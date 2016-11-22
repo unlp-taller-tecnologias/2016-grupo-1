@@ -82,7 +82,7 @@ class PartidoController extends Controller
             $em->persist($partido);
             $em->flush();
 
-            return $this->redirectToRoute('partido_edit', ['id' => $partido->getId()]);
+            return $this->redirectToRoute('partido_show', ['id' => $partido->getId()]);
         }
 
         return $this->render('partido/edit.html.twig', [

@@ -82,7 +82,7 @@ class MedicacionController extends Controller
             $em->persist($medicacion);
             $em->flush();
 
-            return $this->redirectToRoute('medicacion_edit', ['id' => $medicacion->getId()]);
+            return $this->redirectToRoute('medicacion_show', ['id' => $medicacion->getId()]);
         }
 
         return $this->render('medicacion/edit.html.twig', [

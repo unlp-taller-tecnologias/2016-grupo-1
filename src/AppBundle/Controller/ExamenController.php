@@ -95,7 +95,7 @@ class ExamenController extends Controller
             $em->persist($examen);
             $em->flush();
 
-            return $this->redirectToRoute('examen_edit', ['id' => $examen->getId()]);
+            return $this->redirectToRoute('examen_show', ['id' => $examen->getId()]);
         }
 
         return $this->render('examen/edit.html.twig', [

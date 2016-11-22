@@ -82,7 +82,7 @@ class LocalidadController extends Controller
             $em->persist($localidad);
             $em->flush();
 
-            return $this->redirectToRoute('localidad_edit', ['id' => $localidad->getId()]);
+            return $this->redirectToRoute('localidad_show', ['id' => $localidad->getId()]);
         }
 
         return $this->render('localidad/edit.html.twig', [

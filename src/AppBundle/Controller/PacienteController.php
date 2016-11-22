@@ -162,7 +162,7 @@ class PacienteController extends Controller
             $em->persist($paciente);
             $em->flush();
 
-            return $this->redirectToRoute('paciente_edit', ['id' => $paciente->getId()]);
+            return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
         return $this->render('paciente/edit.html.twig', [
