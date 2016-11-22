@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -51,7 +52,17 @@ class ExamenType extends AbstractType
             ->add('aparatoRespiratorio')
             ->add('electrocardiograma')
             ->add('comentarios')
-            ->add('gradoRiesgo', null, ['label' => 'Riesgo cardiológico grado'])
+            ->add('gradoRiesgo', ChoiceType::class, [
+                'choices' => [
+                    '1 (uno)' => 1,
+                    '2 (dos)' => 2,
+                    '3 (tres) con monitoreo cardiológico' => 3,
+                    '4 (cuatro) se contraindica cirugia' => 4,
+                ],
+                'multiple' => false,
+                'expanded' => true,
+                'choices_as_values' => true,
+            ])
         ;
     }
 

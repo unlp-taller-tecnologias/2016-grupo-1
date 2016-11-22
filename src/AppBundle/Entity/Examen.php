@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Examen
@@ -32,7 +33,15 @@ class Examen
     /** @ORM\Column(name="derivado_desde", type="string", nullable=true) */
     protected $derivadoDesde;
 
-    /** @ORM\Column(name="grado_riesgo", type="integer") */
+    /**
+     * @ORM\Column(name="grado_riesgo", type="integer")
+     * @Assert\Range(
+     *     min=1,
+     *     minMessage="El grado debe ser un valor entre 1 y 3",
+     *     max=3,
+     *     maxMessage="El grado debe ser un valor entre 1 y 3"
+     * )
+     */
     protected $gradoRiesgo;
 
     /** @ORM\Column(name="antecedentes", type="text", nullable=true) */
