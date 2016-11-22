@@ -13,8 +13,7 @@ $(document).ready(function () {
     $('.input-datepicker').datepicker({
         language: 'es',
         autoclose: true,
-        format: 'dd/mm/yyyy',
-        enableOnReadonly: false
+        format: 'dd/mm/yyyy'
     });
 });
 
