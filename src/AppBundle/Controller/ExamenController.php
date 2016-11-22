@@ -6,11 +6,13 @@ use AppBundle\Entity\Examen;
 use AppBundle\Entity\Paciente;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Examen controller.
+ * @Security("has_role('ROLE_MEDICO')")
  */
 class ExamenController extends Controller
 {
@@ -19,6 +21,7 @@ class ExamenController extends Controller
      *
      * @Route("/paciente/{id}/examenes", name="paciente_examenes")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction(Paciente $paciente)
     {
@@ -68,6 +71,7 @@ class ExamenController extends Controller
      *
      * @Route("/examen/{id}", name="examen_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(Examen $examen)
     {

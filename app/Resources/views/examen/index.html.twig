@@ -23,19 +23,22 @@
                 <td>{{ examen.medico }}</td>
                 <td>{{ examen.gradoRiesgo }}</td>
                 <td>
-                    <div class="item-actions">
-                        <a href="{{ path('examen_show', { 'id': examen.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                        <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                        </a>
-                        {{ include('_delete_form.html.twig', {
-                            attr: {'style': 'display: inline-block'},
-                            form: delete_forms[examen.id],
-                            includeModal: false,
-                            button_label: 'Eliminar',
-                            button_css: 'btn-sm',
-                        }) }}
-                    </div>
+                    {# TODO: Añadir botón para imprimir examen #}
+                    {% if is_granted('ROLE_MEDICO') %}
+                        <div class="item-actions">
+                            <a href="{{ path('examen_show', { 'id': examen.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                            <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                            </a>
+                            {{ include('_delete_form.html.twig', {
+                                attr: {'style': 'display: inline-block'},
+                                form: delete_forms[examen.id],
+                                includeModal: false,
+                                button_label: 'Eliminar',
+                                button_css: 'btn-sm',
+                            }) }}
+                        </div>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -48,11 +51,13 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="section">
-        <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
-        </a>
-    </div>
+    {% if is_granted('ROLE_MEDICO') %}
+        <div class="section">
+            <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
+            </a>
+        </div>
+    {% endif %}
 
     {{ parent() }}
 {% endblock %}
