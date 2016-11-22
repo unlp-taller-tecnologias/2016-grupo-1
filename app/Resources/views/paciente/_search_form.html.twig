@@ -1,6 +1,7 @@
 {{ form_start(busqueda, { attr: attr }) }}
     {{ form_widget(busqueda) }}
-    <button type="submit" class="btn btn-primary {{ button_css|default("") }}">
+    <button type="submit" class="btn btn-block btn-primary {{ button_css|default("") }}">
         <i class="fa fa-search" aria-hidden="true"></i> {{ button_label|default('Buscar') }}
     </button>
+    <a class="btn btn-sm btn-block btn-default" href="{{ path('paciente_index') }}">Quitar filtros</a>
 {{ form_end(busqueda) }}
