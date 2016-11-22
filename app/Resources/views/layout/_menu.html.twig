@@ -1,17 +1,15 @@
-<div id="wrapper">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand">Panel</li>
-            <li><a href="{{ path('paciente_index') }}">Pacientes</a></li>
-            <li><a href="{{ path('usuario_index') }}">Usuarios</a></li>
-            {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('motivo_index') }}">Motivos de consulta</a></li>
-                <li><a href="{{ path('diagnostico_index') }}">Diagnósticos</a></li>
-                <li><a href="{{ path('partido_index') }}">Partidos</a></li>
-                <li><a href="{{ path('localidad_index') }}">Localidades</a></li>
-                <li><a href="{{ path('medicacion_index') }}">Medicaciones</a></li>
-                <li><a href="{{ path('factor_index') }}">Factores de riesgo</a></li>
-            {% endif %}
-        </ul>
-    </div>
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">Panel</li>
+        <li><a href="{{ path('paciente_index') }}">Pacientes</a></li>
+        <li><a href="{{ path('usuario_index') }}">Usuarios</a></li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('motivo_index') }}">Motivos de consulta</a></li>
+            <li><a href="{{ path('diagnostico_index') }}">Diagnósticos</a></li>
+            <li><a href="{{ path('partido_index') }}">Partidos</a></li>
+            <li><a href="{{ path('localidad_index') }}">Localidades</a></li>
+            <li><a href="{{ path('medicacion_index') }}">Medicaciones</a></li>
+            <li><a href="{{ path('factor_index') }}">Factores de riesgo</a></li>
+        {% endif %}
+    </ul>
 </div>

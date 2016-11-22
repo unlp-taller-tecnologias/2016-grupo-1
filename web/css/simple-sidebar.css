@@ -102,7 +102,7 @@
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 196px;
     }
 
     #wrapper.toggled {
@@ -110,7 +110,7 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 196px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
