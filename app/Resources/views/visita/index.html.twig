@@ -12,7 +12,9 @@
             <tr>
                 <th>Fecha</th>
                 <th>Médico</th>
-                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                {% if is_granted('ROLE_MEDICO') %}
+                    <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -20,21 +22,23 @@
             <tr>
                 <td>{% if visita.fecha %}{{ visita.fecha|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ visita.medico }}</td>
-                <td>
-                    <div class="item-actions">
-                        <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                        <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                        </a>
-                        {{ include('_delete_form.html.twig', {
-                            attr: {'style': 'display: inline-block'},
-                            form: delete_forms[visita.id],
-                            includeModal: false,
-                            button_label: 'Eliminar',
-                            button_css: 'btn-sm',
-                        }) }}
-                    </div>
-                </td>
+                {% if is_granted('ROLE_MEDICO') %}
+                    <td>
+                        <div class="item-actions">
+                            <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                            <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                            </a>
+                            {{ include('_delete_form.html.twig', {
+                                attr: {'style': 'display: inline-block'},
+                                form: delete_forms[visita.id],
+                                includeModal: false,
+                                button_label: 'Eliminar',
+                                button_css: 'btn-sm',
+                            }) }}
+                        </div>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
@@ -46,11 +50,15 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="section">
-        <a href="{{ path('paciente_registrar-visita', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> Nueva visita
-        </a>
-    </div>
+    {# TODO: Mostrar botón para impirmir historia clínica #}
+
+    {% if is_granted('ROLE_MEDICO') %}
+        <div class="section">
+            <a href="{{ path('paciente_registrar-visita', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Nueva visita
+            </a>
+        </div>
+    {% endif %}
 
     {{ parent() }}
 {% endblock %}

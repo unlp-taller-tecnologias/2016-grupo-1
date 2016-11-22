@@ -22,6 +22,7 @@ class VisitaController extends Controller
      *
      * @Route("/paciente/{id}/historia-clinica", name="paciente_historia-clinica")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
     public function indexAction(Paciente $paciente)
     {
