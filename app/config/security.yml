@@ -33,6 +33,8 @@ security:
                 provider: fos_userbundle
                 login_path: fos_user_security_login
                 csrf_token_generator: security.csrf.token_manager
+                default_target_path: paciente_index
+                always_use_default_target_path: true
 
             logout: true
             anonymous: true
