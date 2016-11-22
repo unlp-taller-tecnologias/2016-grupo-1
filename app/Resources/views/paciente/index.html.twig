@@ -47,7 +47,12 @@
         {{ knp_pagination_render(pacientes) }}
     </div>
     {% else %}
-        <p>Aún no se ha registrado ningún paciente.</p>
+        {% if path(app.request.attributes.get('_route')) == path('paciente_search') %}
+            <p>Lo sentimos, ningún paciente satisface los criterios de búsqueda.</p>
+            <p>¿Desea <a href="{{ path('paciente_index') }}">ver el listado completo</a>?</p>
+        {% else %}
+            <p>Aún no se ha registrado ningún paciente.</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
