@@ -96,7 +96,7 @@ class Usuario extends FOSUser
      */
     public function setNombre($nombre)
     {
-        $this->nombre = $nombre;
+        $this->nombre = ucwords(strtolower($nombre));
 
         return $this;
     }
@@ -119,7 +119,7 @@ class Usuario extends FOSUser
      */
     public function setApellido($apellido)
     {
-        $this->apellido = $apellido;
+        $this->apellido = ucwords(strtolower($apellido));
 
         return $this;
     }

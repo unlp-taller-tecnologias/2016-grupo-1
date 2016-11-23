@@ -69,7 +69,7 @@ class Localidad
      */
     public function setLocalidad($localidad)
     {
-        $this->localidad = $localidad;
+        $this->localidad = ucwords(strtolower($localidad));
 
         return $this;
     }

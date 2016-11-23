@@ -121,7 +121,7 @@ class Paciente
      */
     public function setNombre($nombre)
     {
-        $this->nombre = $nombre;
+        $this->nombre = ucwords(strtolower($nombre));
 
         return $this;
     }
@@ -144,7 +144,7 @@ class Paciente
      */
     public function setApellido($apellido)
     {
-        $this->apellido = $apellido;
+        $this->apellido = ucwords(strtolower($apellido));
 
         return $this;
     }

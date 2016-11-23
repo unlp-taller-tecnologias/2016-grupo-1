@@ -58,7 +58,7 @@ class Partido
      */
     public function setPartido($partido)
     {
-        $this->partido = $partido;
+        $this->partido = ucwords(strtolower($partido));
 
         return $this;
     }
