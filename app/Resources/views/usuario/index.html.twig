@@ -10,9 +10,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>DNI</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
-                <th>DNI</th>
                 <th>Profesión</th>
                 <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
@@ -20,9 +20,9 @@
         <tbody>
         {% for usuario in usuarios %}
             <tr>
+                <td>{{ usuario.username }}</td>
                 <td>{{ usuario.nombre }}</td>
                 <td>{{ usuario.apellido }}</td>
-                <td>{{ usuario.username }}</td>
                 <td>{{ usuario.profesion|capitalize }}</td>
                 <td>
                     <div class="item-actions">

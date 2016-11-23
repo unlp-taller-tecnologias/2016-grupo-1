@@ -23,8 +23,6 @@ class UsuarioType extends AbstractType
         $this->buildUserForm($builder, $options);
 
         $builder
-            ->add('nombre')
-            ->add('apellido')
             ->add('username', IntegerType::class, [
                 'label' => 'DNI',
                 'attr' => [
@@ -32,6 +30,8 @@ class UsuarioType extends AbstractType
                     'max' => '99999999',
                 ]
             ])
+            ->add('nombre')
+            ->add('apellido')
             ->add('telefono', null, ['label' => 'Teléfono'])
             ->add('profesion', ChoiceType::class, [
                 'placeholder' => '- Seleccione una opción -',

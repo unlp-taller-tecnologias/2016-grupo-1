@@ -16,22 +16,6 @@
                 <td><a href="{{ path('usuario_show', {'id': visita.medico.id }) }}">{{ visita.medico }}</a></td>
             </tr>
             <tr>
-                <th>Observaciones</th>
-                <td>
-                {% if visita.observaciones is not empty %}
-                    <textarea readonly>{{ visita.observaciones }}</textarea>
-                {% else %}-{% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Notas personales</th>
-                <td>
-                {% if visita.notasPersonales is not empty %}
-                    <textarea readonly>{{ visita.notasPersonales }}</textarea>
-                {% else %}-{% endif %}
-                </td>
-            </tr>
-            <tr>
                 <th>Motivos de consulta</th>
                 <td>
                 {% if visita.motivos is not empty %}
@@ -44,6 +28,14 @@
                 </td>
             </tr>
             <tr>
+                <th>Observaciones</th>
+                <td>
+                {% if visita.observaciones is not empty %}
+                    <textarea readonly>{{ visita.observaciones }}</textarea>
+                {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
                 <th>Diagnósticos</th>
                 <td>
                 {% if visita.diagnosticos is not empty %}
@@ -52,6 +44,14 @@
                             <li>{{ diagnostico.diagnostico }}</li>
                         {% endfor %}
                     </ul>
+                {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Notas personales</th>
+                <td>
+                {% if visita.notasPersonales is not empty %}
+                    <textarea readonly>{{ visita.notasPersonales }}</textarea>
                 {% else %}-{% endif %}
                 </td>
             </tr>

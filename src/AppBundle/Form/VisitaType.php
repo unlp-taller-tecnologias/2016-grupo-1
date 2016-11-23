@@ -25,14 +25,14 @@ class VisitaType extends AbstractType
                 'format' => 'dd/MM/yyyy',
                 'data' => new \DateTime()
             ])
+            ->add('motivos')
             ->add('observaciones', TextareaType::class, [
                 'required' => false,
             ])
+            ->add('diagnosticos', null, ['label' => 'Diagnósticos'])
             ->add('notasPersonales', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('motivos')
-            ->add('diagnosticos', null, ['label' => 'Diagnósticos'])
         ;
     }
 

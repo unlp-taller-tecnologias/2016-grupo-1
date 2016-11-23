@@ -221,8 +221,8 @@ class PacienteController extends Controller
                 'required' => false,
                 'data' => ($parametros === null || !isset($parametros["dni"]) || empty($parametros["dni"])) ? null : $parametros["dni"]
             ))
-            ->add("apellido", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
             ->add("nombre", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
+            ->add("apellido", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
             ->add("tipo", \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
                 'required' => false,
                 'multiple' => false,
