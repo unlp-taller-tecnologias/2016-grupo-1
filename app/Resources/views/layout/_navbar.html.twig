@@ -19,18 +19,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% block header_navigation_links %}
-                        <li>
-                            <a href="/"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a>
-                        </li>
+                        {% if app.user.id is defined %}
+                            <li>
+                                <a href="{{ path('usuario_show', {'id': app.user.id }) }}">
+                                    {% if app.user.profesion == constant('AppBundle\\Entity\\Usuario::PROFESION_MEDICO') %}
+                                        <i class="fa fa-user-md" aria-hidden="true"></i>
+                                    {% else %}
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    {% endif %}
+                                {{ app.user }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endblock %}
 
-                    {% if app.user %}
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
-                            </a>
-                        </li>
-                    {% endif %}
                 </ul>
             </div>
         </div>
