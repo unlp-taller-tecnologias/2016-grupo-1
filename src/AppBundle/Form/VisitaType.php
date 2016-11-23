@@ -20,7 +20,11 @@ class VisitaType extends AbstractType
             ->add('fecha', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => false,
-                'attr' => ['class' => 'input-datepicker', 'readonly' => true],
+                'attr' => [
+                    'class' => 'input-datepicker',
+                    'data-date-end-date' => '0d',
+                    'readonly' => true
+                ],
                 'placeholder' => 'Haga clic para seleccionar una fecha',
                 'format' => 'dd/MM/yyyy',
                 'data' => new \DateTime()
