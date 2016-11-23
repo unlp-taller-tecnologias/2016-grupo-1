@@ -28,7 +28,7 @@
         <div class="container body-container">
             {% block body %}
                 <div class="row">
-                    <div id="main" class="col-sm-9">
+                    <div id="main" class="col-sm-8">
                         {# TODO: flash menssages #}
                         {% block main %}{% endblock %}
                     </div>
@@ -51,10 +51,10 @@
             {% endblock %}
         </div>
 
+    </div>
         {% block footer %}
             {% include 'layout/_footer.html.twig' %}
         {% endblock %}
-    </div>
 
     {% block javascripts %}
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

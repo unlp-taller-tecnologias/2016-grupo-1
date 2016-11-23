@@ -30,7 +30,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000;
+    background-color: transparent;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -76,8 +76,8 @@
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
+    color: #2c3e50;
+    background: #eee;
 }
 
 .sidebar-nav li a:active,
@@ -87,6 +87,7 @@
 
 .sidebar-nav > .sidebar-brand {
     height: 65px;
+    border-bottom: 2px solid #eee;
     font-size: 18px;
     line-height: 60px;
 }
