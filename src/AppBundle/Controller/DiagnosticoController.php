@@ -82,7 +82,7 @@ class DiagnosticoController extends Controller
             $em->persist($diagnostico);
             $em->flush();
 
-            return $this->redirectToRoute('diagnostico_show', ['id' => $diagnostico->getId()]);
+            return $this->redirectToRoute('diagnostico_index');
         }
 
         return $this->render('diagnostico/edit.html.twig', [
