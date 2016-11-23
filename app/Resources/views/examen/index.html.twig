@@ -53,7 +53,7 @@
 {% block sidebar %}
     {% if is_granted('ROLE_MEDICO') %}
         <div class="section">
-            <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-lg btn-block btn-success">
+            <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-success">
                 <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
             </a>
         </div>
