@@ -160,3 +160,7 @@ label.required:after {
 input[type=number].hide-spinners {
   -moz-appearance: textfield;
 }
+
+.input-datepicker {
+  background-color: #fff !important;
+}
