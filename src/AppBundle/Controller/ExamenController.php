@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Examen;
 use AppBundle\Entity\Paciente;
+use AppBundle\Repository\ExamenRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -23,9 +24,16 @@ class ExamenController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction(Paciente $paciente)
+    public function indexAction(Request $request, Paciente $paciente)
     {
-        $examenes = $paciente->getExamenes();
+        /** @var ExamenRepository $examenesRepo */
+        $examenesRepo = $this->getDoctrine()->getRepository('AppBundle:Examen');
+        $examenesQB = $examenesRepo->findByPaciente($paciente);
+        $examenes = $this->get('knp_paginator')->paginate(
+            $examenesQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Examen $examen */

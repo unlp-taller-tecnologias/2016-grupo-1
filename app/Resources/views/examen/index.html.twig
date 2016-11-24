@@ -44,6 +44,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(examenes) }}
+    </div>
     <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
     {% else %}
         <p>Aún no existe ningún registro de examen prequirúrgico.</p>

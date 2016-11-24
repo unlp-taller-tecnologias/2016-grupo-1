@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Paciente;
 use AppBundle\Entity\Visita;
+use AppBundle\Repository\VisitaRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,17 @@ class VisitaController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction(Paciente $paciente)
+    public function indexAction(Request $request, Paciente $paciente)
     {
-        $visitas = $paciente->getVisitas();
-        
+        /** @var VisitaRepository $visitasRepo */
+        $visitasRepo = $this->getDoctrine()->getRepository('AppBundle:Visita');
+        $visitasQB = $visitasRepo->findByPaciente($paciente);
+        $visitas = $this->get('knp_paginator')->paginate(
+            $visitasQB,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         $deleteForms = [];
         /** @var Visita $visita */
         foreach ($visitas as $visita){
