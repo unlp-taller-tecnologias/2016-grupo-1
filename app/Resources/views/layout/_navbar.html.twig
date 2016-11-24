@@ -1,6 +1,6 @@
 <header>
     <div class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="{{ path('paciente_index') }}">
                     <p>Servicio de Cardiología</p>
@@ -23,9 +23,9 @@
                             <li>
                                 <a href="{{ path('usuario_show', {'id': app.user.id }) }}">
                                     {% if app.user.profesion == constant('AppBundle\\Entity\\Usuario::PROFESION_MEDICO') %}
-                                        <i class="fa fa-user-md" aria-hidden="true"></i>
+                                        <i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;
                                     {% else %}
-                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
                                     {% endif %}
                                 {{ app.user }}
                                 </a>
