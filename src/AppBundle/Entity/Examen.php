@@ -37,9 +37,9 @@ class Examen
      * @ORM\Column(name="grado_riesgo", type="integer")
      * @Assert\Range(
      *     min=1,
-     *     minMessage="El grado debe ser un valor entre 1 y 3",
-     *     max=3,
-     *     maxMessage="El grado debe ser un valor entre 1 y 3"
+     *     minMessage="El grado debe ser un valor entre 1 y 4",
+     *     max=4,
+     *     maxMessage="El grado debe ser un valor entre 1 y 4"
      * )
      */
     protected $gradoRiesgo;
