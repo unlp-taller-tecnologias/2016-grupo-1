@@ -92,11 +92,13 @@ class UsuarioController extends Controller
     {
         $deleteForm = $this->createDeleteForm($usuario);
         $switchEnabledForm = $this->createSwitchEnabledForm($usuario);
+        $switchAdminForm = $this->createSwitchAdminForm($usuario);
 
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
             'delete_form' => $deleteForm->createView(),
             'switch_enabled_form' => $switchEnabledForm->createView(),
+            'switch_admin_form' => $switchAdminForm->createView(),
         ]);
     }
 
@@ -189,6 +191,43 @@ class UsuarioController extends Controller
     }
 
     /**
+     * Otorgar rol de administrador a un usuario
+     *
+     * @Route("/{id}/otorgar-admin", name="usuario_promote")
+     * @Method("POST")
+     */
+    public function promoteAction(Usuario $usuario)
+    {
+        return $this->switchPromotion($usuario, true);
+    }
+
+    /**
+     * Quitar rol de administrador a un usuario
+     *
+     * @Route("/{id}/quitar-admin", name="usuario_demote")
+     * @Method("POST")
+     */
+    public function demoteAction(Usuario $usuario)
+    {
+        return $this->switchPromotion($usuario, false);
+    }
+
+    private function switchPromotion(Usuario $usuario, $promote)
+    {
+        if ($promote) {
+            $usuario->addRole('ROLE_ADMIN');
+        } else {
+            $usuario->removeRole('ROLE_ADMIN');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($usuario);
+        $em->flush();
+
+        return $this->redirectToRoute('usuario_show', ['id' => $usuario->getId()]);
+    }
+
+    /**
      * Crea un formulario para eliminar un usuario
      *
      * @param Usuario $usuario
@@ -220,6 +259,28 @@ class UsuarioController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl($action, ['id' => $usuario->getId()]))
             ->add('usuario_enabled', HiddenType::class, ['data' => $usuario->isEnabled()])
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Crea un formulario para otorgar/quitar rol de administrador
+     * a un usuario
+     *
+     * @param Usuario $usuario
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createSwitchAdminForm(Usuario $usuario)
+    {
+        if ($usuario->hasRole('ROLE_ADMIN')) {
+            $action = 'usuario_demote';
+        } else {
+            $action = 'usuario_promote';
+        }
+
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl($action, ['id' => $usuario->getId()]))
+            ->add('usuario_admin', HiddenType::class, ['data' => $usuario->hasRole('ROLE_ADMIN')])
             ->getForm()
         ;
     }

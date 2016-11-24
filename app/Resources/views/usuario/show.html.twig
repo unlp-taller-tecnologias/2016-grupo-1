@@ -48,15 +48,28 @@
 
         <div class="section">
             {{ form_start(switch_enabled_form) }}
-            {{ form_widget(switch_enabled_form) }}
-            <button type="submit" class="btn btn-primary btn-md btn-block">
-                {% if switch_enabled_form.usuario_enabled.vars.value %}
-                    <i class="fa fa-toggle-on" aria-hidden="true"></i> Deshabilitar usuario
-                {% else %}
-                    <i class="fa fa-toggle-off" aria-hidden="true"></i> Habilitar usuario
-                {% endif %}
-            </button>
+                {{ form_widget(switch_enabled_form) }}
+                <button type="submit" class="btn btn-primary btn-md btn-block">
+                    {% if switch_enabled_form.usuario_enabled.vars.value %}
+                        <i class="fa fa-toggle-on" aria-hidden="true"></i> Deshabilitar usuario
+                    {% else %}
+                        <i class="fa fa-toggle-off" aria-hidden="true"></i> Habilitar usuario
+                    {% endif %}
+                </button>
             {{ form_end(switch_enabled_form) }}
+        </div>
+
+        <div class="section">
+            {{ form_start(switch_admin_form) }}
+                {{ form_widget(switch_admin_form) }}
+                <button type="submit" class="btn btn-primary btn-md btn-block">
+                    {% if switch_admin_form.usuario_admin.vars.value %}
+                        <i class="fa fa-toggle-on" aria-hidden="true"></i> Quitar rol de administrador
+                    {% else %}
+                        <i class="fa fa-toggle-off" aria-hidden="true"></i> Convertir en administrador
+                    {% endif %}
+                </button>
+            {{ form_end(switch_admin_form) }}
         </div>
 
         <div class="section">
