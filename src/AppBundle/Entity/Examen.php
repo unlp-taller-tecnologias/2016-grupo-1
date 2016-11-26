@@ -47,7 +47,7 @@ class Examen
     /** @ORM\Column(name="antecedentes", type="text", nullable=true) */
     protected $antecedentes;
 
-    /** @ORM\Column(name="procedimiento", type="string") */
+    /** @ORM\Column(name="procedimiento", type="string", nullable=true) */
     protected $procedimiento;
 
     /** @ORM\ManyToMany(targetEntity="Factor") */
@@ -80,10 +80,10 @@ class Examen
     /** @ORM\Column(name="ruido_4", type="boolean", nullable=true) */
     protected $ruido4;
 
-    /** @ORM\Column(name="tension_arterial_sistolica", type="integer") */
+    /** @ORM\Column(name="tension_arterial_sistolica", type="integer", nullable=true) */
     protected $tensionArterialSistolica;
 
-    /** @ORM\Column(name="tension_arterial_diastolica", type="integer") */
+    /** @ORM\Column(name="tension_arterial_diastolica", type="integer", nullable=true) */
     protected $tensionArterialDiastolica;
 
     /** @ORM\Column(name="soplos", type="boolean") */

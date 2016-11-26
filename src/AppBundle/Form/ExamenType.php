@@ -34,12 +34,14 @@ class ExamenType extends AbstractType
             ->add('procedimiento')
             ->add('medicaciones', EntityType::class, [
                 'class' => 'AppBundle:Medicacion',
+                'required' => false,
                 'multiple' => true,
                 'expanded' => true,
             ])
             ->add('otrasMedicaciones')
             ->add('factores', EntityType::class, [
                 'class' => 'AppBundle:Factor',
+                'required' => false,
                 'multiple' => true,
                 'expanded' => true,
             ])
