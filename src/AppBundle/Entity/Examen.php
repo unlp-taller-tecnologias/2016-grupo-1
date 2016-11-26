@@ -554,6 +554,16 @@ class Examen
     }
 
     /**
+     * Get tensionArterialDiastolica
+     *
+     * @return integer
+     */
+    public function getTensionArterial()
+    {
+        return $this->tensionArterialSistolica . '/' . $this->tensionArterialDiastolica . ' mmHg';
+    }
+
+    /**
      * Set soplos
      *
      * @param boolean $soplos
