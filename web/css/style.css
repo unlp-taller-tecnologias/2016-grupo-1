@@ -152,6 +152,10 @@ label.required:after {
   color: #d00;
 }
 
+.radio label.required:after {
+  content: "";
+}
+
 .hide-spinners::-webkit-inner-spin-button,
 .hide-spinners::-webkit-outer-spin-button {
   -webkit-appearance: none;
