@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Examen
@@ -101,6 +102,21 @@ class Examen
     /** @ORM\Column(name="soplos_comentario", type="string", nullable=true) */
     protected $soplosComentario;
 
+    /** @Assert\Callback */
+    public function validarTension(ExecutionContextInterface $context)
+    {
+        if (isset($this->tensionArterialSistolica) xor isset($this->tensionArterialDiastolica)) {
+            $violationBuilder = $context->buildViolation('Por favor, complete ambos valores de la tensión.');
+
+            if (isset($this->tensionArterialSistolica)) {
+                $violationBuilder->atPath('tensionArterialDiastolica');
+            } else {
+                $violationBuilder->atPath('tensionArterialSistolica');
+            }
+
+            $violationBuilder->addViolation();
+        }
+    }
 
     /**
      * Examen constructor.
