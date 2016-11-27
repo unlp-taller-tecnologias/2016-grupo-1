@@ -29,7 +29,18 @@
             {% block body %}
                 <div class="row">
                     <div id="main" class="col-sm-8">
-                        {# TODO: flash menssages #}
+                        {% if app.request.hasPreviousSession %}
+                            {% for type, messages in app.session.flashbag.all() %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ type }} alert-dismissible text-center" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                         {% block main %}{% endblock %}
                     </div>
 

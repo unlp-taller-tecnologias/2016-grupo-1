@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Medicacion controller.
@@ -103,9 +104,18 @@ class MedicacionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
             $em->remove($medicacion);
-            $em->flush();
+            try {
+                $em->flush();
+                $message = 'La medicación ha sido eliminada satisfactoriamente';
+                $flashBag->add('success', $message);
+            } catch (\Exception $e) {
+                $message = 'Lo sentimos, la medicación no pudo ser eliminada';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('medicacion_index');

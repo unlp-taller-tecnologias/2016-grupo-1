@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Controlador de Usuario.
@@ -145,17 +146,28 @@ class UsuarioController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
             /** @var UsuarioRepository $usuariosRepo */
             $usuariosRepo = $em->getRepository('AppBundle:Usuario');
             if ($usuariosRepo->isRemovable($usuario)) {
                 $em->remove($usuario);
+                try {
+                    $em->flush();
+                    $message = 'El usuario ha sido eliminado satisfactoriamente';
+                    $flashBag->add('success', $message);
+                } catch (\Exception $e) {
+                    $message = 'Lo sentimos, el usuario no pudo ser eliminado';
+                    $flashBag->add('warning', $message);
+                }
             } else {
+                $message = 'Lo sentimos, el usuario no puede ser eliminado (se ha deshabilitado)';
+                $flashBag->add('warning', $message);
                 $usuario->setEnabled(false);
                 $em->persist($usuario);
+                $em->flush();
             }
-
-            $em->flush();
         }
 
         return $this->redirectToRoute('usuario_index');

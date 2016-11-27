@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Visita controller.
@@ -130,9 +131,18 @@ class VisitaController extends Controller
         $pacienteID = $visita->getPaciente()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
             $em->remove($visita);
-            $em->flush();
+            try {
+                $em->flush();
+                $message = 'La visita ha sido eliminada satisfactoriamente';
+                $flashBag->add('success', $message);
+            } catch (\Exception $e) {
+                $message = 'Lo sentimos, la visita no pudo ser eliminada';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('paciente_historia-clinica', ['id' => $pacienteID]);
