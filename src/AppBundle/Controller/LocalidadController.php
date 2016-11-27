@@ -104,8 +104,12 @@ class LocalidadController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($localidad);
-            $em->flush();
+            $pacientesRepo = $em->getRepository('AppBundle:Paciente');
+            if (!$pacientesRepo->findOneBy(['localidad' => $localidad])) { // La localidad no contiene pacientes
+                $em->remove($localidad);
+                $em->flush();
+            }
+            // TODO: Ofrecer mover los pacientes a otra localidad
         }
 
         return $this->redirectToRoute('localidad_index');

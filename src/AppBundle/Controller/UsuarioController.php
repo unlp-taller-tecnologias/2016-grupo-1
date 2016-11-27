@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Usuario;
+use AppBundle\Repository\UsuarioRepository;
 use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -145,7 +146,15 @@ class UsuarioController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($usuario);
+            /** @var UsuarioRepository $usuariosRepo */
+            $usuariosRepo = $em->getRepository('AppBundle:Usuario');
+            if ($usuariosRepo->isRemovable($usuario)) {
+                $em->remove($usuario);
+            } else {
+                $usuario->setEnabled(false);
+                $em->persist($usuario);
+            }
+
             $em->flush();
         }
 
