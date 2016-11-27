@@ -104,8 +104,11 @@ class PartidoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($partido);
-            $em->flush();
+            $localidadesRepo = $em->getRepository('AppBundle:Localidad');
+            if (!$localidadesRepo->findOneBy(['partido' => $partido])) { // El partido no contiene localidades
+                $em->remove($partido);
+                $em->flush();
+            }
         }
 
         return $this->redirectToRoute('partido_index');
