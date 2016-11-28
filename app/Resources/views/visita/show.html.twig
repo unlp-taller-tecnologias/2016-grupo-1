@@ -47,14 +47,16 @@
                 {% else %}-{% endif %}
                 </td>
             </tr>
-            <tr>
-                <th>Notas personales</th>
-                <td>
-                {% if visita.notasPersonales is not empty %}
-                    <textarea readonly>{{ visita.notasPersonales }}</textarea>
-                {% else %}-{% endif %}
-                </td>
-            </tr>
+            {% if app.user == visita.medico %}
+                <tr>
+                    <th>Notas personales</th>
+                    <td>
+                    {% if visita.notasPersonales is not empty %}
+                        <textarea readonly>{{ visita.notasPersonales }}</textarea>
+                    {% else %}-{% endif %}
+                    </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
