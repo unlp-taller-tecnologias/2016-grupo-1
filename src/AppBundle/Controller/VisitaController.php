@@ -92,6 +92,15 @@ class VisitaController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Visita $visita) {
+        if ($this->getUser() != $visita->getMedico()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
+            $message = 'La visita sólo puede ser modificada por el médico que la registró.';
+            $flashBag->add('danger', $message);
+
+            return $this->redirect($request->server->get('HTTP_REFERER'));
+        }
+
         $editForm = $this->createForm('AppBundle\Form\VisitaType', $visita);
         $editForm->handleRequest($request);
 
@@ -116,6 +125,15 @@ class VisitaController extends Controller {
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Visita $visita) {
+        if ($this->getUser() != $visita->getMedico()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
+            $message = 'La visita sólo puede ser eliminada por el médico que la registró.';
+            $flashBag->add('danger', $message);
+
+            return $this->redirect($request->server->get('HTTP_REFERER'));
+        }
+
         $form = $this->createDeleteForm($visita);
         $form->handleRequest($request);
 
