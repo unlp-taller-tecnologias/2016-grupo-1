@@ -2,101 +2,113 @@
 
 {% block block_id "examen_show" %}
 
-    {% block main %}
-        <h1>Examen</h1>
+{% block main %}
+    <h1>Evaluación prequirúrgica</h1>
 
-        <table>
-            <tbody>
-                <tr>
-                    <th>Fecha</th>
-                    <td>{{ examen.fecha|date('d/m/Y') }}</td>
-                </tr>
-                <tr>
-                    <th>Derivado desde</th>
-                    <td>{{ examen.derivadoDesde|default('-') }}</td>
-                </tr>
-                <tr>
-                    <th>Procedimiento</th>
-                    <td>{{ examen.procedimiento }}</td>
-                </tr>
-                <tr>
-                    <th>Otros factores</th>
-                    <td>{{ examen.otrosFactores|default('-') }}</td>
-                </tr>
-                <tr>
-                    <th>Otras medicaciones</th>
-                    <td>{{ examen.otrasMedicaciones|default('-') }}</td>
-                </tr>
-                <tr>
-                    <th>Antecedentes</th>
-                    <td>
-                        {% if examen.antecedentes is not empty %}
-                            <textarea readonly>{{ examen.antecedentes }}</textarea>
-                        {% else %}-{% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Tensión arterial</th>
-                    <td>{{ examen.tensionArterial }}</td>
-                </tr>
-                <tr>
-                    <th>Ruido 1</th>
-                    <td>{% if examen.ruido1 %}Sí{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido 2</th>
-                    <td>{% if examen.ruido2 %}Sí{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido 3</th>
-                    <td>{% if examen.ruido3 %}Sí{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Ruido 4</th>
-                    <td>{% if examen.ruido4 %}Sí{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Soplos</th>
-                    <td>{% if examen.soplos %}Sí{% else %}No{% endif %}</td>
-                </tr>
-                <tr>
-                    <th>Soplos comentario</th>
-                    <td>
-                        {% if examen.soplosComentario is not empty %}
-                            <textarea readonly>{{ examen.soplosComentario }}</textarea>
-                        {% else %}-{% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Aparato respiratorio</th>
-                    <td>
-                        {% if examen.aparatoRespiratorio is not empty %}
-                            <textarea readonly>{{ examen.aparatoRespiratorio }}</textarea>
-                        {% else %}-{% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Electrocardiograma</th>
-                    <td>
-                        {% if examen.electrocardiograma is not empty %}
-                            <textarea readonly>{{ examen.electrocardiograma }}</textarea>
-                        {% else %}-{% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Comentarios</th>
-                    <td>
-                        {% if examen.comentarios is not empty %}
-                            <textarea readonly>{{ examen.comentarios }}</textarea>
-                        {% else %}-{% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Grado riesgo</th>
-                    <td>{{ examen.gradoRiesgo }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ examen.fecha|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Nombre y Apellido</th>
+                <td>{{ examen.paciente }}</td>
+            </tr>
+            <tr>
+                <th>Edad</th>
+                <td>{{ examen.paciente.edad }}</td>
+            </tr>
+            <tr>
+                <th>Derivado desde</th>
+                <td>{{ examen.derivadoDesde|default('-') }}</td>
+            </tr>
+            <tr>
+                <th>Cirugía/Procedimiento</th>
+                <td>{{ examen.procedimiento }}</td>
+            </tr>
+            <tr>
+                <th>FRCV</th>
+                <td>
+                    {% if examen.factores is not empty %}
+                        <ul>
+                            {% for factor in examen.factores %}
+                                <li>{{ factor }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Otros factores</th>
+                <td>{{ examen.otrosFactores|default('-') }}</td>
+            </tr>
+            <tr>
+                <th>Medicación</th>
+                <td>
+                    {% if examen.medicaciones is not empty %}
+                        <ul>
+                            {% for medicacion in examen.medicaciones %}
+                                <li>{{ medicacion }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Otras medicaciones</th>
+                <td>{{ examen.otrasMedicaciones|default('-') }}</td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><label for="antecedentes">Antecedentes</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="2" id="antecedentes">{{ examen.antecedentes | default('Sin antecedentes') }}</textarea></td>
+            </tr>
+            <tr>
+                <th>Tensión arterial</th>
+                <td>{{ examen.tensionArterial }}</td>
+            </tr>
+            <tr>
+                <th>Ruido 1</th>
+                <td>{% if examen.ruido1 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 2</th>
+                <td>{% if examen.ruido2 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 3</th>
+                <td>{% if examen.ruido3 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ruido 4</th>
+                <td>{% if examen.ruido4 %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Soplos</th>
+                <td>{% if examen.soplos %}Sí{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><label for="soplos">Soplos comentarios</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="2" id="soplos">{{ examen.soplosComentario | default('No hay comentarios') }}</textarea></td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><label for="aparato-respiratorio">Aparato respiratorio</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="2" id="aparato-respiratorio">{{ examen.aparatoRespiratorio | default('-') }}</textarea></td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><label for="electro">Electrocardiograma</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="2" id="electro">{{ examen.electrocardiograma | default('-') }}</textarea></td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><label for="comentarios">Comentarios</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="5" id="comentarios">{{ examen.comentarios | default('No hay comentarios') }}</textarea></td>
+            </tr>
+            <tr>
+                <th>Grado riesgo</th>
+                <td>{{ examen.gradoRiesgo }}</td>
+            </tr>
+        </tbody>
+    </table>
 
         <a class="btn btn-link" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Volver al listado de exámenes</a>
     {% endblock %}
