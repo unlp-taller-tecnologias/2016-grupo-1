@@ -1,0 +1,50 @@
+{% extends 'layout/print/base.html.twig' %}
+
+{% block block_id  %}visita_print{%endblock%}
+{% block document_title %}Historia clínica | Paciente: {{paciente.apellido}}, {{paciente.nombre}}{%endblock%}
+
+{% block main %}
+    <div class="panel panel-primary">
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-xs-4">
+                    <span class="text-bold">Edad:</span> {{examen.paciente.edad|default('(no informada)')}}
+                </div>
+                <div class="col-xs-4">
+                    <span class="text-bold">Documento:</span> {{examen.paciente.dni|default('(no informado)')}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for visita in paciente.visitas %}
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                Atención del {{visita.fecha|date('d/m/Y')}}
+            </div>
+            <div class="panel panel-body">
+                {% if visita.motivos is not empty %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="text-bold">Motivo de consulta:</span> {{visita.motivos|join('; ')}}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{visita.observaciones}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span class="text-bold">Atendido por:</span> {{visita.medico}}
+                    </div>
+                </div>
+            </div>
+            {% if visita.diagnosticos is not empty %}
+                <div class="panel panel-footer">
+                    <span class="text-bold">Diagnóstico:</span> {{visita.diagnosticos|join('; ')}}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+    {% endblock %}

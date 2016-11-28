@@ -31,6 +31,7 @@ class Partido
 
     /**
      * @ORM\OneToMany(targetEntity="Localidad", mappedBy="partido")
+     * @ORM\OrderBy({"localidad" = "ASC"})
      */
     protected $localidades;
 

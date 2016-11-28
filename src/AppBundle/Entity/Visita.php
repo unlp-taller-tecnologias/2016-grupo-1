@@ -39,10 +39,16 @@ class Visita
      */
     protected $notasPersonales;
 
-    /** @ORM\ManyToMany(targetEntity="Motivo") */
+    /** 
+     * @ORM\ManyToMany(targetEntity="Motivo") 
+     * @ORM\OrderBy({"motivo" = "ASC"})
+     */
     protected $motivos;
 
-    /** @ORM\ManyToMany(targetEntity="Diagnostico") */
+    /** 
+     * @ORM\ManyToMany(targetEntity="Diagnostico") 
+     * @ORM\OrderBy({"diagnostico" = "ASC"})
+     */
     protected $diagnosticos;
 
     /**

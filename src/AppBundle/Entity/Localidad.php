@@ -42,6 +42,7 @@ class Localidad
 
     /**
      * @ORM\OneToMany(targetEntity="Paciente", mappedBy="localidad")
+     * @ORM\OrderBy({"apellido" = "ASC", "nombre" = "ASC"})
      */
     protected $pacientes;
 

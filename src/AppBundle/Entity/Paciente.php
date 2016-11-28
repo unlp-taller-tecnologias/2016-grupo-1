@@ -64,10 +64,16 @@ class Paciente
     /** @ORM\Column(name="obra_social", type="string", nullable=true) */
     protected $obraSocial;
 
-    /** @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") */
+    /** 
+     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") 
+     * @ORM\OrderBy({"fecha" = "ASC"})
+     */
     protected $visitas;
 
-    /** @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente") */
+    /**
+     *  @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente") 
+     *  @ORM\OrderBy({"fecha" = "ASC"})
+     */
     protected $examenes;
 
     /** @Assert\Callback */

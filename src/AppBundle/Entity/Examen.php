@@ -51,10 +51,16 @@ class Examen
     /** @ORM\Column(name="procedimiento", type="string", nullable=true) */
     protected $procedimiento;
 
-    /** @ORM\ManyToMany(targetEntity="Factor") */
+    /** 
+     * @ORM\ManyToMany(targetEntity="Factor") 
+     * @ORM\OrderBy({"factor" = "ASC"})
+     */
     protected $factores;
 
-    /** @ORM\ManyToMany(targetEntity="Medicacion") */
+    /** 
+     * @ORM\ManyToMany(targetEntity="Medicacion") 
+     * @ORM\OrderBy({"medicacion" = "ASC"})
+     */
     protected $medicaciones;
 
     /**
