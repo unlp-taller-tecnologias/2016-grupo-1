@@ -34,9 +34,9 @@ class UsuarioController extends Controller
     {
         /** @var EntityRepository $usuariosRepo */
         $usuariosRepo = $this->getDoctrine()->getRepository('AppBundle:Usuario');
-        $usuariosQuery = $usuariosRepo->createQueryBuilder('u')->getQuery();
+        $usuariosQB = $usuariosRepo->createQueryBuilder('u')->orderBy('u.apellido, u.nombre, u.username');
         $usuarios = $this->get('knp_paginator')->paginate(
-            $usuariosQuery,
+            $usuariosQB,
             $request->query->getInt('page', 1),
             5
         );

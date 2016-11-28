@@ -31,9 +31,11 @@ class PacienteController extends Controller
     {
         /** @var EntityRepository $pacientesRepo */
         $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
-        $pacientesQuery = $pacientesRepo->createQueryBuilder('p')->getQuery();
+        $pacientesQB = $pacientesRepo->createQueryBuilder('p')->orderBy('p.apellido, p.nombre, p.dni');
         $pacientes = $this->get('knp_paginator')->paginate(
-                $pacientesQuery, $request->query->getInt('page', 1), 5
+            $pacientesQB,
+            $request->query->getInt('page', 1),
+            5
         );
 
         $deleteForms = [];
@@ -227,12 +229,12 @@ class PacienteController extends Controller
         return $this->createFormBuilder($parametros)
             ->setAction($this->generateUrl('paciente_search'))
             ->setMethod('POST')
+            ->add("apellido", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
+            ->add("nombre", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
             ->add("dni", \Symfony\Component\Form\Extension\Core\Type\IntegerType::class, array(
                 'required' => false,
                 'data' => ($parametros === null || !isset($parametros["dni"]) || empty($parametros["dni"])) ? null : $parametros["dni"]
             ))
-            ->add("nombre", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
-            ->add("apellido", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
             ->add("tipo", \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
                 'required' => false,
                 'multiple' => false,

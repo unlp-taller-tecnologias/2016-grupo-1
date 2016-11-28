@@ -10,18 +10,18 @@
     <table class="table table-striped">
         <thead>
             <tr>
-              <th>DNI</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for paciente in pacientes %}
             <tr>
-                <td>{{ paciente.dni|default('-') }}</td>
-                <td>{{ paciente.nombre }}</td>
                 <td>{{ paciente.apellido }}</td>
+                <td>{{ paciente.nombre }}</td>
+                <td>{{ paciente.dni|default('-') }}</td>
                 <td>
                     <div class="item-actions">
                         <a href="{{ path('paciente_show', { 'id': paciente.id }) }}" class="btn btn-sm btn-default">Ver</a>
