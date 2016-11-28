@@ -1,0 +1,153 @@
+{% extends 'layout/print/base.html.twig' %}
+
+{% block block_id  %}examen_show{%endblock%}
+{% block document_title %}Examen prequirúrgico{%endblock%}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>
+                        <span class="text-primary">Nombre:</span> 
+                        <span class="text-bold">{{ examen.paciente.nombre }}</span>
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <p>
+                        <span class="text-primary">Apellido:</span> 
+                        <span class="text-bold">{{ examen.paciente.apellido }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>
+                        Procedimiento: {{ examen.procedimiento|default(' (no especificado)') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                Fecha: {{ examen.fecha|date('d/m/Y') }}
+            </div>
+            <div class="row">
+                Derivado desde {{ examen.derivadoDesde|default(' (no especificado)') }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3">
+            <span class="text-primary">Factores de riesgo:</span> 
+        </div>
+        <div class="col-xs-9">
+            {% for factor in examen.factores %}
+                <input type="checkbox" disabled="true" checked></input>{{ factor }} 
+            {% else %}
+                {{examen.otrosFactores is empty ? '(ninguno)':''}}
+                (ninguno)
+            {% endfor %} 
+            {% if examen.otrosFactores is not empty %}
+                <span class="label label-primary">Otros:</span> {{examen.otrosFactores}}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Medicación
+        </div>
+        <div class="panel panel-body">
+            <div class="col-md-12">
+                <div class="row">
+                    {% for medicacion in examen.medicaciones %}
+                        <input type="checkbox" disabled="true" checked></input>{{ medicacion }} 
+                    {% else %}
+                        {{examen.otrasMedicaciones is empty ? '(ninguna)':''}}
+                    {% endfor %} 
+                    <span class="{{examen.medicaciones is not empty? 'label label-primary':''}}">Otras: </span> {{ examen.otrasMedicaciones|default(' (ninguna)') }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Antecedentes
+        </div>
+        <div class="panel panel-body">
+            {{ examen.antecedentes|default('(ninguno)')}}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Examen físico
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class="text-bold">Tensión arterial: </span> {{ examen.tensionArterial|default(' (no especificada)')}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    <span class="text-bold">Aparato CV</span>
+                </div>
+                <div class="col-xs-5">
+                    Ruidos: 
+                    <input type="checkbox" disabled="true" {{ examen.ruido1 ? 'checked':''}}> R1 
+                    <input type="checkbox" disabled="true" {{ examen.ruido2 ? 'checked':''}}> R2 
+                    <input type="checkbox" disabled="true" {{ examen.ruido3 ? 'checked':''}}> R3 
+                    <input type="checkbox" disabled="true" {{ examen.ruido4 ? 'checked':''}}> R4
+                </div>
+                <div class="col-xs-5">
+                    <span class=text-bold">Soplos: </span> 
+                    <span class="label label-primary">{{examen.soplos?'Sí':'No'}}</span> 
+                    {{examen.soplosComentario}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class="text-bold">Aparato respiratorio: </span>{{examen.aparatoRespiratorio|default(' (sin observaciones)')}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class="text-bold">ECG: </span> {{examen.electrocardiograma|default(' (sin observaciones)')}}
+                </div>
+            </div>
+            {% if examen.comentarios is not empty %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span class="text-bold">Comentarios: </span>{{examen.comentarios}}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel panel-heading">
+            Grado de riesgo cardiológico
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-xs-2">
+                    <input type="radio" name="grado" {{ examen.gradoRiesgo == '1'? 'checked':''}}> 1 (uno)
+                </div>
+                <div class="col-xs-6">
+                    <input type="radio" name="grado" {{ examen.gradoRiesgo == '3'? 'checked':''}}> 3 (tres) con monitoreo cardiológico
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    <input type="radio" name="grado" {{ examen.gradoRiesgo == '2'? 'checked':''}}> 2 (dos)
+                </div>
+                <div class="col-xs-6">
+                    <input type="radio" name="grado" {{ examen.gradoRiesgo == '4'? 'checked':''}}> 4 (cuatro) se contraindica cirugía
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -58,7 +58,7 @@ class Examen
     protected $medicaciones;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\ManyToOne(targetEntity="Paciente", inversedBy="examenes")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $paciente;

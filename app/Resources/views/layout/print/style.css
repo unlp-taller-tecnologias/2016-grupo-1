@@ -1,0 +1,64 @@
+/* Navbar
+-------------------------------------------------- */
+.navbar-brand {
+  padding: 7px 15px;
+}
+
+.navbar-brand p:nth-child(2) {
+  font-size: 14px;
+}
+
+.navbar-header {
+    color: #FFF;
+}
+
+.navbar-header div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.navbar-header .titulo-documento {
+    border-left: 1px solid #fff;
+}
+
+/*
+Overwrite de los paneles
+*/
+.panel .panel-heading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+.panel .panel-body {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+/* Footer
+-------------------------------------------------- */
+footer {
+  /*position: absolute;
+  bottom: 0;*/
+  width: 100%;
+  height: 72px;
+  background: #eeeeee;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+footer p {
+  color: #7b8a8b;
+  font-size: 16px;
+}
+
+#footer-resources {
+  text-align: right;
+}
+
+#footer-resources i {
+  color: #7b8a8b;
+  font-size: 28px;
+  margin-left: 1.5rem;
+}
