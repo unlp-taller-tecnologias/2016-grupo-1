@@ -1,47 +1,34 @@
 {% extends 'layout/print/base.html.twig' %}
 
 {% block block_id  %}examen_show{%endblock%}
-{% block document_title %}Examen prequirúrgico{%endblock%}
+{% block document_title %}Examen prequirúrgico | Paciente: {{examen.paciente.apellido}}, {{examen.paciente.nombre}}{%endblock%}
 
 {% block main %}
-    <div class="row">
-        <div class="col-xs-6">
+    <div class="panel panel-primary">
+        <div class="panel panel-body">
             <div class="row">
-                <div class="col-xs-6">
-                    <p>
-                        <span class="text-primary">Nombre:</span> 
-                        <span class="text-bold">{{ examen.paciente.nombre }}</span>
-                    </p>
+                <div class="col-xs-4">
+                    <span class="text-bold">Edad:</span> {{examen.paciente.edad|default('(no informada)')}}
                 </div>
-                <div class="col-xs-6">
-                    <p>
-                        <span class="text-primary">Apellido:</span> 
-                        <span class="text-bold">{{ examen.paciente.apellido }}</span>
-                    </p>
+                <div class="col-xs-8">
+                    <span class="text-bold">Procedimiento:</span> {{ examen.procedimiento|default('(no informado)') }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">
-                    <p>
-                        Procedimiento: {{ examen.procedimiento|default(' (no especificado)') }}
-                    </p>
+                <div class="col-xs-4">
+                    <span class="text-bold">Documento:</span> {{examen.paciente.dni|default('(no informado)')}}
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="row">
-                Fecha: {{ examen.fecha|date('d/m/Y') }}
-            </div>
-            <div class="row">
-                Derivado desde {{ examen.derivadoDesde|default(' (no especificado)') }}
+                <div class="col-xs-8">
+                    <span class="text-bold">Derivado desde:</span> {{examen.derivadoDesde|default('(no informado)')}}
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-3">
-            <span class="text-primary">Factores de riesgo:</span> 
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Factores de riesgo
         </div>
-        <div class="col-xs-9">
+        <div class="panel panel-body">
             {% for factor in examen.factores %}
                 <input type="checkbox" disabled="true" checked></input>{{ factor }} 
             {% else %}
@@ -56,7 +43,7 @@
 
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            Medicación
+            <span class="text-bold">Medicación</span>
         </div>
         <div class="panel panel-body">
             <div class="col-md-12">
@@ -157,10 +144,10 @@
             <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-xs-4">
-                    Fecha: {{examen.fecha|date('d/m/Y')}}
+                    <span class="text-bold">Fecha:</span> {{examen.fecha|date('d/m/Y')}}
                 </div>
                 <div class="col-xs-2">&nbsp;</div>
-                <div class="col-xs-4">Firma y sello:</div>
+                <div class="col-xs-4"><span class="text-bold">Firma y sello:</span></div>
             </div>
             <div class="row">&nbsp;</div>
         </div>
