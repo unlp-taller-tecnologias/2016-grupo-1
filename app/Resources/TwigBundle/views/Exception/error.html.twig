@@ -1,0 +1,14 @@
+{% extends 'layout/base.html.twig' %}
+
+
+{% block main %}
+
+<h1>Ups! Ocurrió un error</h1>
+<h2>El servidor devuelve "{{ status_code }} {{ status_text }}".</h2>
+
+<div>
+    Algo está roto. Por favor, háganos saber lo que estaba haciendo cuando se produjo el error.<br>
+    Vamos a encontrar una solución lo antes posible. Pedimos disculpas por cualquier inconveniente causado.
+</div>
+
+{% endblock %}
