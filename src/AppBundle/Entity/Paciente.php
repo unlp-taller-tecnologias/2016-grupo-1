@@ -26,8 +26,13 @@ class Paciente
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /** @ORM\Column(name="dni", type="integer", nullable=true, unique=true) */
+    /** @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
+       * @Assert\Length(
+       *      min = 8,
+       *      max = 8,
+       *      exactMessage =  "Debe tener exactamente {{ limit }} digitos."
+            *)
+       */
     protected $dni;
 
     /**
@@ -64,14 +69,14 @@ class Paciente
     /** @ORM\Column(name="obra_social", type="string", nullable=true) */
     protected $obraSocial;
 
-    /** 
-     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente") 
+    /**
+     * @ORM\OneToMany(targetEntity="Visita", mappedBy="paciente")
      * @ORM\OrderBy({"fecha" = "ASC"})
      */
     protected $visitas;
 
     /**
-     *  @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente") 
+     *  @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente")
      *  @ORM\OrderBy({"fecha" = "ASC"})
      */
     protected $examenes;
