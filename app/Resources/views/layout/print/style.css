@@ -35,12 +35,20 @@ Overwrite de los paneles
     margin-top: 2px;
     margin-bottom: 2px;
 }
+.panel .panel-body .row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+body {
+    height: 1360px;
+}
 
 /* Footer
 -------------------------------------------------- */
-footer {
-  /*position: absolute;
-  bottom: 0;*/
+.footer {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 72px;
   background: #eeeeee;
@@ -48,16 +56,16 @@ footer {
   padding-bottom: 2rem;
 }
 
-footer p {
+.footer p {
   color: #7b8a8b;
   font-size: 16px;
 }
 
-#footer-resources {
+#footer-datetime {
   text-align: right;
 }
 
-#footer-resources i {
+#footer-datetime i {
   color: #7b8a8b;
   font-size: 28px;
   margin-left: 1.5rem;
