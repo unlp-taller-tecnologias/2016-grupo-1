@@ -10,7 +10,7 @@ class SecurityController extends BaseController
     public function loginAction(Request $request)
     {
         if ($this->getUser()) {
-            return $this->redirect($request->getSession()->get('_security.main.target_path'));
+            return $this->redirectToRoute('paciente_index');
         }
 
         return parent::loginAction($request);
