@@ -43,8 +43,9 @@
             {% if visita.diagnosticos is not empty %}
                 <div class="panel panel-footer">
                     <span class="text-bold">Diagnóstico:</span> {{visita.diagnosticos|join('; ')}}
-                {% endif %}
-            </div>
-        {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
 
-    {% endblock %}
+{% endblock %}

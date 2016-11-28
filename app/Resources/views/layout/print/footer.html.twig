@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Servicio de Cardiología - Hospital San Martín{% endblock %}</title>
+        <style type="text/css">
+            {% include 'layout/print/bootstrap-flatly-3.3.7.min.css' %}
+            {% include 'layout/print/style.css' %}
+        </style>
+    </head>
+    <body id="print_footer">
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div id="footer-brand" class="col-xs-4">
+                        <p>Servicio de Cardología - HIGA San Martín</p>
+                    </div>
+                    <div id="footer-user" class="col-xs-2">
+
+                    </div>
+                    <div id="footer-datetime" class="col-xs-6">
+                        <p>{{'now'|date('d/m/Y H:i:s')}} (Usuario: {{app.user}})</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
