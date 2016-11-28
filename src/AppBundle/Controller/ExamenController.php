@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Examen controller.
@@ -146,9 +147,18 @@ class ExamenController extends Controller {
         $pacienteID = $examen->getPaciente()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
             $em->remove($examen);
-            $em->flush();
+            try {
+                $em->flush();
+                $message = 'El examen ha sido eliminado satisfactoriamente';
+                $flashBag->add('success', $message);
+            } catch (\Exception $e) {
+                $message = 'Lo sentimos, el examen no pudo ser eliminado';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('paciente_examenes', ['id' => $pacienteID]);

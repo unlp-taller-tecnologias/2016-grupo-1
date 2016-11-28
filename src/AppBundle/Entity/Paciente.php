@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Paciente
@@ -42,9 +43,8 @@ class Paciente
     protected $apellido;
 
     /**
-     * @ORM\Column(name="edad", type="integer")
+     * @ORM\Column(name="fecha_de_nacimiento", type="date")
      * @Assert\NotBlank(message="Por favor, ingrese la edad del paciente")
-     * @Assert\Range(max=122, maxMessage="La edad no puede superar los 122 años")
      */
     protected $edad;
 
@@ -70,6 +70,14 @@ class Paciente
     /** @ORM\OneToMany(targetEntity="Examen", mappedBy="paciente") */
     protected $examenes;
 
+    /** @Assert\Callback */
+    public function validarEdad(ExecutionContextInterface $context)
+    {
+        if ($this->getEdad() > 122) {
+            $violationBuilder = $context->buildViolation('La edad no puede superar los 122 años');
+            $violationBuilder->atPath('edad')->addViolation();
+        }
+    }
 
     /**
      * Constructor
@@ -167,7 +175,10 @@ class Paciente
      */
     public function setEdad($edad)
     {
-        $this->edad = $edad;
+        $date = new \DateTime();
+        $date->modify('-' . $edad . ' year');
+
+        $this->edad = $date;
 
         return $this;
     }
@@ -179,7 +190,13 @@ class Paciente
      */
     public function getEdad()
     {
-        return $this->edad;
+        if (!isset($this->edad)) {
+            return $this->edad;
+        }
+
+        $diff = $this->edad->diff(new \DateTime());
+
+        return $diff->y;
     }
 
     /**

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Localidad controller.
@@ -103,9 +104,25 @@ class LocalidadController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
-            $em->remove($localidad);
-            $em->flush();
+            $pacientesRepo = $em->getRepository('AppBundle:Paciente');
+            if (!$pacientesRepo->findOneBy(['localidad' => $localidad])) { // La localidad no contiene pacientes
+                $em->remove($localidad);
+                try {
+                    $em->flush();
+                    $message = 'La localidad ha sido eliminada satisfactoriamente';
+                    $flashBag->add('success', $message);
+                } catch (\Exception $e) {
+                    $message = 'Lo sentimos, la localidad no pudo ser eliminada';
+                    $flashBag->add('warning', $message);
+                }
+            } else {
+                // TODO: Ofrecer mover los pacientes a otra localidad
+                $message = 'La localidad no puede ser eliminada ya que contiene pacientes';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('localidad_index');

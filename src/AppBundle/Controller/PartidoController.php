@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Partido controller.
@@ -103,9 +104,19 @@ class PartidoController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
-            $em->remove($partido);
-            $em->flush();
+            $localidadesRepo = $em->getRepository('AppBundle:Localidad');
+            if (!$localidadesRepo->findOneBy(['partido' => $partido])) { // El partido no contiene localidades
+                $em->remove($partido);
+                $em->flush();
+                $message = 'El partido ha sido eliminado satisfactoriamente';
+                $flashBag->add('success', $message);
+            } else {
+                $message = 'El partido no puede ser eliminado ya que contiene localidades';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('partido_index');

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Motivo controller.
@@ -103,9 +104,18 @@ class MotivoController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FlashBagInterface $flashBag */
+            $flashBag = $request->getSession()->getFlashBag();
             $em = $this->getDoctrine()->getManager();
             $em->remove($motivo);
-            $em->flush();
+            try {
+                $em->flush();
+                $message = 'El motivo de consulta ha sido eliminado satisfactoriamente';
+                $flashBag->add('success', $message);
+            } catch (\Exception $e) {
+                $message = 'Lo sentimos, el motivo de consulta no pudo ser eliminado';
+                $flashBag->add('warning', $message);
+            }
         }
 
         return $this->redirectToRoute('motivo_index');

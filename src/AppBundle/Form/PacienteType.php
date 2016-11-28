@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Paciente;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,7 +22,7 @@ class PacienteType extends AbstractType
             ->add('dni', null, ['label' => 'DNI'])
             ->add('nombre')
             ->add('apellido')
-            ->add('edad')
+            ->add('edad', IntegerType::class)
             ->add('sexo', ChoiceType::class, [
                 'placeholder' => "- Seleccione una opción -",
                 'choices' => [
