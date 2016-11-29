@@ -27,16 +27,12 @@ class VisitaType extends AbstractType
                 ],
                 'placeholder' => 'Haga clic para seleccionar una fecha',
                 'format' => 'dd/MM/yyyy',
-                'data' => new \DateTime()
+                'data' => new \DateTime(),
             ])
-            ->add('motivos')
-            ->add('observaciones', TextareaType::class, [
-                'required' => false,
-            ])
+            ->add('motivos', null, ['label' => 'Motivos de consulta'])
+            ->add('observaciones', TextareaType::class, ['required' => false])
             ->add('diagnosticos', null, ['label' => 'Diagnósticos'])
-            ->add('notasPersonales', TextareaType::class, [
-                'required' => false,
-            ])
+            ->add('notasPersonales', TextareaType::class, ['required' => false])
         ;
     }
 

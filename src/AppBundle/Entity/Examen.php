@@ -36,6 +36,7 @@ class Examen
 
     /**
      * @ORM\Column(name="grado_riesgo", type="integer")
+     * @Assert\NotBlank(message="Por favor, seleccione un valor")
      * @Assert\Range(
      *     min=1,
      *     minMessage="El grado debe ser un valor entre 1 y 4",

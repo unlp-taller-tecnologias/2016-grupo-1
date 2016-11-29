@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Paciente;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -66,7 +67,11 @@ class PacienteRepository extends EntityRepository
 
         return $qb;
     }
-    
+
+    /**
+     * @param \PHPExcel $phpExcelObject
+     * @param integer $sheetIndex
+     */
     public function mk_backup_sheet(&$phpExcelObject, $sheetIndex) {
         $phpExcelObject->setActiveSheetIndex($sheetIndex);
         $phpExcelObject->getActiveSheet()->setTitle("Pacientes");
@@ -82,6 +87,7 @@ class PacienteRepository extends EntityRepository
         $phpExcelObject->getActiveSheet()->setCellValue("I1", "Obra social");
         $phpExcelObject->getActiveSheet()->setCellValue("J1", "Tiene Historia clínica");
         $phpExcelObject->getActiveSheet()->setCellValue("K1", "Tiene Prequirúrgicos");
+        /** @var Paciente $row */
         foreach ($this->findAll() as $row) {
             $phpExcelObject->getActiveSheet()->setCellValue("A$i", $row->getId());
             $phpExcelObject->getActiveSheet()->setCellValue("B$i", $row->getApellido());
@@ -92,16 +98,9 @@ class PacienteRepository extends EntityRepository
             $phpExcelObject->getActiveSheet()->setCellValue("G$i", $row->getLocalidad()->getLocalidad());
             $phpExcelObject->getActiveSheet()->setCellValue("H$i", $row->getLocalidad()->getPartido());
             $phpExcelObject->getActiveSheet()->setCellValue("I$i", $row->getObraSocial());
-            if (null !== $row->getVisitas() && count($row->getVisitas())>0) {
-                $servicio = "Sí";
-            } else {
-                $servicio = "No";
-            }
-            if (null !== $row->getExamenes() && count($row->getExamenes())>0) {
-                $preq = "Sí";
-            } else {
-                $preq = "No";
-            }
+
+            $servicio = (count($row->getVisitas()) > 0) ? "Sí" : "No";
+            $preq = (count($row->getExamenes()) > 0) ? "Sí" : "No";
             $phpExcelObject->getActiveSheet()->setCellValue("J$i", $servicio);
             $phpExcelObject->getActiveSheet()->setCellValue("K$i", $preq);
             $i++;

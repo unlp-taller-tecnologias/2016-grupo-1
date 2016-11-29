@@ -16,7 +16,7 @@ class MedicacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medicacion', TextType::class, ['label' => 'Medicación']);
+            ->add('medicacion', null, ['label' => 'Medicación']);
     }
     
     /**

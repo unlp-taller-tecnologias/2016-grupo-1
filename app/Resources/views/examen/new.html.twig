@@ -2,10 +2,10 @@
 
 {% block body_id 'paciente_registrar-examen' %}
 
-    {% block main %}
-        <h1>Registrar examen prequirúrgico</h1>
+{% block main %}
+    <h1>Registrar examen prequirúrgico</h1>
 
-        {{ form_start(form) }}
+    {{ form_start(form) }}
         <div class="form-group">
             <label for="paciente" class="control-label">Paciente</label>
             <input class="form-control" id="paciente" value="{{ examen.paciente }}" readonly>
@@ -39,19 +39,19 @@
             <div class="panel panel-body">
                 <div class="form-group multiples-opciones-en-linea">
                     <label class="control-label en-linea">Tensión arterial:</label>
-                    {{form_widget(form.tensionArterialSistolica)}}/{{form_widget(form.tensionArterialDiastolica)}}
+                    {{form_widget(form.tensionArterialSistolica)}}/&nbsp;&nbsp;&nbsp;{{form_widget(form.tensionArterialDiastolica)}} mmHg
                 </div>
                 {{form_errors(form.tensionArterialSistolica)}}
                 {{form_errors(form.tensionArterialDiastolica)}}
                 <div class="form-group multiples-opciones-en-linea">
-                    <label class="control-label">Aparato CV</label> 
+                    <label class="control-label">Aparato CV</label>
                     <label class="control-label">Ruidos: </label>
-                    {{form_widget(form.ruido1)}} 
-                    {{form_widget(form.ruido2)}} 
-                    {{form_widget(form.ruido3)}} 
+                    {{form_widget(form.ruido1)}}
+                    {{form_widget(form.ruido2)}}
+                    {{form_widget(form.ruido3)}}
                     {{form_widget(form.ruido4)}}
                     <label class="control-label">Soplos: </label>
-                    {{form_widget(form.soplos, {'label':'Sí'})}} 
+                    {{form_widget(form.soplos, {'label':'Sí'})}}
                     {{form_widget(form.soplosComentario)}}
                 </div>
                 {{form_errors(form.ruido1)}}
@@ -69,5 +69,5 @@
 
         <input type="submit" value="Guardar" class="btn btn-primary" />
         <a class="btn btn-danger" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Cancelar</a>
-        {{ form_end(form) }}
-    {% endblock %}
+    {{ form_end(form) }}
+{% endblock %}

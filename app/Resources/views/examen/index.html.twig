@@ -2,66 +2,66 @@
 
 {% block body_id "paciente_examenes" %}
 
-    {% block main %}
-        <h1>Exámenes prequirúrgicos de {{ paciente }}</h1>
+{% block main %}
+    <h1>Exámenes prequirúrgicos<br>de {{ paciente }}</h1>
 
-        {% if examenes is not empty %}
-            {{ include ('_delete_entity_confirmation.html.twig') }}
-            <table class="table table-striped">
-                <thead>
+    {% if examenes is not empty %}
+        {{ include ('_delete_entity_confirmation.html.twig') }}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Médico</th>
+                    <th>Riesgo cardiológico</th>
+                    <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for examen in examenes %}
                     <tr>
-                        <th>Fecha</th>
-                        <th>Médico</th>
-                        <th>Riesgo cardiológico</th>
-                        <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                        <td>{{ examen.fecha|date('d/m/Y') }}</td>
+                        <td><a href="{{ path('usuario_show', {'id': examen.medico.id}) }}" target="_blank">{{ examen.medico }}</a></td>
+                        <td>{{ examen.gradoRiesgo }}</td>
+                        <td>
+                            <div class="item-actions">
+                                <a href="{{ path('examen_print', { 'id': examen.id }) }}" class="btn btn-sm btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Generar PDF</a>
+                                {% if is_granted('ROLE_MEDICO') %}
+
+                                    <a href="{{ path('examen_show', { 'id': examen.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                                    <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                    </a>
+                                    {{ include('_delete_form.html.twig', {
+                            attr: {'style': 'display: inline-block'},
+                            form: delete_forms[examen.id],
+                            includeModal: false,
+                            button_label: 'Eliminar',
+                            button_css: 'btn-sm',
+                        }) }}
+                                {% endif %}
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for examen in examenes %}
-                        <tr>
-                            <td>{{ examen.fecha|date('d/m/Y') }}</td>
-                            <td>{{ examen.medico }}</td>
-                            <td>{{ examen.gradoRiesgo }}</td>
-                            <td>
-                                <div class="item-actions">
-                                    <a href="{{ path('examen_print', { 'id': examen.id }) }}" class="btn btn-sm btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Generar PDF</a>
-                                    {% if is_granted('ROLE_MEDICO') %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(examenes) }}
+        </div>
+        <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
+    {% else %}
+        <p>Aún no existe ningún registro de examen prequirúrgico.</p>
+    {% endif %}
+{% endblock %}
 
-                                        <a href="{{ path('examen_show', { 'id': examen.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                                        <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-sm btn-primary">
-                                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                                        </a>
-                                        {{ include('_delete_form.html.twig', {
-                                attr: {'style': 'display: inline-block'},
-                                form: delete_forms[examen.id],
-                                includeModal: false,
-                                button_label: 'Eliminar',
-                                button_css: 'btn-sm',
-                            }) }}
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="navigation">
-                {{ knp_pagination_render(examenes) }}
-            </div>
-            <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
-        {% else %}
-            <p>Aún no existe ningún registro de examen prequirúrgico.</p>
-        {% endif %}
-    {% endblock %}
+{% block sidebar %}
+    {% if is_granted('ROLE_MEDICO') %}
+        <div class="section">
+            <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
+            </a>
+        </div>
+    {% endif %}
 
-    {% block sidebar %}
-        {% if is_granted('ROLE_MEDICO') %}
-            <div class="section">
-                <a href="{{ path('paciente_registrar-examen', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-success">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo examen
-                </a>
-            </div>
-        {% endif %}
-
-        {{ parent() }}
-    {% endblock %}
+    {{ parent() }}
+{% endblock %}

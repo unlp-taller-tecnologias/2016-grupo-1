@@ -28,7 +28,7 @@ class Usuario extends FOSUser
 
     /**
      * @Assert\Type(type="integer", message="El DNI sólo puede contener dígitos")
-     * @Assert\Length(min=8, max=8, exactMessage="El DNI debe estar compuesto por 8 dígitos")
+     * @Assert\Length(min=8, max=8, exactMessage="El DNI debe estar compuesto por {{ limit }} dígitos")
      */
     protected $username;
 

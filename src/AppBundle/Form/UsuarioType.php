@@ -23,7 +23,7 @@ class UsuarioType extends AbstractType
         $this->buildUserForm($builder, $options);
 
         $builder
-            ->add('username', IntegerType::class, [
+            ->add('username', null, [
                 'label' => 'DNI',
                 'attr' => [
                     'min' => '10000000',

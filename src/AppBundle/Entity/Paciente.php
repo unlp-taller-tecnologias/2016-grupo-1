@@ -26,13 +26,12 @@ class Paciente
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    /** @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
-       * @Assert\Length(
-       *      min = 8,
-       *      max = 8,
-       *      exactMessage =  "Debe tener exactamente {{ limit }} digitos."
-            *)
-       */
+
+    /**
+     * @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
+     * @Assert\Type(type="integer", message="El DNI sólo puede contener dígitos")
+     * @Assert\Length(min=8, max=8, exactMessage="El DNI debe estar compuesto por {{ limit }} dígitos")
+     */
     protected $dni;
 
     /**

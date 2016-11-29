@@ -1,9 +1,14 @@
-<?php namespace AppBundle\Repository;
+<?php
 
+namespace AppBundle\Repository;
+
+use AppBundle\Entity\Usuario;
 use Doctrine\ORM\EntityRepository;
 
-class UsuarioRepository extends EntityRepository {
-    public function isRemovable($usuario) {
+class UsuarioRepository extends EntityRepository
+{
+    public function isRemovable($usuario)
+    {
         $visitasRepo = $this->getEntityManager()->getRepository('AppBundle:Visita');
         if ($visitasRepo->findOneBy(['medico' => $usuario])) {
             return false;
@@ -17,7 +22,12 @@ class UsuarioRepository extends EntityRepository {
         return true;
     }
 
-    public function mk_backup_sheet(&$phpExcelObject, $sheetIndex) {
+    /**
+     * @param \PHPExcel $phpExcelObject
+     * @param integer $sheetIndex
+     */
+    public function mk_backup_sheet(&$phpExcelObject, $sheetIndex)
+    {
         $phpExcelObject->setActiveSheetIndex($sheetIndex);
         $phpExcelObject->getActiveSheet()->setTitle("Usuarios");
         $i = 2;
@@ -29,6 +39,7 @@ class UsuarioRepository extends EntityRepository {
         $phpExcelObject->getActiveSheet()->setCellValue("F1", "Rol");
         $phpExcelObject->getActiveSheet()->setCellValue("G1", "Matricula");
         $phpExcelObject->getActiveSheet()->setCellValue("H1", "Especialidad");
+        /** @var Usuario $row */
         foreach ($this->findAll() as $row) {
             $phpExcelObject->getActiveSheet()->setCellValue("A$i", $row->getId());
             $phpExcelObject->getActiveSheet()->setCellValue("B$i", $row->getUsername());
@@ -41,5 +52,4 @@ class UsuarioRepository extends EntityRepository {
             $i++;
         }
     }
-
 }

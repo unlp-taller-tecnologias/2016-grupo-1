@@ -3,21 +3,17 @@
 {% block block_id "examen_show" %}
 
 {% block main %}
-    <h1>Evaluación prequirúrgica</h1>
+    <h1>Examen prequirúrgico</h1>
 
     <table class="table table-bordered">
         <tbody>
             <tr>
+                <th>Paciente</th>
+                <td><a href="{{ path('paciente_show', {'id': examen.paciente.id}) }}">{{ examen.paciente }}</a></td>
+            </tr>
+            <tr>
                 <th>Fecha</th>
                 <td>{{ examen.fecha|date('d/m/Y') }}</td>
-            </tr>
-            <tr>
-                <th>Nombre y Apellido</th>
-                <td>{{ examen.paciente }}</td>
-            </tr>
-            <tr>
-                <th>Edad</th>
-                <td>{{ examen.paciente.edad }}</td>
             </tr>
             <tr>
                 <th>Derivado desde</th>
@@ -32,9 +28,9 @@
                 <td>
                     {% if examen.factores is not empty %}
                         <ul>
-                            {% for factor in examen.factores %}
-                                <li>{{ factor }}</li>
-                            {% endfor %}
+                        {% for factor in examen.factores %}
+                            <li>{{ factor }}</li>
+                        {% endfor %}
                         </ul>
                     {% else %}-{% endif %}
                 </td>
@@ -48,9 +44,9 @@
                 <td>
                     {% if examen.medicaciones is not empty %}
                         <ul>
-                            {% for medicacion in examen.medicaciones %}
-                                <li>{{ medicacion }}</li>
-                            {% endfor %}
+                        {% for medicacion in examen.medicaciones %}
+                            <li>{{ medicacion }}</li>
+                        {% endfor %}
                         </ul>
                     {% else %}-{% endif %}
                 </td>
@@ -110,29 +106,29 @@
         </tbody>
     </table>
 
-        <a class="btn btn-link" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Volver al listado de exámenes</a>
-    {% endblock %}
+    <a class="btn btn-link" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Volver al listado de exámenes</a>
+{% endblock %}
 
-    {% block sidebar %}
-        <div class="section">
-            <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-md btn-block btn-success">
-                <i class="fa fa-edit" aria-hidden="true"></i> Editar examen
-            </a>
-        </div>
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('examen_edit', { 'id': examen.id }) }}" class="btn btn-md btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> Editar examen
+        </a>
+    </div>
 
-        <div class="section">
-            <a href="{{ path('examen_print', { 'id': examen.id }) }}" class="btn btn-md btn-block btn-primary">
-                <i class="fa fa-download" aria-hidden="true"></i> Generar PDF
-            </a>
-        </div>
+    <div class="section">
+        <a href="{{ path('examen_print', { 'id': examen.id }) }}" class="btn btn-md btn-block btn-primary">
+            <i class="fa fa-download" aria-hidden="true"></i> Generar PDF
+        </a>
+    </div>
 
-        <div class="section">
-            {{ include('_delete_form.html.twig', {
-        form: delete_form,
-        button_label: 'Eliminar examen',
-        button_css: 'btn-md btn-block',
-    }) }}
-        </div>
+    <div class="section">
+        {{ include('_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Eliminar examen',
+            button_css: 'btn-md btn-block',
+        }) }}
+    </div>
 
-        {{ parent() }}
-    {% endblock %}
+    {{ parent() }}
+{% endblock %}

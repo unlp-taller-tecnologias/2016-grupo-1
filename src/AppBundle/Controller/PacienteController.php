@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Paciente controller.
@@ -29,6 +30,7 @@ class PacienteController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $request->getSession()->remove('busqueda');
         /** @var EntityRepository $pacientesRepo */
         $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
         $pacientesQB = $pacientesRepo->createQueryBuilder('p')->orderBy('p.apellido, p.nombre, p.dni');
@@ -87,10 +89,10 @@ class PacienteController extends Controller
      */
     private function procesarParametrosBusqueda($parametros = null)
     {
+        /** @var Session $session */
+        $session = $this->get('session');
         if ($parametros !== null) {
-            $this->get("session")->getFlashBag()->set("busqueda", $parametros);
-        } else if ($this->get("session")->getFlashBag()->has("busqueda")) {
-            $this->get("session")->getFlashBag()->set("busqueda", $this->get("session")->getFlashBag()->peek("busqueda"));
+            $session->set('busqueda', $parametros);
         }
     }
 
@@ -102,7 +104,7 @@ class PacienteController extends Controller
     {
         /** @var PacienteRepository $pacientesRepo */
         $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
-        $pacientesQuery = $pacientesRepo->findAllByMultiParametros($this->get("session")->getFlashBag()->peek('busqueda'));
+        $pacientesQuery = $pacientesRepo->findAllByMultiParametros($this->get('session')->get('busqueda'));
 
         return $pacientesQuery;
     }
@@ -225,17 +227,19 @@ class PacienteController extends Controller
      */
     private function createSearchForm()
     {
-        $parametros = $this->get("session")->getFlashBag()->get("busqueda");
+        $parametros = $this->get('session')->get('busqueda');
         return $this->createFormBuilder($parametros)
             ->setAction($this->generateUrl('paciente_search'))
             ->setMethod('POST')
-            ->add("apellido", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
-            ->add("nombre", \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
-            ->add("dni", \Symfony\Component\Form\Extension\Core\Type\IntegerType::class, array(
+            ->add('apellido', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
+            ->add('nombre', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
+            ->add('dni', \Symfony\Component\Form\Extension\Core\Type\IntegerType::class, [
+                'label' => 'DNI',
+                'attr' => ['class' => 'hide-spinners'],
                 'required' => false,
-                'data' => ($parametros === null || !isset($parametros["dni"]) || empty($parametros["dni"])) ? null : $parametros["dni"]
-            ))
-            ->add("tipo", \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
+                'data' => (empty($parametros['dni'])) ? null : $parametros['dni'],
+            ])
+            ->add('tipo', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
                 'required' => false,
                 'multiple' => false,
                 'label' => 'Tipo de paciente',

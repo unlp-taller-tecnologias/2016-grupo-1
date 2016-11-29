@@ -3,17 +3,21 @@
 {% block body_id 'visita_show' %}
 
 {% block main %}
-    <h1>Visita de {{ visita.paciente }}</h1>
+    <h1>Visita médica</h1>
 
-    <table class="table table-striped">
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Fecha</th>
-                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d') }}{% endif %}</td>
+                <th>Paciente</th>
+                <td><a href="{{ path('paciente_show', {'id': visita.paciente.id }) }}">{{ visita.paciente }}</a></td>
             </tr>
             <tr>
                 <th>Médico</th>
                 <td><a href="{{ path('usuario_show', {'id': visita.medico.id }) }}">{{ visita.medico }}</a></td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Motivos de consulta</th>
@@ -28,12 +32,8 @@
                 </td>
             </tr>
             <tr>
-                <th>Observaciones</th>
-                <td>
-                {% if visita.observaciones is not empty %}
-                    <textarea readonly>{{ visita.observaciones }}</textarea>
-                {% else %}-{% endif %}
-                </td>
+                <th class="col-md-2"><label for="observaciones">Observaciones</label></th>
+                <td class="col-md-10"><textarea class="form-control" readonly rows="2" id="observaciones">{{ visita.observaciones|default('Sin observaciones') }}</textarea></td>
             </tr>
             <tr>
                 <th>Diagnósticos</th>

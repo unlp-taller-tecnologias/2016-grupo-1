@@ -1,4 +1,6 @@
-<?php namespace AppBundle\Controller;
+<?php
+
+namespace AppBundle\Controller;
 
 use AppBundle\Entity\Examen;
 use AppBundle\Entity\Paciente;
@@ -15,7 +17,8 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  * Examen controller.
  * @Security("has_role('ROLE_MEDICO')")
  */
-class ExamenController extends Controller {
+class ExamenController extends Controller
+{
     /**
      * Muestra el listado de exámenes prequirúrgico de un paciente
      *
@@ -23,7 +26,8 @@ class ExamenController extends Controller {
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction(Request $request, Paciente $paciente) {
+    public function indexAction(Request $request, Paciente $paciente)
+    {
         /** @var ExamenRepository $examenesRepo */
         $examenesRepo = $this->getDoctrine()->getRepository('AppBundle:Examen');
         $examenesQB = $examenesRepo->findByPaciente($paciente);
@@ -38,9 +42,9 @@ class ExamenController extends Controller {
         }
 
         return $this->render('examen/index.html.twig', [
-                    'examenes' => $examenes,
-                    'paciente' => $paciente,
-                    'delete_forms' => $deleteForms,
+            'examenes' => $examenes,
+            'paciente' => $paciente,
+            'delete_forms' => $deleteForms,
         ]);
     }
 
@@ -50,7 +54,8 @@ class ExamenController extends Controller {
      * @Route("/paciente/{id}/registrar-examen", name="paciente_registrar-examen")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, Paciente $paciente) {
+    public function newAction(Request $request, Paciente $paciente)
+    {
         $examen = new Examen($paciente, $this->getUser());
         $form = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $form->handleRequest($request);
@@ -64,8 +69,8 @@ class ExamenController extends Controller {
         }
 
         return $this->render('examen/new.html.twig', [
-                    'examen' => $examen,
-                    'form' => $form->createView()
+            'examen' => $examen,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -76,7 +81,8 @@ class ExamenController extends Controller {
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function showAction(Examen $examen) {
+    public function showAction(Examen $examen)
+    {
         $deleteForm = $this->createDeleteForm($examen);
 
         return $this->render('examen/show.html.twig', [
@@ -93,21 +99,18 @@ class ExamenController extends Controller {
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function printAction(Examen $examen) {
+    public function printAction(Examen $examen)
+    {
+        $html = $this->renderView('examen/print.html.twig', [
+            'examen' => $examen
+        ]);
 
-        /*return $this->render("examen/print.html.twig", [
-                    'examen' => $examen
-        ]);*/
-        
-          $html = $this->renderView('examen/print.html.twig', array(
-          'examen' => $examen
-          ));
-          return new Response(
-          $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
-          'Content-Type' => 'application/pdf',
-          'Content-Disposition' => 'attachment; filename="Preq_' . $examen->getId() . '.pdf"'
-          )
-          );
+        return new Response(
+          $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, [
+              'Content-Type' => 'application/pdf',
+              'Content-Disposition' => 'attachment; filename="Preq_' . $examen->getId() . '.pdf"',
+          ]
+        );
     }
 
     /**
@@ -116,7 +119,8 @@ class ExamenController extends Controller {
      * @Route("/examen/{id}/editar", name="examen_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Examen $examen) {
+    public function editAction(Request $request, Examen $examen)
+    {
         $editForm = $this->createForm('AppBundle\Form\ExamenType', $examen);
         $editForm->handleRequest($request);
 
@@ -129,8 +133,8 @@ class ExamenController extends Controller {
         }
 
         return $this->render('examen/edit.html.twig', [
-                    'examen' => $examen,
-                    'edit_form' => $editForm->createView(),
+            'examen' => $examen,
+            'edit_form' => $editForm->createView(),
         ]);
     }
 
@@ -140,7 +144,8 @@ class ExamenController extends Controller {
      * @Route("/examen/{id}", name="examen_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Examen $examen) {
+    public function deleteAction(Request $request, Examen $examen)
+    {
         $form = $this->createDeleteForm($examen);
         $form->handleRequest($request);
 
@@ -170,11 +175,12 @@ class ExamenController extends Controller {
      * @param Examen $examen La entidad Examen a eliminar
      * @return \Symfony\Component\Form\Form El formulario
      */
-    private function createDeleteForm(Examen $examen) {
+    private function createDeleteForm(Examen $examen)
+    {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('examen_delete', ['id' => $examen->getId()]))
-                        ->setMethod('DELETE')
-                        ->getForm()
+            ->setAction($this->generateUrl('examen_delete', ['id' => $examen->getId()]))
+            ->setMethod('DELETE')
+            ->getForm()
         ;
     }
 

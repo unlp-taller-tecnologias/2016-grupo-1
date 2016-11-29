@@ -1,8 +1,12 @@
-<?php namespace AppBundle\Repository;
+<?php
 
+namespace AppBundle\Repository;
+
+use AppBundle\Entity\Examen;
 use Doctrine\ORM\EntityRepository;
 
-class ExamenRepository extends EntityRepository {
+class ExamenRepository extends EntityRepository
+{
     public function findAllQB() {
         $qb = $this->createQueryBuilder('e');
         $qb->orderBy('e.fecha');
@@ -13,13 +17,17 @@ class ExamenRepository extends EntityRepository {
     public function findByPaciente($paciente) {
         $qb = $this->findAllQB();
         $qb
-                ->where('e.paciente = :paciente')
-                ->setParameter('paciente', $paciente)
+            ->where('e.paciente = :paciente')
+            ->setParameter('paciente', $paciente)
         ;
 
         return $qb;
     }
 
+    /**
+     * @param \PHPExcel $phpExcelObject
+     * @param integer $sheetIndex
+     */
     public function mk_backup_sheet(&$phpExcelObject, $sheetIndex) {
         $phpExcelObject->setActiveSheetIndex($sheetIndex);
         $phpExcelObject->getActiveSheet()->setTitle("Prequirúrgicos");
@@ -48,6 +56,7 @@ class ExamenRepository extends EntityRepository {
         $phpExcelObject->getActiveSheet()->setCellValue("V1", "ECG");
         $phpExcelObject->getActiveSheet()->setCellValue("W1", "Comentarios");
         $phpExcelObject->getActiveSheet()->setCellValue("X1", "Grado de riesgo");
+        /** @var Examen $row */
         foreach ($this->findAll() as $row) {
             $phpExcelObject->getActiveSheet()->setCellValue("A$i", $row->getId());
             $phpExcelObject->getActiveSheet()->setCellValue("B$i", $row->getPaciente()->getApellido());
