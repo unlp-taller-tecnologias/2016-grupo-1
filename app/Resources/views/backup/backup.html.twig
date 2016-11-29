@@ -1,9 +1,9 @@
 {% extends "layout/base.html.twig" %}
 
-{% block block_id %}backup_index{% endblock %}
+{% block body_id 'backup_index' %}
 
-{% block main %}
-    {{ form_start(form) }}
+    {% block main %}
+        {{ form_start(form) }}
         <div class="h4">
             &iquest;Confirma que desea realizar la copia de seguridad completa del sistema?
         </div>
@@ -12,5 +12,5 @@
         <button type="submit" name="action" value="confirmar" class="btn btn-primary">
             <i class="fa fa-download"></i> Descargar
         </button>
-    {{ form_end(form) }}
-{% endblock %}
+        {{ form_end(form) }}
+    {% endblock %}

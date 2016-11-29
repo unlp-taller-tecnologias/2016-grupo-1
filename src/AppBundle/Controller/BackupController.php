@@ -4,6 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Examen;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -12,6 +13,7 @@ class BackupController extends Controller {
     /**
      * @Route("/backup", name="backup_index")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function backupAction(Request $request) {
         $form = $this->createForm('AppBundle\Form\BackupType');
@@ -33,7 +35,13 @@ class BackupController extends Controller {
                 ->setTitle("Copia de seguridad")
                 ->setSubject("Sistema de Gestión de pacientes");
 
-        $this->getDoctrine()->getRepository("AppBundle:Examen")->mk_backup_sheet($phpExcelObject, 0);
+        $this->getDoctrine()->getRepository("AppBundle:Paciente")->mk_backup_sheet($phpExcelObject, 0);
+        $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
+        $this->getDoctrine()->getRepository("AppBundle:Visita")->mk_backup_sheet($phpExcelObject, 1);
+        $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
+        $this->getDoctrine()->getRepository("AppBundle:Examen")->mk_backup_sheet($phpExcelObject, 1);
+        $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
+        $this->getDoctrine()->getRepository("AppBundle:Usuario")->mk_backup_sheet($phpExcelObject, 3);
 
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $phpExcelObject->setActiveSheetIndex(0);

@@ -2,10 +2,10 @@
 
 {% block body_id 'examen_edit' %}
 
-{% block main %}
-    <h1>Editar examen prequirúrgico</h1>
+    {% block main %}
+        <h1>Editar examen prequirúrgico</h1>
 
-    {{ form_start(edit_form) }}
+        {{ form_start(edit_form) }}
         <div class="form-group">
             <label for="paciente" class="control-label">Paciente</label>
             <input class="form-control" id="paciente" value="{{ examen.paciente }}" readonly>
@@ -14,5 +14,5 @@
 
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
         <a class="btn btn-danger" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Cancelar</a>
-    {{ form_end(edit_form) }}
-{% endblock %}
+        {{ form_end(edit_form) }}
+    {% endblock %}

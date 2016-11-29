@@ -22,7 +22,7 @@ class ExamenRepository extends EntityRepository {
 
     public function mk_backup_sheet(&$phpExcelObject, $sheetIndex) {
         $phpExcelObject->setActiveSheetIndex($sheetIndex);
-        $phpExcelObject->getActiveSheet()->setTitle("Prequirúrgico");
+        $phpExcelObject->getActiveSheet()->setTitle("Prequirúrgicos");
         $i = 2;
         $phpExcelObject->getActiveSheet()->setCellValue("A1", "#");
         $phpExcelObject->getActiveSheet()->setCellValue("B1", "Apellido");
