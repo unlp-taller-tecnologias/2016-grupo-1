@@ -65,7 +65,7 @@ class ExamenController extends Controller {
 
         return $this->render('examen/new.html.twig', [
                     'examen' => $examen,
-                    'form' => $form->createView(),
+                    'form' => $form->createView()
         ]);
     }
 

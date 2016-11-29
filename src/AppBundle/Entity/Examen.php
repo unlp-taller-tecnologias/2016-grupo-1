@@ -683,5 +683,4 @@ class Examen
     {
         return $this->soplosComentario;
     }
-
 }
