@@ -1,170 +1,176 @@
 /* Navbar
 -------------------------------------------------- */
 .navbar-brand {
-  padding: 7px 15px;
+    padding: 7px 15px;
 }
 
 .navbar-brand p:nth-child(2) {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 /* Paginación
 -------------------------------------------------- */
 .pagination {
-  display: block;
-  margin: 32px auto;
-  text-align: center;
+    display: block;
+    margin: 32px auto;
+    text-align: center;
 }
 
 .pagination > li > a,
 .pagination > li > span {
-  float: none;
-  margin-left: -3px;
+    float: none;
+    margin-left: -3px;
 }
 
 /* Sticky footer
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 96px;
+    margin-bottom: 96px;
 }
 
 #main h1, #main h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .body-container {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* Login
 -------------------------------------------------- */
 #form-login {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
 }
 
 #form-login-heading {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #form-login .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
 }
 
 #form-login .form-control:focus {
-  z-index: 2;
+    z-index: 2;
 }
 
 #form-login #username {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 #form-login #password {
-  margin-bottom: 10px;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
+    margin-bottom: 10px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
 
 body#login .alert {
-  margin: 24px auto;
+    margin: 24px auto;
 }
 
 /* Sidebar
 -------------------------------------------------- */
 #sidebar .section {
-  margin-bottom: 2em;
+    margin-bottom: 2em;
 }
 
 #sidebar p {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 #sidebar p + p {
-  margin: 1.5em 0 0;
+    margin: 1.5em 0 0;
 }
 
 /* Footer
 -------------------------------------------------- */
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 72px;
-  background: #eeeeee;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 72px;
+    background: #eeeeee;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 footer p {
-  color: #7b8a8b;
-  font-size: 16px;
+    color: #7b8a8b;
+    font-size: 16px;
 }
 
 #footer-resources {
-  text-align: right;
+    text-align: right;
 }
 
 #footer-resources i {
-  color: #7b8a8b;
-  font-size: 28px;
-  margin-left: 1.5rem;
+    color: #7b8a8b;
+    font-size: 28px;
+    margin-left: 1.5rem;
 }
 
 
 /* Modal de confirmación
 -------------------------------------------------- */
 #confirmationModal .modal-dialog {
-  width: 500px;
+    width: 500px;
 }
 
 #confirmationModal .modal-footer button {
-  min-width: 75px;
+    min-width: 75px;
 }
 
 /* Botones de acciones en listado
 -------------------------------------------------- */
 .item-actions {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 .item-actions .btn {
-  margin-left: 4px;
+    margin-left: 4px;
 }
 
 /* Misc
 -------------------------------------------------- */
 label.required:after {
-  content: " *";
-  color: #d00;
+    content: " *";
+    color: #d00;
 }
 
 .radio label.required:after {
-  content: "";
+    content: "";
 }
 
 .hide-spinners::-webkit-inner-spin-button,
 .hide-spinners::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 input[type=number].hide-spinners {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .input-datepicker {
-  background-color: #fff !important;
+    background-color: #fff !important;
+}
+
+.multiples-opciones-en-linea .checkbox, .multiples-opciones-en-linea .en-linea {
+    display: inline-block;
+    margin-right: 10px;
+    width: auto !important;
 }

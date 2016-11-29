@@ -43,7 +43,6 @@ class BackupController extends Controller {
         $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
         $this->getDoctrine()->getRepository("AppBundle:Usuario")->mk_backup_sheet($phpExcelObject, 3);
 
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $phpExcelObject->setActiveSheetIndex(0);
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
