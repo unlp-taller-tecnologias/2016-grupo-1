@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Usuario
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UsuarioRepository")
  * @ORM\Table(name="usuario")
  * @UniqueEntity("matricula", message="La matrícula ya está en uso")
  */

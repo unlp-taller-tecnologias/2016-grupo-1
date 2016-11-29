@@ -39,7 +39,7 @@ class BackupController extends Controller {
         $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
         $this->getDoctrine()->getRepository("AppBundle:Visita")->mk_backup_sheet($phpExcelObject, 1);
         $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
-        $this->getDoctrine()->getRepository("AppBundle:Examen")->mk_backup_sheet($phpExcelObject, 1);
+        $this->getDoctrine()->getRepository("AppBundle:Examen")->mk_backup_sheet($phpExcelObject, 2);
         $phpExcelObject->addSheet(new \PHPExcel_Worksheet());
         $this->getDoctrine()->getRepository("AppBundle:Usuario")->mk_backup_sheet($phpExcelObject, 3);
 
