@@ -51,7 +51,7 @@ class VisitaRepository extends EntityRepository
             $phpExcelObject->getActiveSheet()->setCellValue("B$i", $row->getPaciente()->getApellido());
             $phpExcelObject->getActiveSheet()->setCellValue("C$i", $row->getPaciente()->getNombre());
             $phpExcelObject->getActiveSheet()->setCellValue("D$i", $row->getPaciente()->getId());
-            $phpExcelObject->getActiveSheet()->setCellValue("E$i", $row->getFecha());
+            $phpExcelObject->getActiveSheet()->setCellValue("E$i", date_format($row->getFecha(), 'd/m/Y'));
             $phpExcelObject->getActiveSheet()->setCellValue("F$i", $row->getMedico()->getApellido() . ", " . $row->getMedico()->getNombre());
             $motivos = array();
             foreach ($row->getMotivos() as $motivo) {

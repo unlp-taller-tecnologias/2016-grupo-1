@@ -63,7 +63,7 @@ class ExamenRepository extends EntityRepository
             $phpExcelObject->getActiveSheet()->setCellValue("C$i", $row->getPaciente()->getNombre());
             $phpExcelObject->getActiveSheet()->setCellValue("D$i", $row->getPaciente()->getId());
             $phpExcelObject->getActiveSheet()->setCellValue("E$i", $row->getMedico()->getApellido() . ", " . $row->getMedico()->getNombre());
-            $phpExcelObject->getActiveSheet()->setCellValue("F$i", $row->getFecha());
+            $phpExcelObject->getActiveSheet()->setCellValue("F$i", date_format($row->getFecha(), 'd/m/Y'));
             $phpExcelObject->getActiveSheet()->setCellValue("G$i", $row->getDerivadoDesde());
             $phpExcelObject->getActiveSheet()->setCellValue("H$i", $row->getProcedimiento());
             $phpExcelObject->getActiveSheet()->setCellValue("I$i", $row->getAntecedentes());
