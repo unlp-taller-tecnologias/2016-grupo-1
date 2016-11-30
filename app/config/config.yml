@@ -101,7 +101,7 @@ dizda_cloud_backup:
         type: zip
     cloud_storages:
         local:
-            path: "%dizda_cloud_local%" # TODO: Ajustar en el servidor
+            path: ~ # TODO: Ajustar en el servidor
     databases:
         mysql:
             database: "%database_name%"
