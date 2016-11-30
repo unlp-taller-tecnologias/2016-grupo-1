@@ -96,6 +96,12 @@ knp_snappy:
 
 # DizdaCloudBackupBundle
 dizda_cloud_backup:
+    output_file_prefix: CardiologiaSM
+    processor:
+        type: zip
+    cloud_storages:
+        local:
+            path: "%dizda_cloud_local%" # TODO: Ajustar en el servidor
     databases:
         mysql:
             database: "%database_name%"

@@ -22,7 +22,8 @@ class BackupController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->do_backup();
+            exec('php ' . __DIR__ . '/../../../app/console --env=prod dizda:backup:start'); // SQL dump
+            return $this->excelBackup();
         }
 
         return $this->render('backup/backup.html.twig', [
@@ -30,7 +31,7 @@ class BackupController extends Controller
         ]);
     }
 
-    private function do_backup()
+    private function excelBackup()
     {
         /** @var \PHPExcel $phpExcelObject */
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
