@@ -3,6 +3,7 @@
         <li class="sidebar-brand">Menú</li>
         <li><a href="#" id="btn-config" data-toggle="collapse" data-target="#submenu-pacientes" aria-expanded="false">Pacientes</a>
             <ul class="nav collapse" id="submenu-pacientes" role="menu" aria-labelledby="btn-1">
+                <li><a href="{{ path('paciente_new') }}">Nuevo</a></li>
                 <li><a href="{{ path('paciente_index') }}">Listado</a></li>
                 <li><a href="{{ path('paciente_reports') }}">Reportes</a></li>
             </ul>
@@ -19,7 +20,12 @@
                     <li><a href="{{ path('factor_index') }}">Factores de riesgo</a></li>
                 </ul>
             </li>
-            <li><a href="{{ path('backup_index') }}">Copia de seguridad</a></li>
+
+            <li><a href="#" id="btn-config" data-toggle="collapse" data-target="#submenu-backup" aria-expanded="false">Copia de seguridad</a>
+                <ul class="nav collapse" id="submenu-backup" role="menu" aria-labelledby="btn-1">
+                    <li><a href="{{ path('backup_index') }}">Exportar</a></li>
+                </ul>
+            </li>
         {% endif %}
     </ul>
 </div>
