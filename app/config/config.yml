@@ -93,3 +93,11 @@ knp_snappy:
         enabled:    true
         binary:     /usr/bin/wkhtmltoimage
         options:    []
+
+# DizdaCloudBackupBundle
+dizda_cloud_backup:
+    databases:
+        mysql:
+            database: "%database_name%"
+            db_user:  "%database_user%"
+            db_password:  "%database_password%"
