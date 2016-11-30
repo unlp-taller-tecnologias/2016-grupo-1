@@ -15,6 +15,15 @@ $(document).ready(function () {
         autoclose: true,
         format: 'dd/mm/yyyy'
     });
+
+    $('#input-daterange-reporte').datepicker({
+        format: "mm/yyyy",
+        minViewMode: 1,
+        maxViewMode: 2,
+        endDate: "0d",
+        autoclose: true,
+        language: 'es'
+    })
 });
 
 /*

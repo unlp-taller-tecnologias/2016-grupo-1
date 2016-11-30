@@ -1,0 +1,38 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block body_id 'paciente_reports' %}
+
+{% block body %}
+    <h1 class="text-center">Reporte de pacientes atendidos</h1>
+    <div class="row">
+        {{ form_start(form, {'attr': {'class': 'col-sm-offset-4 col-sm-4'}}) }}
+            <div class="input-daterange input-group" id="input-daterange-reporte">
+                {{ form_widget(form.desde) }}
+                <span class="input-group-addon">hasta</span>
+                {{ form_widget(form.hasta) }}
+            </div>
+            {{ form_widget(form.partido) }}
+            <input type="submit" class="btn btn-primary btn-block" value="Generar reporte">
+    </div>
+
+    {% if chart is defined %}
+        <div class="row">
+            <div id="main" class="col-sm-12">
+                <div id="grafico"></div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% if chart is defined %}
+        <script src="{{ asset('js/highcharts/highcharts.js') }}"></script>
+        <script src="{{ asset('js/highcharts/modules/exporting.js') }}"></script>
+        <script src="{{ asset('js/highcharts/modules/no-data-to-display.js') }}"></script>
+        <script type="text/javascript">
+            {{ chart(chart) }}
+        </script>
+    {% endif %}
+{% endblock %}

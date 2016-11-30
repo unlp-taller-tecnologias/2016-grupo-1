@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Ob\HighchartsBundle\Highcharts\Highchart;
 
 /**
  * Paciente controller.
@@ -108,36 +107,6 @@ class PacienteController extends Controller
         $pacientesQuery = $pacientesRepo->findAllByMultiParametros($this->get('session')->get('busqueda'));
 
         return $pacientesQuery;
-    }
-
-    /**
-     * Reporta los pacientes discriminados por partido y localidad.
-     *
-     * @Route("/reporte", name="paciente_reports")
-     * @Method("GET")
-     */
-    public function chartAction()
-    {
-
-        $series = array(
-            array("name" => "La Plata", "data" => array(18)),
-            array("name" => "Bragado", "data" => array(12))
-        );
-
-        $ob = new Highchart();
-        $ob->chart->type('column');
-        $ob->chart->renderTo('grafico');  // The #id of the div where to render the chart
-        $ob->title->text('Pacientes atendidos en el hospital San Martin');
-        $ob->xAxis->title(array('text'  => "Periodo"));
-        $ob->yAxis->title(array('text'  => "Pacientes (cantidad)"));
-
-        $ob->xAxis->categories(array('Enero de 2016 - Marzo de 2016')); //pasar mes año inicio y mes año fin.
-
-        $ob->series($series);
-
-        return $this->render('paciente/reports.html.twig', array(
-            'chart' => $ob
-        ));
     }
 
     /**
