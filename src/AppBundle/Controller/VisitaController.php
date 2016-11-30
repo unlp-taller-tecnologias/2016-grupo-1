@@ -134,7 +134,10 @@ class VisitaController extends Controller
         }
         $ob->title->text($title);
         $ob->xAxis->title(['text'  => 'Período']);
-        $ob->yAxis->title(['text'  => 'Pacientes (cantidad)']);
+        $ob->yAxis
+            ->title(['text'  => 'Pacientes (cantidad)'])
+            ->allowDecimals(false)
+        ;
 
         $ob->xAxis->categories([$desdeParam . ' - ' . $hastaParam]);
 
