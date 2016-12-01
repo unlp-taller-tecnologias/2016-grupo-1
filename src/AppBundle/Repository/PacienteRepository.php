@@ -70,7 +70,7 @@ class PacienteRepository extends EntityRepository
             }
         }
 
-        return $qb;
+        return $qb->orderBy('p.apellido, p.nombre, p.dni');
     }
 
     /**

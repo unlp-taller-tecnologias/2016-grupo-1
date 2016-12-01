@@ -47,7 +47,7 @@
         {{ knp_pagination_render(pacientes) }}
     </div>
     {% else %}
-        {% if path(app.request.attributes.get('_route')) == path('paciente_search') %}
+        {% if app.request.query is not empty %}
             <p>Lo sentimos, ningún paciente satisface los criterios de búsqueda.</p>
             <p>¿Desea <a href="{{ path('paciente_index') }}">ver el listado completo</a>?</p>
         {% else %}
