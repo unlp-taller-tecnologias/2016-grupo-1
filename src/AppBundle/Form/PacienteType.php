@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Paciente;
+use AppBundle\Entity\Usuario;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -37,6 +38,20 @@ class PacienteType extends AbstractType
                     'Masculino' => Paciente::SEXO_MASCULINO,
                 ],
                 'choices_as_values' => true
+            ])
+            ->add('medico', EntityType::class, [
+                'class' => 'AppBundle:Usuario',
+                'label' => 'Médico asignado',
+                'placeholder' => '-',
+                'required' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.profesion = :profesion')
+                        ->andWhere('u.enabled = true')
+                        ->orderBy('u.apellido, u.nombre')
+                        ->setParameter('profesion', Usuario::PROFESION_MEDICO)
+                    ;
+                },
             ])
             ->add('obraSocial')
             ->add('localidad', EntityType::class, [

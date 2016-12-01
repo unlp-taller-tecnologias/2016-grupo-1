@@ -65,6 +65,9 @@ class Paciente
      */
     protected $localidad;
 
+    /** @ORM\ManyToOne(targetEntity="Usuario") */
+    protected $medico;
+
     /** @ORM\Column(name="obra_social", type="string", nullable=true) */
     protected $obraSocial;
 
@@ -260,6 +263,30 @@ class Paciente
     {
         return $this->localidad;
     }
+
+    /**
+     * Set medico
+     *
+     * @param \AppBundle\Entity\Usuario $medico
+     * @return Paciente
+     */
+    public function setMedico(Usuario $medico)
+    {
+        $this->medico = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Get medico
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getMedico()
+    {
+        return $this->medico;
+    }
+
     /**
      * Set obraSocial
      *
