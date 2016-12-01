@@ -69,6 +69,9 @@ class VisitaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($visita);
+            if ($paciente->getMedico() === null) {
+                $paciente->setMedico($visita->getMedico());
+            }
             $em->flush();
 
             return $this->redirectToRoute('paciente_historia-clinica', ['id' => $paciente->getId()]);
