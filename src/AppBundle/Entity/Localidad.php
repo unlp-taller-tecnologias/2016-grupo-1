@@ -29,9 +29,6 @@ class Localidad
      */
     protected $localidad;
 
-    /** @ORM\Column(name="cod_postal", type="string", length=60) */
-    protected $codPostal;
-
     /**
      * @ORM\ManyToOne(targetEntity="Partido", inversedBy="localidades")
      * @ORM\JoinColumn(nullable=false)
@@ -82,29 +79,6 @@ class Localidad
     public function getLocalidad()
     {
         return $this->localidad;
-    }
-
-    /**
-     * Set codPostal
-     *
-     * @param string $codPostal
-     * @return Localidad
-     */
-    public function setCodPostal($codPostal)
-    {
-        $this->codPostal = $codPostal;
-
-        return $this;
-    }
-
-    /**
-     * Get codPostal
-     *
-     * @return string
-     */
-    public function getCodPostal()
-    {
-        return $this->codPostal;
     }
 
     /**

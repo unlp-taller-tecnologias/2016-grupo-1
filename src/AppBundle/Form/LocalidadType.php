@@ -16,7 +16,6 @@ class LocalidadType extends AbstractType
     {
         $builder
             ->add('localidad')
-            ->add('codPostal', null, ['label' => 'Código postal'])
             ->add('partido', null, ['placeholder' => '- Seleccione una opción -'])
         ;
     }
