@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Paciente;
+use AppBundle\Entity\Usuario;
 use AppBundle\Repository\PacienteRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -238,6 +239,20 @@ class PacienteController extends Controller
                 'attr' => ['class' => 'hide-spinners'],
                 'required' => false,
                 'data' => (empty($parametros['dni'])) ? null : $parametros['dni'],
+            ])
+            ->add('medico', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, [
+                'class' => 'AppBundle:Usuario',
+                'label' => 'Médico asignado',
+                'placeholder' => '-',
+                'required' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.profesion = :profesion')
+                        ->andWhere('u.enabled = true')
+                        ->orderBy('u.apellido, u.nombre')
+                        ->setParameter('profesion', Usuario::PROFESION_MEDICO)
+                    ;
+                },
             ])
             ->add('tipo', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
                 'required' => false,
