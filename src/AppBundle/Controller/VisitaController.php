@@ -5,10 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Paciente;
 use AppBundle\Entity\Visita;
 use AppBundle\Repository\VisitaRepository;
+use Ob\HighchartsBundle\Highcharts\Highchart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -66,6 +69,9 @@ class VisitaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($visita);
+            if ($paciente->getMedico() === null) {
+                $paciente->setMedico($visita->getMedico());
+            }
             $em->flush();
 
             return $this->redirectToRoute('paciente_historia-clinica', ['id' => $paciente->getId()]);
@@ -75,6 +81,76 @@ class VisitaController extends Controller
             'visita' => $visita,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Genera el reporte de cantidad de visitas
+     *
+     * @Route("/visita/reporte", name="visita_reporte")
+     * @Method("GET")
+     */
+    public function reporte(Request $request)
+    {
+        $form = $this->createReporteForm();
+        $form->handleRequest($request);
+        if (!$form->isSubmitted()) {
+            return $this->render('visita/reporte.html.twig', ['form' => $form->createView()]);
+        }
+
+        return $this->reporteChart($request, $form);
+    }
+
+    private function reporteChart(Request $request, Form $form)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $desdeParam = $request->query->get('form')['desde'];
+        $desde = '01/' .$desdeParam;
+        $hastaParam = $request->query->get('form')['hasta'];
+        $hasta = '31/' .$hastaParam;
+        $desde = implode('-', array_reverse(explode('/', $desde)));
+        $hasta = implode('-', array_reverse(explode('/', $hasta)));
+        $partidoParam = $request->query->get('form')['partido'];
+        if ($partidoParam !== null) {
+            $partido = $em->find('AppBundle:Partido', $partidoParam);
+        }
+
+        /** @var VisitaRepository $visitasRepo */
+        $visitasRepo = $this->getDoctrine()->getRepository('AppBundle:Visita');
+        $visitas = $visitasRepo->cantXPartido($desde, $hasta, $partido);
+
+        $series = [];
+        foreach ($visitas as $visita) {
+            $series[] = [
+                'name' => $visita['lugar'],
+                'data' => [(int) $visita['cant']],
+            ];
+        }
+
+        $ob = new Highchart();
+        $ob->chart->type('column');
+        $ob->chart->renderTo('grafico');
+        if ($partidoParam) {
+            $title = 'Pacientes atendidos de ' . $partido;
+        } else {
+            $title = 'Pacientes atendidos por partido';
+        }
+        $ob->title->text($title);
+        $ob->xAxis->title(['text'  => 'Período']);
+        $ob->yAxis
+            ->title(['text'  => 'Pacientes (cantidad)'])
+            ->allowDecimals(false)
+        ;
+
+        $ob->xAxis->categories([$desdeParam . ' - ' . $hastaParam]);
+
+        $ob->series($series);
+
+        return $this->render('visita/reporte.html.twig', [
+            'form'  => $form->createView(),
+            'chart' => $ob,
+        ]);
+
     }
 
     /**
@@ -167,6 +243,10 @@ class VisitaController extends Controller
         return $this->redirectToRoute('paciente_historia-clinica', ['id' => $pacienteID]);
     }
 
+    public function cantXPartido($desdeQuery, $hastaQuery)
+    {
+    }
+
     /**
      * Genera el PDF con todas las visitas del paciente
      * 
@@ -201,4 +281,24 @@ class VisitaController extends Controller
         ;
     }
 
+    /**
+     * Crea el formulario para generar el reporte
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createReporteForm()
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('visita_reporte'))
+            ->setMethod('GET')
+            ->add('desde')
+            ->add('hasta')
+            ->add('partido', EntityType::class, [
+                'placeholder' => '- Partido (opcional) -',
+                'class' => 'AppBundle:Partido',
+                'required' => false
+            ])
+            ->getForm()
+        ;
+    }
 }

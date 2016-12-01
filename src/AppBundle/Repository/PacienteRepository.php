@@ -54,6 +54,11 @@ class PacienteRepository extends EntityRepository
             $qb->setParameter('nombre', '%' . $parametros['nombre'] . '%');
         }
 
+        if (!empty($parametros['medico'])) {
+            $qb->andWhere('p.medico = :medico');
+            $qb->setParameter('medico', $parametros['medico']);
+        }
+
         if (!empty($parametros['tipo'])) {
             if ($parametros['tipo'] === 'preq') {
                 $qb->andWhere('EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)');
@@ -65,7 +70,7 @@ class PacienteRepository extends EntityRepository
             }
         }
 
-        return $qb;
+        return $qb->orderBy('p.apellido, p.nombre, p.dni');
     }
 
     /**

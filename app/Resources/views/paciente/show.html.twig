@@ -26,6 +26,14 @@
             <th>Obra Social</th>
             <td>{{ paciente.obraSocial|default('-') }}</td>
         </tr>
+        <tr>
+            <th>Médico asignado</th>
+            <td>
+                {% if paciente.medico is not empty %}
+                    <a href="{{ path('usuario_show', {'id': paciente.medico.id}) }}">{{ paciente.medico }}</a>
+                {% else %}-{% endif %}
+            </td>
+        </tr>
     </table>
     <a class="btn btn-primary" href="{{ path('paciente_historia-clinica', { 'id': paciente.id }) }}">
         <i class="fa fa-clipboard" aria-hidden="true"></i> Historia clínica

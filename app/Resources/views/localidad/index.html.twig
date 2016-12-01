@@ -40,6 +40,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(localidades) }}
+    </div>
     {% else %}
         <p>Aún no se ha registrado ninguna localidad.</p>
     {% endif %}

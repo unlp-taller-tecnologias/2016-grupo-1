@@ -5,14 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Paciente;
 use AppBundle\Repository\PacienteRepository;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Paciente controller.
@@ -30,10 +28,17 @@ class PacienteController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $request->getSession()->remove('busqueda');
-        /** @var EntityRepository $pacientesRepo */
+        $searchForm = $this->createForm('AppBundle\Form\PacienteSearchType');
+        $searchForm->handleRequest($request);
+
+        /** @var PacienteRepository $pacientesRepo */
         $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
-        $pacientesQB = $pacientesRepo->createQueryBuilder('p')->orderBy('p.apellido, p.nombre, p.dni');
+        if ($searchForm->isSubmitted()) {
+            $pacientesQB = $pacientesRepo->findAllByMultiParametros($searchForm->getData());
+        } else {
+            $pacientesQB = $pacientesRepo->createQueryBuilder('p')->orderBy('p.apellido, p.nombre, p.dni');
+        }
+
         $pacientes = $this->get('knp_paginator')->paginate(
             $pacientesQB,
             $request->query->getInt('page', 1),
@@ -49,64 +54,8 @@ class PacienteController extends Controller
         return $this->render('paciente/index.html.twig', [
             'pacientes' => $pacientes,
             'delete_forms' => $deleteForms,
-            'search_form' => $this->createSearchForm()->createView(),
+            'search_form' => $searchForm->createView(),
         ]);
-    }
-
-    /**
-     * Buscar un paciente.
-     * Procesa los datos enviados desde un formulario de búsqueda.
-     * Almacena los parámetros de la búsqueda en la sesión para
-     * no interferir con el paginado.
-     * 
-     * @Route("/buscar", name="paciente_search")
-     * @Method({"POST", "GET"})
-     */
-    public function searchAction(Request $request) {
-        $this->procesarParametrosBusqueda($request->request->get('form'));
-        $pacientes = $this->get('knp_paginator')->paginate(
-            $this->obtenerConsulta(),
-            $request->query->getInt('page', 1),
-            5
-        );
-
-        $deleteForms = [];
-        /** @var Paciente $paciente */
-        foreach ($pacientes as $paciente) {
-            $deleteForms[$paciente->getId()] = $this->createDeleteForm($paciente)->createView();
-        }
-
-        return $this->render('paciente/index.html.twig', [
-            'pacientes' => $pacientes,
-            'delete_forms' => $deleteForms,
-            'search_form' => $this->createSearchForm()->createView()
-        ]);
-    }
-
-    /**
-     * Procesa los datos enviados desde el formulario y los agrega a la sesión,
-     * o bien persiste los datos si existieran (flash).
-     */
-    private function procesarParametrosBusqueda($parametros = null)
-    {
-        /** @var Session $session */
-        $session = $this->get('session');
-        if ($parametros !== null) {
-            $session->set('busqueda', $parametros);
-        }
-    }
-
-    /**
-     * Crea la consulta de búsqueda de pacientes tomando los parámetros desde la sesión.
-     * @return QueryBuilder object
-     */
-    private function obtenerConsulta()
-    {
-        /** @var PacienteRepository $pacientesRepo */
-        $pacientesRepo = $this->getDoctrine()->getRepository('AppBundle:Paciente');
-        $pacientesQuery = $pacientesRepo->findAllByMultiParametros($this->get('session')->get('busqueda'));
-
-        return $pacientesQuery;
     }
 
     /**
@@ -219,39 +168,4 @@ class PacienteController extends Controller
             ->getForm()
         ;
     }
-
-    /**
-     * Crear el formulario para buscar un paciente.
-     *
-     * @return \Symfony\Component\Form\Form Formulario
-     */
-    private function createSearchForm()
-    {
-        $parametros = $this->get('session')->get('busqueda');
-        return $this->createFormBuilder($parametros)
-            ->setAction($this->generateUrl('paciente_search'))
-            ->setMethod('POST')
-            ->add('apellido', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
-            ->add('nombre', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false])
-            ->add('dni', \Symfony\Component\Form\Extension\Core\Type\IntegerType::class, [
-                'label' => 'DNI',
-                'attr' => ['class' => 'hide-spinners'],
-                'required' => false,
-                'data' => (empty($parametros['dni'])) ? null : $parametros['dni'],
-            ])
-            ->add('tipo', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
-                'required' => false,
-                'multiple' => false,
-                'label' => 'Tipo de paciente',
-                'choices' => [
-                    'Nuevos' => 'nuevos',
-                    'Del servicio' => 'serv',
-                    'Prequirúrgicos' => 'preq',
-                ],
-                'choices_as_values' => true,
-            ])
-            ->getForm()
-        ;
-    }
-
 }

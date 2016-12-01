@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medicacion;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class MedicacionController extends Controller
      * @Route("/", name="medicacion_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $medicaciones = $em->getRepository('AppBundle:Medicacion')->findAll();
+        /** @var EntityRepository $medicacionesRepo */
+        $medicacionesRepo = $this->getDoctrine()->getRepository('AppBundle:Medicacion');
+        $medicacionesQB = $medicacionesRepo->createQueryBuilder('m')->orderBy('m.medicacion');
+        $medicaciones = $this->get('knp_paginator')->paginate(
+            $medicacionesQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Medicacion $medicacion */

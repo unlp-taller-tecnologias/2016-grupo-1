@@ -26,6 +26,42 @@ class VisitaRepository extends EntityRepository
         return $qb;
     }
 
+    public function cantXPartido($inicio, $fin, $partido = null)
+    {
+        $qb = $this->createQueryBuilder('v');
+
+        $parameters = [
+            'inicio' => $inicio,
+            'fin' => $fin,
+        ];
+
+        if ($partido !== null) {
+            $qb
+                ->select('l.localidad AS lugar, COUNT(l.localidad) AS cant')
+                ->where('par = :partido')
+                ->addGroupBy('l.localidad')
+            ;
+            $parameters['partido'] = $partido;
+        } else {
+            $qb
+                ->select('par.partido AS lugar, COUNT(par.partido) AS cant')
+                ->addGroupBy('par.partido')
+            ;
+        }
+
+        $qb
+            ->join('v.paciente', 'pac')
+            ->join('pac.localidad', 'l')
+            ->join('l.partido', 'par')
+            ->andWhere('v.fecha BETWEEN :inicio AND :fin')
+            ->setParameters($parameters)
+        ;
+
+        $result = $qb->getQuery()->getArrayResult();
+
+        return $result;
+    }
+
     /**
      * @param \PHPExcel $phpExcelObject
      * @param integer $sheetIndex

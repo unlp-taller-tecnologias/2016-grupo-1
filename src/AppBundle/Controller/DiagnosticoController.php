@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Diagnostico;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class DiagnosticoController extends Controller
      * @Route("/", name="diagnostico_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $diagnosticos = $em->getRepository('AppBundle:Diagnostico')->findAll();
+        /** @var EntityRepository $diagnosticosRepo */
+        $diagnosticosRepo = $this->getDoctrine()->getRepository('AppBundle:Diagnostico');
+        $diagnosticosQB = $diagnosticosRepo->createQueryBuilder('d')->orderBy('d.diagnostico');
+        $diagnosticos = $this->get('knp_paginator')->paginate(
+            $diagnosticosQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Diagnostico $diagnostico */

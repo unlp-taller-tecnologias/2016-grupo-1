@@ -2,17 +2,17 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Paciente;
 use AppBundle\Entity\Usuario;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PacienteType extends AbstractType
+class PacienteSearchType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -21,23 +21,13 @@ class PacienteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dni', null, [
+            ->setMethod('GET')
+            ->add('apellido', TextType::class, ['required' => false])
+            ->add('nombre', TextType::class, ['required' => false])
+            ->add('dni', IntegerType::class, [
                 'label' => 'DNI',
-                'attr' => [
-                    'min' => '10000000',
-                    'max' => '99999999',
-                ]
-            ])
-            ->add('apellido')
-            ->add('nombre')
-            ->add('edad', IntegerType::class)
-            ->add('sexo', ChoiceType::class, [
-                'placeholder' => "- Seleccione una opción -",
-                'choices' => [
-                    'Femenino' => Paciente::SEXO_FEMENINO,
-                    'Masculino' => Paciente::SEXO_MASCULINO,
-                ],
-                'choices_as_values' => true
+                'attr' => ['class' => 'hide-spinners'],
+                'required' => false,
             ])
             ->add('medico', EntityType::class, [
                 'class' => 'AppBundle:Usuario',
@@ -53,16 +43,19 @@ class PacienteType extends AbstractType
                     ;
                 },
             ])
-            ->add('obraSocial')
-            ->add('localidad', EntityType::class, [
-                'class' => 'AppBundle:Localidad',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.localidad', 'ASC');
-                },
-                'placeholder' => '- Seleccione una opción -',
-
+            ->add('tipo', ChoiceType::class, [
+                'required' => false,
+                'multiple' => false,
+                'label' => 'Tipo de paciente',
+                'placeholder' => '-',
+                'choices' => [
+                    'Nuevos' => 'nuevos',
+                    'Del servicio' => 'serv',
+                    'Prequirúrgicos' => 'preq',
+                ],
+                'choices_as_values' => true,
             ])
+            ->getForm()
         ;
     }
 
@@ -71,7 +64,14 @@ class PacienteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Paciente']);
+        $resolver->setDefaults([
+            'allow_extra_fields' => true,
+            'csrf_protection' => false,
+        ]);
     }
 
+    public function getName()
+    {
+        return null;
+    }
 }
