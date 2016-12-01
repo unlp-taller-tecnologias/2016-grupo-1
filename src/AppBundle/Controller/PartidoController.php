@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Partido;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class PartidoController extends Controller
      * @Route("/", name="partido_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $partidos = $em->getRepository('AppBundle:Partido')->findAll();
+        /** @var EntityRepository $partidosRepo */
+        $partidosRepo = $this->getDoctrine()->getRepository('AppBundle:Partido');
+        $partidosQB = $partidosRepo->createQueryBuilder('p')->orderBy('p.partido');
+        $partidos = $this->get('knp_paginator')->paginate(
+            $partidosQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Partido $partido */

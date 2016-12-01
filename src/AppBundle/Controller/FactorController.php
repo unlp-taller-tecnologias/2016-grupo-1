@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Factor;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class FactorController extends Controller
      * @Route("/", name="factor_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $factores = $em->getRepository('AppBundle:Factor')->findAll();
+        /** @var EntityRepository $factoresRepo */
+        $factoresRepo = $this->getDoctrine()->getRepository('AppBundle:Factor');
+        $factoresQB = $factoresRepo->createQueryBuilder('f')->orderBy('f.factor');
+        $factores = $this->get('knp_paginator')->paginate(
+            $factoresQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Factor $factor */

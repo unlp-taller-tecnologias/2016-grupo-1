@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Localidad;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class LocalidadController extends Controller
      * @Route("/", name="localidad_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $localidades = $em->getRepository('AppBundle:Localidad')->findAll();
+        /** @var EntityRepository $localidadesRepo */
+        $localidadesRepo = $this->getDoctrine()->getRepository('AppBundle:Localidad');
+        $localidadesQB = $localidadesRepo->createQueryBuilder('l')->orderBy('l.localidad');
+        $localidades = $this->get('knp_paginator')->paginate(
+            $localidadesQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Localidad $localidad */

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Motivo;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,10 +25,16 @@ class MotivoController extends Controller
      * @Route("/", name="motivo_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $motivos = $em->getRepository('AppBundle:Motivo')->findAll();
+        /** @var EntityRepository $motivosRepo */
+        $motivosRepo = $this->getDoctrine()->getRepository('AppBundle:Motivo');
+        $motivosQB = $motivosRepo->createQueryBuilder('m')->orderBy('m.motivo');
+        $motivos = $this->get('knp_paginator')->paginate(
+            $motivosQB,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $deleteForms = [];
         /** @var Motivo $motivo */
