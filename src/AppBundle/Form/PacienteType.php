@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Paciente;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -38,7 +39,8 @@ class PacienteType extends AbstractType
                 'choices_as_values' => true
             ])
             ->add('obraSocial')
-            ->add('localidad', null, [
+            ->add('localidad', EntityType::class, [
+                'class' => 'AppBundle:Localidad',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('l')
                         ->orderBy('l.localidad', 'ASC');
