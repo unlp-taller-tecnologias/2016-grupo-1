@@ -87,11 +87,11 @@ knp_paginator:
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     /usr/bin/wkhtmltopdf
+        binary:     C:\xampp\htdocs\grupo1\vendor\wkhtmltopdf\bin\wkhtmltopdf.exe
         options:    []
     image:
         enabled:    true
-        binary:     /usr/bin/wkhtmltoimage
+        binary:     C:\xampp\htdocs\grupo1\vendor\wkhtmltopdf\bin\wkhtmltoimage.exe
         options:    []
 
 # DizdaCloudBackupBundle
