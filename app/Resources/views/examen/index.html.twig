@@ -24,7 +24,6 @@
                         <td>{{ examen.gradoRiesgo }}</td>
                         <td>
                             <div class="item-actions">
-                                <a href="{{ path('examen_print', { 'id': examen.id }) }}" class="btn btn-sm btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Generar PDF</a>
                                 {% if is_granted('ROLE_MEDICO') %}
 
                                     <a href="{{ path('examen_show', { 'id': examen.id }) }}" class="btn btn-sm btn-default">Ver</a>

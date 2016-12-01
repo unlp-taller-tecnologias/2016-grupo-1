@@ -364,7 +364,7 @@ class Paciente
      *
      * @param Examen $examen
      */
-    public function removeExamen(Visita $examen)
+    public function removeExamen(Examen $examen)
     {
         $this->visitas->removeElement($examen);
     }
@@ -385,6 +385,6 @@ class Paciente
     */
     public function __toString()
     {
-       return $this->getNombre() . " " . $this->getApellido();
+        return $this->apellido . ' ' . $this->nombre;
     }
 }

@@ -32,7 +32,7 @@ class PacienteType extends AbstractType
             ->add('nombre')
             ->add('edad', IntegerType::class)
             ->add('sexo', ChoiceType::class, [
-                'placeholder' => "- Seleccione una opción -",
+                'placeholder' => '- Seleccione un sexo -',
                 'choices' => [
                     'Femenino' => Paciente::SEXO_FEMENINO,
                     'Masculino' => Paciente::SEXO_MASCULINO,
@@ -54,13 +54,11 @@ class PacienteType extends AbstractType
                 },
             ])
             ->add('obraSocial')
-            ->add('localidad', EntityType::class, [
-                'class' => 'AppBundle:Localidad',
+            ->add('localidad', null, [
+                'placeholder' => '- Seleccione una localidad -',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.localidad', 'ASC');
+                    return $er->createQueryBuilder('l')->orderBy('l.localidad');
                 },
-                'placeholder' => '- Seleccione una opción -',
 
             ])
         ;

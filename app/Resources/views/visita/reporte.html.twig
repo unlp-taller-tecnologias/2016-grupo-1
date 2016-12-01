@@ -13,6 +13,7 @@
             </div>
             {{ form_widget(form.partido) }}
             <input type="submit" class="btn btn-primary btn-block" value="Generar reporte">
+        {{ form_end(form) }}
     </div>
 
     {% if chart is defined %}

@@ -9,7 +9,6 @@ use Ob\HighchartsBundle\Highcharts\Highchart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +90,7 @@ class VisitaController extends Controller
      */
     public function reporte(Request $request)
     {
-        $form = $this->createReporteForm();
+        $form = $this->createForm('AppBundle\Form\ReporteType');
         $form->handleRequest($request);
         if (!$form->isSubmitted()) {
             return $this->render('visita/reporte.html.twig', ['form' => $form->createView()]);
@@ -104,20 +103,23 @@ class VisitaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $desdeParam = $request->query->get('form')['desde'];
-        $desde = '01/' .$desdeParam;
-        $hastaParam = $request->query->get('form')['hasta'];
-        $hasta = '31/' .$hastaParam;
-        $desde = implode('-', array_reverse(explode('/', $desde)));
-        $hasta = implode('-', array_reverse(explode('/', $hasta)));
-        $partidoParam = $request->query->get('form')['partido'];
-        if ($partidoParam !== null) {
-            $partido = $em->find('AppBundle:Partido', $partidoParam);
-        }
+        $formData = $form->getData();
+        $desde = '01/' . $formData['desde']; // Añadir día inicial
+        $hasta = '31/' . $formData['hasta']; // Añadir día límite
+        $desde = implode('/', array_reverse(explode('/', $desde))); // Invertir formato
+        $hasta = implode('/', array_reverse(explode('/', $hasta))); // Invertir formato
+        $partido = $formData['partido'];
 
         /** @var VisitaRepository $visitasRepo */
         $visitasRepo = $this->getDoctrine()->getRepository('AppBundle:Visita');
-        $visitas = $visitasRepo->cantXPartido($desde, $hasta, $partido);
+        if ($partido !== null) {
+            $partido = $em->find('AppBundle:Partido', $partido);
+            $title = 'Pacientes atendidos de ' . $partido;
+            $visitas = $visitasRepo->cantXPartido($desde, $hasta, $partido);
+        } else {
+            $title = 'Pacientes atendidos por partido';
+            $visitas = $visitasRepo->cantXPartido($desde, $hasta);
+        }
 
         $series = [];
         foreach ($visitas as $visita) {
@@ -130,11 +132,6 @@ class VisitaController extends Controller
         $ob = new Highchart();
         $ob->chart->type('column');
         $ob->chart->renderTo('grafico');
-        if ($partidoParam) {
-            $title = 'Pacientes atendidos de ' . $partido;
-        } else {
-            $title = 'Pacientes atendidos por partido';
-        }
         $ob->title->text($title);
         $ob->xAxis->title(['text'  => 'Período']);
         $ob->yAxis
@@ -142,7 +139,7 @@ class VisitaController extends Controller
             ->allowDecimals(false)
         ;
 
-        $ob->xAxis->categories([$desdeParam . ' - ' . $hastaParam]);
+        $ob->xAxis->categories([$formData['desde'] . ' - ' . $formData['hasta']]);
 
         $ob->series($series);
 
@@ -277,27 +274,6 @@ class VisitaController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('visita_delete', ['id' => $visita->getId()]))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
-
-    /**
-     * Crea el formulario para generar el reporte
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createReporteForm()
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('visita_reporte'))
-            ->setMethod('GET')
-            ->add('desde')
-            ->add('hasta')
-            ->add('partido', EntityType::class, [
-                'placeholder' => '- Partido (opcional) -',
-                'class' => 'AppBundle:Partido',
-                'required' => false
-            ])
             ->getForm()
         ;
     }

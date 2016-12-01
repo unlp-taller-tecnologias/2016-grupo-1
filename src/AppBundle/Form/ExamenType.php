@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -32,20 +31,16 @@ class ExamenType extends AbstractType
             ])
             ->add('derivadoDesde')
             ->add('procedimiento')
-            ->add('medicaciones', EntityType::class, [
-                'class' => 'AppBundle:Medicacion',
-                'required' => false,
+            ->add('medicaciones', null, [
+                'label' => 'Medicación',
                 'multiple' => true,
                 'expanded' => true,
-                'label' => 'Medicación'
             ])
             ->add('otrasMedicaciones', 'text', ['label' => 'Medicación (otras)', 'required' => false])
-            ->add('factores', EntityType::class, [
-                'class' => 'AppBundle:Factor',
-                'required' => false,
+            ->add('factores', null, [
+                'label' => 'Factores de riesgo cardiovascular',
                 'multiple' => true,
                 'expanded' => true,
-                'label' => 'Factores de riesgo cardiovascular'
             ])
             ->add('otrosFactores', 'text', ['label' => 'Factores de riesgo (otros)', 'required' => false])
             ->add('antecedentes')
@@ -53,16 +48,14 @@ class ExamenType extends AbstractType
                 'label' => 'Tensión arterial sistólica',
                 'attr' => [
                     'class' => 'en-linea',
-                    'size' => 3,
-                    'max' => 999
+                    'max' => 999,
                 ]
             ])
             ->add('tensionArterialDiastolica', null, [
                 'label' => 'Tensión arterial diastólica',
                 'attr' => [
                     'class' => 'en-linea',
-                    'size' => 3,
-                    'max' => 999
+                    'max' => 999,
                 ]
             ])
             ->add('ruido1', null, ['label' => 'R1'])

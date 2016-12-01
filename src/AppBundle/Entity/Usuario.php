@@ -234,6 +234,6 @@ class Usuario extends FOSUser
 
     public function __toString()
     {
-        return $this->nombre . ' ' . $this->apellido;
+        return $this->apellido . ' ' . $this->nombre;
     }
 }
