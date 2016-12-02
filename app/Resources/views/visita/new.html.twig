@@ -10,6 +10,10 @@
             <label for="paciente" class="control-label">Paciente</label>
             <input class="form-control" id="paciente" value="{{ visita.paciente }}" readonly>
         </div>
+        <div class="form-group">
+            <label for="medico" class="control-label">Médico</label>
+            <input class="form-control" id="medico" value="{{ visita.medico }}" readonly>
+        </div>
         {{ form_widget(form) }}
         <input type="submit" value="Guardar" class="btn btn-primary" />
         <a class="btn btn-danger" href="{{ path('paciente_historia-clinica', {'id': visita.paciente.id}) }}">Cancelar</a>

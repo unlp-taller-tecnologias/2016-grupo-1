@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +16,6 @@ class LocalidadType extends AbstractType
     {
         $builder
             ->add('localidad')
-            ->add('codPostal', null, ['label' => 'Código postal'])
             ->add('partido', null, ['placeholder' => '- Seleccione una opción -'])
         ;
     }

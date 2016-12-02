@@ -1,7 +1,8 @@
 {% extends 'layout/print/base.html.twig' %}
 
 {% block block_id %}examen_print{% endblock %}
-{% block document_title %}Examen prequirúrgico | Paciente: {{examen.paciente.apellido}}, {{examen.paciente.nombre}}{% endblock %}
+
+{% block document_title %}Examen prequirúrgico | Paciente: {{ examen.paciente }}{% endblock %}
 
 {% block main %}
     <div class="panel panel-primary">

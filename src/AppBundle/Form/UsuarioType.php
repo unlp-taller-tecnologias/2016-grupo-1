@@ -6,7 +6,6 @@ use AppBundle\Entity\Usuario;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,11 +29,11 @@ class UsuarioType extends AbstractType
                     'max' => '99999999',
                 ]
             ])
-            ->add('nombre')
             ->add('apellido')
+            ->add('nombre')
             ->add('telefono', null, ['label' => 'Teléfono'])
             ->add('profesion', ChoiceType::class, [
-                'placeholder' => '- Seleccione una opción -',
+                'placeholder' => '- Seleccione una profesión -',
                 'label' => 'Profesión',
                 'choices' => [
                     'Médico'     => Usuario::PROFESION_MEDICO,
