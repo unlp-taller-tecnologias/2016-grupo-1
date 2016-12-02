@@ -63,3 +63,10 @@ $("#menu-toggle").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
+
+// Clean search URL's
+$('.clean-url').submit(function() {
+    $(':input', this).each(function() {
+        this.disabled = !($(this).val());
+    });
+});

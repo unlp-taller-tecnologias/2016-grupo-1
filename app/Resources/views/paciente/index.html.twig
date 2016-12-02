@@ -65,7 +65,10 @@
         <div class="section search">
             <div class="well well-lg">
                 {{ include('paciente/_search_form.html.twig', {
-                    attr: {'style': 'display: inline-block'},
+                    attr: {
+                        'style': 'display: inline-block',
+                        'class': 'clean-url'
+                    },
                     busqueda: search_form
                 }) }}
             </div>
