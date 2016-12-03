@@ -30,7 +30,7 @@ class Paciente
     /**
      * @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
      * @Assert\Type(type="integer", message="El DNI sólo puede contener dígitos")
-     * @Assert\Length(min=8, max=8, exactMessage="El DNI debe estar compuesto por {{ limit }} dígitos")
+     * @Assert\Length(min=7, max=8, minMessage="El DNI debe tener al menos {{ limit }} dígitos", maxMessage="El DNI debe tener como máximo {{ limit }} dígitos")
      */
     protected $dni;
 

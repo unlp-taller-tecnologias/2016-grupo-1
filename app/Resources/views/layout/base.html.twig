@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Servicio de Cardiología - Hospital San Martín{% endblock %}</title>
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap-flatly-3.3.7.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/simple-sidebar.css ') }}">
@@ -58,6 +59,7 @@
 
     {% block javascripts %}
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('js/locales/bootstrap-datepicker.es.min.js') }}"></script>

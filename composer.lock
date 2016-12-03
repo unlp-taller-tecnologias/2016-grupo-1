@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f08a3b0ab31b8260a4a084bb9fa557e",
+    "hash": "25f78ec4f90873bec1335277fa0d6f49",
     "content-hash": "8b0d9544c4f8a2f1357f7a607732dedc",
     "packages": [
         {
@@ -849,12 +849,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "28151dcb25de663c05ce26917fd6a0b5cb2787cf"
+                "reference": "507ae09e95788d23e8cdbd1b3c23b5c46dc8b5a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/28151dcb25de663c05ce26917fd6a0b5cb2787cf",
-                "reference": "28151dcb25de663c05ce26917fd6a0b5cb2787cf",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/507ae09e95788d23e8cdbd1b3c23b5c46dc8b5a1",
+                "reference": "507ae09e95788d23e8cdbd1b3c23b5c46dc8b5a1",
                 "shasum": ""
             },
             "require": {
@@ -863,6 +863,7 @@
                 "symfony/form": "^2.7 || ^3.0",
                 "symfony/framework-bundle": "^2.7 || ^3.0",
                 "symfony/security-bundle": "^2.7 || ^3.0",
+                "symfony/templating": "^2.7 || ^3.0",
                 "symfony/twig-bundle": "^2.7 || ^3.0"
             },
             "conflict": {
@@ -915,11 +916,7 @@
             "keywords": [
                 "User management"
             ],
-<<<<<<< HEAD
-            "time": "2016-12-01 10:54:27"
-=======
-            "time": "2016-11-29 14:53:27"
->>>>>>> 7aef00047e12f2c3b52141eda75db9671ec8fdeb
+            "time": "2016-12-02 11:20:52"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1461,8 +1458,6 @@
                 "psr-3"
             ],
             "time": "2016-11-26 00:15:39"
-<<<<<<< HEAD
-=======
         },
         {
             "name": "ob/highcharts-bundle",
@@ -1517,7 +1512,6 @@
                 "ob"
             ],
             "time": "2016-07-26 23:46:28"
->>>>>>> 7aef00047e12f2c3b52141eda75db9671ec8fdeb
         },
         {
             "name": "paragonie/random_compat",

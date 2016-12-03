@@ -1,6 +1,4 @@
-<?php
-
-namespace AppBundle\Controller;
+<?php namespace AppBundle\Controller;
 
 use AppBundle\Entity\Paciente;
 use AppBundle\Repository\PacienteRepository;
@@ -17,16 +15,14 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  * @Route("/paciente")
  * @Security("has_role('ROLE_USER')")
  */
-class PacienteController extends Controller
-{
+class PacienteController extends Controller {
     /**
      * Lists all Paciente entities.
      *
      * @Route("/", name="paciente_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(Request $request) {
         $searchForm = $this->createForm('AppBundle\Form\PacienteSearchType');
         $searchForm->handleRequest($request);
 
@@ -39,9 +35,7 @@ class PacienteController extends Controller
         }
 
         $pacientes = $this->get('knp_paginator')->paginate(
-            $pacientesQB,
-            $request->query->getInt('page', 1),
-            5
+                $pacientesQB, $request->query->getInt('page', 1), 5
         );
 
         $deleteForms = [];
@@ -51,9 +45,9 @@ class PacienteController extends Controller
         }
 
         return $this->render('paciente/index.html.twig', [
-            'pacientes' => $pacientes,
-            'delete_forms' => $deleteForms,
-            'search_form' => $searchForm->createView(),
+                    'pacientes' => $pacientes,
+                    'delete_forms' => $deleteForms,
+                    'search_form' => $searchForm->createView(),
         ]);
     }
 
@@ -63,8 +57,7 @@ class PacienteController extends Controller
      * @Route("/agregar", name="paciente_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $paciente = new Paciente();
         $form = $this->createForm('AppBundle\Form\PacienteType', $paciente);
         $form->handleRequest($request);
@@ -77,9 +70,11 @@ class PacienteController extends Controller
             return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
+        $partidos = $this->getDoctrine()->getRepository('AppBundle:Partido')->findAll();
         return $this->render('paciente/new.html.twig', [
-            'paciente' => $paciente,
-            'form' => $form->createView(),
+                    'paciente' => $paciente,
+                    'form' => $form->createView(),
+                    'partidos' => $partidos
         ]);
     }
 
@@ -89,13 +84,12 @@ class PacienteController extends Controller
      * @Route("/{id}", name="paciente_show")
      * @Method("GET")
      */
-    public function showAction(Paciente $paciente)
-    {
+    public function showAction(Paciente $paciente) {
         $deleteForm = $this->createDeleteForm($paciente);
 
         return $this->render('paciente/show.html.twig', [
-            'paciente' => $paciente,
-            'delete_form' => $deleteForm->createView(),
+                    'paciente' => $paciente,
+                    'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -105,8 +99,7 @@ class PacienteController extends Controller
      * @Route("/{id}/editar", name="paciente_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Paciente $paciente)
-    {
+    public function editAction(Request $request, Paciente $paciente) {
         $editForm = $this->createForm('AppBundle\Form\PacienteType', $paciente);
         $editForm->handleRequest($request);
 
@@ -118,9 +111,12 @@ class PacienteController extends Controller
             return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
+        $partidos = $this->getDoctrine()->getRepository('AppBundle:Partido')->findAll();
+
         return $this->render('paciente/edit.html.twig', [
-            'paciente' => $paciente,
-            'edit_form' => $editForm->createView(),
+                    'paciente' => $paciente,
+                    'edit_form' => $editForm->createView(),
+                    'partidos' => $partidos
         ]);
     }
 
@@ -131,8 +127,7 @@ class PacienteController extends Controller
      * @Method("DELETE")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function deleteAction(Request $request, Paciente $paciente)
-    {
+    public function deleteAction(Request $request, Paciente $paciente) {
         $form = $this->createDeleteForm($paciente);
         $form->handleRequest($request);
 
@@ -162,9 +157,10 @@ class PacienteController extends Controller
      */
     private function createDeleteForm(Paciente $paciente) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('paciente_delete', ['id' => $paciente->getId()]))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('paciente_delete', ['id' => $paciente->getId()]))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }
