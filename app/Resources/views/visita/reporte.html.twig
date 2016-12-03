@@ -5,7 +5,7 @@
 {% block body %}
     <h1 class="text-center">Reporte de pacientes atendidos</h1>
     <div class="row">
-        {{ form_start(form, {'attr': {'class': 'col-sm-offset-4 col-sm-4'}}) }}
+        {{ form_start(form, {'attr': {'class': 'col-sm-offset-4 col-sm-4 clean-url'}}) }}
             <div class="input-daterange input-group" id="input-daterange-reporte">
                 {{ form_widget(form.desde) }}
                 <span class="input-group-addon">hasta</span>

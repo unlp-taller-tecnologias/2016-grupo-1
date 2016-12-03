@@ -64,9 +64,14 @@ $("#menu-toggle").click(function (e) {
     $("#wrapper").toggleClass("toggled");
 });
 
-
 $("#boton-buscar-localidad").click(function () {
     $("#select-localidad-modal").dialog({
     }
     );
+});
+
+$('.clean-url').submit(function() {
+    $(':input', this).each(function() {
+        this.disabled = !($(this).val());
+    });
 });
