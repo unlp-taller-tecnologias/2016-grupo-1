@@ -25,7 +25,7 @@ class UsuarioType extends AbstractType
             ->add('username', null, [
                 'label' => 'DNI',
                 'attr' => [
-                    'min' => '10000000',
+                    'min' => '1000000',
                     'max' => '99999999',
                 ]
             ])
