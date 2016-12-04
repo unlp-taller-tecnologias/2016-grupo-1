@@ -1,6 +1,4 @@
-<?php
-
-namespace AppBundle\Entity;
+<?php namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="localidad")
  * @UniqueEntity({"localidad", "partido"}, message="Ya existe una localidad con ese nombre en el partido seleccionado")
  */
-class Localidad
-{
+class Localidad implements \JsonSerializable {
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -42,9 +39,7 @@ class Localidad
      */
     protected $pacientes;
 
-
-    public function __construct()
-    {
+    public function __construct() {
         $this->pacientes = new ArrayCollection();
     }
 
@@ -53,8 +48,7 @@ class Localidad
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -64,8 +58,7 @@ class Localidad
      * @param string $localidad
      * @return Localidad
      */
-    public function setLocalidad($localidad)
-    {
+    public function setLocalidad($localidad) {
         $this->localidad = ucwords(strtolower($localidad));
 
         return $this;
@@ -76,8 +69,7 @@ class Localidad
      *
      * @return string
      */
-    public function getLocalidad()
-    {
+    public function getLocalidad() {
         return $this->localidad;
     }
 
@@ -87,8 +79,7 @@ class Localidad
      * @param Partido $partido
      * @return Localidad
      */
-    public function setPartido(Partido $partido = null)
-    {
+    public function setPartido(Partido $partido = null) {
         $this->partido = $partido;
 
         return $this;
@@ -99,8 +90,7 @@ class Localidad
      *
      * @return Partido
      */
-    public function getPartido()
-    {
+    public function getPartido() {
         return $this->partido;
     }
 
@@ -110,8 +100,7 @@ class Localidad
      * @param Paciente $paciente
      * @return Localidad
      */
-    public function addPaciente(Paciente $paciente)
-    {
+    public function addPaciente(Paciente $paciente) {
         $this->pacientes[] = $paciente;
 
         return $this;
@@ -122,8 +111,7 @@ class Localidad
      *
      * @param Paciente $paciente
      */
-    public function removePaciente(Paciente $paciente)
-    {
+    public function removePaciente(Paciente $paciente) {
         $this->pacientes->removeElement($paciente);
     }
 
@@ -132,13 +120,19 @@ class Localidad
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPacientes()
-    {
+    public function getPacientes() {
         return $this->pacientes;
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return $this->localidad . ' - ' . $this->partido;
     }
+
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->id,
+            'localidad' => $this->localidad
+        );
+    }
+
 }

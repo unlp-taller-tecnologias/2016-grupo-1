@@ -2,6 +2,7 @@
 
 use AppBundle\Entity\Paciente;
 use AppBundle\Entity\Usuario;
+use AppBundle\Form\DataTransformer\StringToLocalidadTransformer;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -9,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -52,22 +54,21 @@ class PacienteType extends AbstractType {
                         ;
                     },
                 ])
-                ->add('localidad', HiddenType::class)
+                ->add('localidad', HiddenType::class, [
+                    'property_path' => 'localidad'
+                ])
                 ->add('obraSocial')
-        /* ->add('localidad', null, [
-          'placeholder' => '- Seleccione una localidad -',
-          'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('l')->orderBy('l.localidad');
-          },
-
-          ]) */
         ;
+
+        $builder->get('localidad')
+                ->addModelTransformer(new StringToLocalidadTransformer($options['entity_manager']));
     }
 
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver) {
+        $resolver->setRequired(['entity_manager']);
         $resolver->setDefaults(['data_class' => 'AppBundle\Entity\Paciente']);
     }
 

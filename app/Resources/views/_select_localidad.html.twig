@@ -1,0 +1,19 @@
+<div id="select-localidad-modal" hidden="true">
+    <div class="input-group">
+        <label class="input-group-addon" id="label-partido">Partido:</label>
+        <select id="select-partido" aria-describedby="label-partido" class="form-control" onchange="fill_localidades('{{ path("partido_localidades", {'id': 'id'}) }}')">
+            <option value=""> - Seleccione un partido - </option>
+            {% for partido in partidos %}
+                <option value="{{partido.id}}">{{partido.partido}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="input-group">
+        <label class="input-group-addon" id="label-localidad">Localidad:</label>
+        <select id="select-localidad" aria-describedby="label-localidad" class="form-control" disabled="true" onchange="reset_localidad_error()">
+            <option value="">Seleccione un partido primero</option>
+        </select>
+    </div>
+    <div id="select-localidad-error" class="text text-danger" hidden="true">
+    </div>
+</div>

@@ -57,21 +57,76 @@ $(document).ready(function () {
     });
 })(window.jQuery);
 
+$(document).ready(function () {
+    $("#select-localidad-modal").dialog({
+        autoOpen: false,
+        title: "Buscador de localidades",
+        width: 'auto',
+        modal: true,
+        buttons: [
+            {
+                text: 'Aceptar',
+                class: 'btn btn-primary',
+                click: function () {
+                    if ($("#select-localidad").val().length < 1) {
+                        $("#select-localidad-error").html("Por favor, seleccione una localidad para continuar").show();
+                    } else {
+                        $("#paciente_localidad").val($("#select-localidad").val());
+                        $("#paciente_localidad_text").val($("#select-localidad option:selected").text() + ' (' + $("#select-partido option:selected").text() + ')');
+                        $(this).dialog("close");
+                    }
+                }
+            },
+            {
+                text: 'Cancelar',
+                click: function () {
+                    $(this).dialog("close");
+                },
+                class: 'btn btn-danger'
+            }
+        ]
+    });
+    $("#boton-buscar-localidad").click(function () {
+        reset_localidad_error();
+        $("#select-localidad-modal").dialog("open");
+    });
+    $('#select-partido option:eq("")').prop('selected', true);
+});
 
+function fill_localidades(url) {
+    $("#select-localidad").empty();
+    if ($("#select-partido").val().length > 0) {
+        $.ajax({
+            url: url.replace(/\/id\//g, '/' + $("#select-partido").val() + '/'),
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var opt = $("<option>").val("").html(" - Seleccione una localidad - ");
+                $("#select-localidad").append(opt);
+                for (i = 0; i < data.length; i++) {
+                    opt = $("<option>").val(data[i].id).html(data[i].localidad);
+                    $("#select-localidad").append(opt);
+                }
+            }
+        });
+        $("#select-localidad").attr("disabled", false);
+    } else {
+        $("#select-localidad").html("<option value=''>Seleccione un partido primero</option>").attr("disabled", true);
+    }
+}
+
+function reset_localidad_error() {
+    $("#select-localidad-error").hide();
+}
 // Menu Toggle Script
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
 
-$("#boton-buscar-localidad").click(function () {
-    $("#select-localidad-modal").dialog({
-    }
-    );
-});
 
-$('.clean-url').submit(function() {
-    $(':input', this).each(function() {
+$('.clean-url').submit(function () {
+    $(':input', this).each(function () {
         this.disabled = !($(this).val());
     });
 });

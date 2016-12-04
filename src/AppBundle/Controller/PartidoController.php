@@ -1,13 +1,13 @@
-<?php
-
-namespace AppBundle\Controller;
+<?php namespace AppBundle\Controller;
 
 use AppBundle\Entity\Partido;
 use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
@@ -17,23 +17,19 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  * @Route("/partido")
  * @Security("has_role('ROLE_ADMIN')")
  */
-class PartidoController extends Controller
-{
+class PartidoController extends Controller {
     /**
      * Lists all Partido entities.
      *
      * @Route("/", name="partido_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(Request $request) {
         /** @var EntityRepository $partidosRepo */
         $partidosRepo = $this->getDoctrine()->getRepository('AppBundle:Partido');
         $partidosQB = $partidosRepo->createQueryBuilder('p')->orderBy('p.partido');
         $partidos = $this->get('knp_paginator')->paginate(
-            $partidosQB,
-            $request->query->getInt('page', 1),
-            5
+                $partidosQB, $request->query->getInt('page', 1), 5
         );
 
         $deleteForms = [];
@@ -43,8 +39,8 @@ class PartidoController extends Controller
         }
 
         return $this->render('partido/index.html.twig', [
-            'partidos' => $partidos,
-            'delete_forms' => $deleteForms,
+                    'partidos' => $partidos,
+                    'delete_forms' => $deleteForms,
         ]);
     }
 
@@ -54,8 +50,7 @@ class PartidoController extends Controller
      * @Route("/agregar", name="partido_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $partido = new Partido();
         $form = $this->createForm('AppBundle\Form\PartidoType', $partido);
         $form->handleRequest($request);
@@ -69,9 +64,25 @@ class PartidoController extends Controller
         }
 
         return $this->render('partido/new.html.twig', [
-            'partido' => $partido,
-            'form' => $form->createView(),
+                    'partido' => $partido,
+                    'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Lista las localidades del partido indicado enviando el resultado en JSON.
+     * 
+     * @Route("/{id}/localidades", name="partido_localidades", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function localidadesAction(Request $request, Partido $partido) {
+        if ($request->isXmlHttpRequest()) {
+            $localidadesRepo = $this->getDoctrine()->getRepository('AppBundle:Localidad');
+            $localidades = $localidadesRepo->findByPartido($partido, ["localidad" => "asc"]);
+            return new Response(json_encode($localidades, JSON_UNESCAPED_UNICODE));
+        } else {
+            return $this->redirectToRoute('partido_index');
+        }
     }
 
     /**
@@ -80,8 +91,7 @@ class PartidoController extends Controller
      * @Route("/{id}/editar", name="partido_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Partido $partido)
-    {
+    public function editAction(Request $request, Partido $partido) {
         $editForm = $this->createForm('AppBundle\Form\PartidoType', $partido);
         $editForm->handleRequest($request);
 
@@ -94,8 +104,8 @@ class PartidoController extends Controller
         }
 
         return $this->render('partido/edit.html.twig', [
-            'partido' => $partido,
-            'edit_form' => $editForm->createView(),
+                    'partido' => $partido,
+                    'edit_form' => $editForm->createView(),
         ]);
     }
 
@@ -105,8 +115,7 @@ class PartidoController extends Controller
      * @Route("/{id}", name="partido_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Partido $partido)
-    {
+    public function deleteAction(Request $request, Partido $partido) {
         $form = $this->createDeleteForm($partido);
         $form->handleRequest($request);
 
@@ -135,12 +144,12 @@ class PartidoController extends Controller
      * @param Partido $partido The Partido entity
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Partido $partido)
-    {
+    private function createDeleteForm(Partido $partido) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('partido_delete', ['id' => $partido->getId()]))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('partido_delete', ['id' => $partido->getId()]))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

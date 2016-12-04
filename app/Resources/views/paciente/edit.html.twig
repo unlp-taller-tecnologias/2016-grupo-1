@@ -8,9 +8,14 @@
         {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
 
-        <label class="control-label">Localidad</label>
+        <label class="control-label required">Localidad</label>
         <div class="input-group">
-            <input type="text" placeholder="Haga clic en el botón buscar para seleccionar una localidad" id="paciente_localidad_text" class="form-control disabled" readonly="true">
+            <input type="text" 
+                   id="paciente_localidad_text" 
+                   readonly="readonly" required="required" 
+                   placeholder="Haga clic en el botón buscar para seleccionar una localidad" 
+                   class="form-control" 
+                   value="{{localidad_text|default("")}}">
             <span class="input-group-btn">
                 <button type="button" class="btn btn-primary" id="boton-buscar-localidad">
                     <i class="fa fa-search"></i>

@@ -59,7 +59,7 @@ class PacienteController extends Controller {
      */
     public function newAction(Request $request) {
         $paciente = new Paciente();
-        $form = $this->createForm('AppBundle\Form\PacienteType', $paciente);
+        $form = $this->createForm('AppBundle\Form\PacienteType', $paciente, ['entity_manager' => $this->getDoctrine()->getManager()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,11 +70,20 @@ class PacienteController extends Controller {
             return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
+        $sentdata = $request->request->get("paciente");
+        if ($sentdata !== null) {
+            $loc = $sentdata["localidad"];
+            $localidad = $this->getDoctrine()->getManager()->getRepository("AppBundle:Localidad")->find($loc);
+        } else {
+            $localidad = "";
+        }
+
         $partidos = $this->getDoctrine()->getRepository('AppBundle:Partido')->findAll();
         return $this->render('paciente/new.html.twig', [
                     'paciente' => $paciente,
                     'form' => $form->createView(),
-                    'partidos' => $partidos
+                    'partidos' => $partidos,
+                    'localidad_text' => $localidad
         ]);
     }
 
@@ -100,7 +109,7 @@ class PacienteController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Paciente $paciente) {
-        $editForm = $this->createForm('AppBundle\Form\PacienteType', $paciente);
+        $editForm = $this->createForm('AppBundle\Form\PacienteType', $paciente, ['entity_manager' => $this->getDoctrine()->getManager()]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -111,12 +120,23 @@ class PacienteController extends Controller {
             return $this->redirectToRoute('paciente_show', ['id' => $paciente->getId()]);
         }
 
+        $sentdata = $request->request->get("paciente");
+        if ($sentdata !== null) {
+            $loc = $sentdata["localidad"];
+            $localidad = $this->getDoctrine()->getManager()->getRepository("AppBundle:Localidad")->find($loc);
+        } else {
+            if ($paciente->getLocalidad() !== null) {
+                $localidad = $paciente->getLocalidad();
+            }
+        }
+
         $partidos = $this->getDoctrine()->getRepository('AppBundle:Partido')->findAll();
 
         return $this->render('paciente/edit.html.twig', [
                     'paciente' => $paciente,
                     'edit_form' => $editForm->createView(),
-                    'partidos' => $partidos
+                    'partidos' => $partidos,
+                    'localidad_text' => $localidad
         ]);
     }
 
