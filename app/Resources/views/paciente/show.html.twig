@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <th>Sexo</th>
-            <td>{{ paciente.sexo }}</td>
+            <td>{{ paciente.sexo | capitalize }}</td>
         </tr>
         <tr>
             <th>Localidad</th>
@@ -39,7 +39,7 @@
         <i class="fa fa-clipboard" aria-hidden="true"></i> Historia clínica
     </a>
     <a class="btn btn-primary" href="{{ path('paciente_examenes', { 'id': paciente.id }) }}">
-        <i class="fa fa-clipboard" aria-hidden="true"></i> Exámenes prequirúrgicos
+        <i class="fa fa-file-text" aria-hidden="true"></i> Exámenes prequirúrgicos
     </a>
     <div><a class="btn btn-link" href="{{ path('paciente_index') }}">Volver al listado de pacientes</a></div>
 {% endblock %}
