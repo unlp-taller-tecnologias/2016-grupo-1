@@ -87,7 +87,8 @@ knp_paginator:
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     C:\xampp\htdocs\grupo1\vendor\wkhtmltopdf\bin\wkhtmltopdf.exe
+        #binary:     C:\xampp\htdocs\grupo1\vendor\wkhtmltopdf\bin\wkhtmltopdf.exe
+        binary:     /usr/bin/wkhtmltopdf
         options:    []
     image:
         enabled:    true

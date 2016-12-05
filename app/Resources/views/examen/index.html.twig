@@ -3,7 +3,7 @@
 {% block body_id "paciente_examenes" %}
 
 {% block main %}
-    <h1>Exámenes prequirúrgicos<br>de {{ paciente }}</h1>
+    <div class="h4">Exámenes prequirúrgicos<br>de {{ paciente }}</div>
 
     {% if examenes is not empty %}
         {{ include ('_delete_entity_confirmation.html.twig') }}

@@ -2,71 +2,71 @@
 
 {% block body_id 'paciente_historia-clinica' %}
 
-{% block main %}
-    <h1>Historia clínica<br>de {{ paciente }}</h1>
+    {% block main %}
+        <div class="h4">Historia clínica de {{ paciente }}</div>
 
-    {% if visitas is not empty %}
-        {{ include ('_delete_entity_confirmation.html.twig') }}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Médico</th>
-                    {% if is_granted('ROLE_MEDICO') %}
-                        <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-            {% for visita in visitas %}
-                <tr>
-                    <td>{% if visita.fecha %}{{ visita.fecha|date('d-m-Y') }}{% endif %}</td>
-                    <td><a href="{{ path('usuario_show', {'id': visita.medico.id}) }}" target="_blank">{{ visita.medico }}</a></td>
-                    {% if is_granted('ROLE_MEDICO') %}
-                        <td>
-                            <div class="item-actions">
-                                <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                                <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-sm btn-primary">
-                                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                                </a>
-                                {{ include('_delete_form.html.twig', {
+        {% if visitas is not empty %}
+            {{ include ('_delete_entity_confirmation.html.twig') }}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Médico</th>
+                            {% if is_granted('ROLE_MEDICO') %}
+                            <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                            {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for visita in visitas %}
+                        <tr>
+                            <td>{% if visita.fecha %}{{ visita.fecha|date('d-m-Y') }}{% endif %}</td>
+                            <td><a href="{{ path('usuario_show', {'id': visita.medico.id}) }}" target="_blank">{{ visita.medico }}</a></td>
+                                {% if is_granted('ROLE_MEDICO') %}
+                                <td>
+                                    <div class="item-actions">
+                                        <a href="{{ path('visita_show', { 'id': visita.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                                        <a href="{{ path('visita_edit', { 'id': visita.id }) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                        </a>
+                                        {{ include('_delete_form.html.twig', {
                                     attr: {'style': 'display: inline-block'},
                                     form: delete_forms[visita.id],
                                     includeModal: false,
                                     button_label: 'Eliminar',
                                     button_css: 'btn-sm',
                                 }) }}
-                            </div>
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <div class="navigation">
-            {{ knp_pagination_render(visitas) }}
-        </div>
-        <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
-    {% else %}
-        <p>Aún no se ha registrado ninguna visita para el paciente.</p>
-    {% endif %}
-{% endblock %}
+                                    </div>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(visitas) }}
+            </div>
+            <a class="btn btn-link" href="{{ path('paciente_show', {'id': paciente.id}) }}">Volver a datos de paciente</a>
+        {% else %}
+            <p>Aún no se ha registrado ninguna visita para el paciente.</p>
+        {% endif %}
+    {% endblock %}
 
-{% block sidebar %}
-    {% if is_granted('ROLE_MEDICO') %}
-        <div class="section">
-            <a href="{{ path('paciente_registrar-visita', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-success">
-                <i class="fa fa-plus" aria-hidden="true"></i> Registrar visita
-            </a>
-        </div>
-    {% endif %}
-    {% if visitas is not empty %}
-        <div class="section">
-            <a href="{{ path('historia_print', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-primary">
-                <i class="fa fa-download" aria-hidden="true"></i> Generar PDF
-            </a>
-        </div>
-    {% endif %}
+    {% block sidebar %}
+        {% if is_granted('ROLE_MEDICO') %}
+            <div class="section">
+                <a href="{{ path('paciente_registrar-visita', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-success">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Registrar visita
+                </a>
+            </div>
+        {% endif %}
+        {% if visitas is not empty %}
+            <div class="section">
+                <a href="{{ path('historia_print', {'id': paciente.id}) }}" class="btn btn-md btn-block btn-primary">
+                    <i class="fa fa-download" aria-hidden="true"></i> Generar PDF
+                </a>
+            </div>
+        {% endif %}
 
-    {{ parent() }}
-{% endblock %}
+        {{ parent() }}
+    {% endblock %}

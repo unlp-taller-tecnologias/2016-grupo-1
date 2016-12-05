@@ -3,7 +3,7 @@
 {% block body_id 'visita_show' %}
 
 {% block main %}
-    <h1>Visita médica</h1>
+    <div class="h4">Visita médica</div>
 
     <table class="table table-bordered">
         <tbody>
@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Fecha</th>
-                <td>{% if visita.fecha %}{{ visita.fecha|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if visita.fecha %}{{ visita.fecha|date('d/m/Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Motivos de consulta</th>

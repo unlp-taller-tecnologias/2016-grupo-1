@@ -10,7 +10,7 @@ class VisitaRepository extends EntityRepository
     public function findAllQB()
     {
         $qb = $this->createQueryBuilder('v');
-        $qb->orderBy('v.fecha');
+        $qb->orderBy('v.fecha', 'desc');
 
         return $qb;
     }
