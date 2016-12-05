@@ -233,7 +233,7 @@ class Usuario extends FOSUser
             self::PROFESION_MEDICO,
             self::PROFESION_SECRETARIO,
         ])) {
-            throw new \InvalidArgumentException("Profesión inválida");
+            throw new \InvalidArgumentException("Ocupación inválida");
         }
         $this->profesion = $profesion;
 
