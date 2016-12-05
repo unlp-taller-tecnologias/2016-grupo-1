@@ -5,6 +5,12 @@
 {% block main %}
     <h1>{{ usuario }}</h1>
 
+    {% if not usuario.enabled %}
+        <div class="text-danger">
+            <h4>"Este usuario se encuentra deshabilitado."</h4>
+        </div>
+    {% endif %}
+
     <table class="table">
         <tr>
             <th>DNI</th>

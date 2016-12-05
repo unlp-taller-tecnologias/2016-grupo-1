@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for usuario in usuarios %}
-            <tr>
+            <tr {% if not usuario.enabled %} class="text-danger" {% endif %}>
                 <td>{{ usuario.apellido }}</td>
                 <td>{{ usuario.nombre }}</td>
                 <td>{{ usuario.username }}</td>
