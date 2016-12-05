@@ -33,6 +33,14 @@ class Usuario extends FOSUser
     protected $username;
 
     /**
+     * @Assert\Regex(
+     *  pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}/",
+     *  message="La contraseña debe tener una longitud de 8 o más caracteres y estar conformada por al menos una letra minúscula, una mayúscula y un número."
+     * )
+     */
+    protected $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=35)
      * @Assert\NotBlank(message="Por favor, ingrese su nombre")
      * @Assert\Length(max=35, maxMessage="El nombre es muy largo")
