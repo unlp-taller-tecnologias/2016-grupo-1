@@ -134,6 +134,12 @@ class VisitaController extends Controller
         $ob->chart->renderTo('grafico');
         $ob->title->text($title);
         $ob->xAxis->title(['text'  => 'Período']);
+        $ob->plotOptions->series(
+            array(
+                'dataLabels' => array(
+                    'enabled' => true)
+            )
+        );
         $ob->yAxis
             ->title(['text'  => 'Pacientes (cantidad)'])
             ->allowDecimals(false)
