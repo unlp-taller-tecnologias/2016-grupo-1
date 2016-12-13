@@ -21,11 +21,10 @@
         {% include 'layout/_navbar.html.twig' %}
     {% endblock %}
 
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    <div id="wrapper">
-            {% include 'layout/_menu.html.twig' %}
-        {% endif %}
-
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include 'layout/_menu.html.twig' %}
+    {% endif %}
+    <div id="wrapper" class="container-fluid">
         <div class="container body-container">
             {% block body %}
                 <div class="row">

@@ -8,6 +8,10 @@
     overflow-x: hidden;
  }
 
+.navbar-brand p{
+    font-size: 16.5px;
+}
+
 /* Toggle Styles */
 
 #wrapper {
@@ -23,14 +27,15 @@
 }
 
 #sidebar-wrapper {
+    margin-top: -21px;
     z-index: 1000;
     position: fixed;
     left: 196px;
     width: 0;
     height: 100%;
     margin-left: -196px;
-    overflow-y: auto;
-    background-color: transparent;
+    overflow-y: scroll;
+    background-color: rgba(236, 240, 241,1.0);
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -38,7 +43,7 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 196px;
+    width: 200px;
 }
 
 #page-content-wrapper {
@@ -68,18 +73,30 @@
     line-height: 40px;
 }
 
+.sidebar-nav ul li a {
+    height: 40px;
+    text-indent: 10px;
+    line-height: 20px;
+    padding-left: 20px;
+    background-color: rgba(224, 224, 224,1.0); /* color fondo enlace interno */
+}
+
+.sidebar-nav ul li a:hover {
+    background-color: rgba(232, 232, 232,1.0);
+}
+
 .sidebar-nav li a {
     display: block;
-    width: 196px;
+    width: 200px;
     text-decoration: none;
-    color: #777777;
-    border-right: 2px solid #ddd;
+    color: #2c3e50; /* color texto enlace externo */
+    background-color: rgba(236, 240, 241,1.0); /* color fondo enlace externo */
 }
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #2c3e50;
-    background: #eee;
+    color: #34495e;
+    background: rgba(249, 249, 249,1.0); /* color hover enlaces en general? */
 }
 
 .sidebar-nav li a:active,
@@ -89,13 +106,13 @@
 
 .sidebar-nav > .sidebar-brand {
     font-weight: bold;
-    padding-bottom: 16px;
-    border-right: 2px solid #ddd;
-    font-size: 18px;
+    width: 200px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #999999;
+    color: #fff;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
@@ -113,7 +130,7 @@
     }
 
     #sidebar-wrapper {
-        width: 196px;
+        width: 200px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
