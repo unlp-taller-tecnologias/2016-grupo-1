@@ -28,7 +28,7 @@ class Paciente
     protected $id;
 
     /**
-     * @ORM\Column(name="dni", type="integer", nullable=true, unique=true)
+     * @ORM\Column(name="dni", type="string", length=8, nullable=true, unique=true)
      * @Assert\Type(type="integer", message="El DNI sólo puede contener dígitos")
      * @Assert\Length(min=7, max=8, minMessage="El DNI debe tener al menos {{ limit }} dígitos", maxMessage="El DNI debe tener como máximo {{ limit }} dígitos")
      */
