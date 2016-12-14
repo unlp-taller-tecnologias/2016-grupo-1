@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th>Tensión arterial</th>
-                <td>{{ examen.tensionArterial }}</td>
+                <td>{{ examen.tensionArterial|default('-') }}</td>
             </tr>
             <tr>
                 <th>Ruido 1</th>

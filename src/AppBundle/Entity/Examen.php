@@ -563,10 +563,14 @@ class Examen
     /**
      * Get tensionArterialDiastolica
      *
-     * @return integer
+     * @return string|null
      */
     public function getTensionArterial()
     {
+        if (!isset($this->tensionArterialSistolica) or !isset($this->tensionArterialDiastolica)) {
+            return null;
+        }
+
         return $this->tensionArterialSistolica . '/' . $this->tensionArterialDiastolica . ' mmHg';
     }
 
