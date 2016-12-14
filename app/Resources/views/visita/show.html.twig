@@ -52,7 +52,7 @@
                     <th>Notas personales</th>
                     <td>
                     {% if visita.notasPersonales is not empty %}
-                        <textarea readonly>{{ visita.notasPersonales }}</textarea>
+                        <textarea class="form-control" readonly>{{ visita.notasPersonales }}</textarea>
                     {% else %}-{% endif %}
                     </td>
                 </tr>
