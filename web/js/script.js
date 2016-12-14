@@ -118,12 +118,6 @@ function fill_localidades(url) {
 function reset_localidad_error() {
     $("#select-localidad-error").hide();
 }
-// Menu Toggle Script
-$("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
-
 
 $('.clean-url').submit(function () {
     $(':input', this).each(function () {
