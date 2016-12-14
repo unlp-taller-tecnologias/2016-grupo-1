@@ -5,14 +5,69 @@
     {% block main %}
         <div class="h4">Editar examen prequirúrgico</div>
 
-        {{ form_start(edit_form) }}
+    {{ form_start(edit_form) }}
         <div class="form-group">
             <label for="paciente" class="control-label">Paciente</label>
             <input class="form-control" id="paciente" value="{{ examen.paciente }}" readonly>
         </div>
-        {{ form_widget(edit_form) }}
+        {{form_row(edit_form.fecha)}}
+        {{form_row(edit_form.procedimiento)}}
+        {{form_row(edit_form.derivadoDesde)}}
+        {{form_label(edit_form.factores)}}
+        <div class="form-group multiples-opciones-en-linea">
+            {{form_widget(edit_form.factores)}}
+            {{form_errors(edit_form.factores)}}
+            <div class="form-group">
+                <label class="control-label">Otros:</label>{{form_widget(edit_form.otrosFactores)}}
+            </div>
+            {{form_errors(edit_form.otrosFactores)}}
+        </div>
+        {{form_label(edit_form.medicaciones)}}
+        <div class="form-group multiples-opciones-en-linea">
+            {{form_widget(edit_form.medicaciones)}}
+            {{form_errors(edit_form.medicaciones)}}
+            <div class="form-group">
+                <label class="control-label">Otras:</label>{{form_widget(edit_form.otrasMedicaciones)}}
+            </div>
+            {{form_errors(edit_form.otrasMedicaciones)}}
+        </div>
+        {{form_row(edit_form.antecedentes)}}
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                Examen físico
+            </div>
+            <div class="panel panel-body">
+                <div class="form-group multiples-opciones-en-linea">
+                    <label class="control-label en-linea">Tensión arterial:</label>
+                    {{form_widget(edit_form.tensionArterialSistolica)}}/&nbsp;&nbsp;&nbsp;{{form_widget(edit_form.tensionArterialDiastolica)}} mmHg
+                </div>
+                {{form_errors(edit_form.tensionArterialSistolica)}}
+                {{form_errors(edit_form.tensionArterialDiastolica)}}
+                <div class="form-group multiples-opciones-en-linea">
+                    <label class="control-label">Aparato CV</label>
+                    <label class="control-label">Ruidos: </label>
+                    {{form_widget(edit_form.ruido1)}}
+                    {{form_widget(edit_form.ruido2)}}
+                    {{form_widget(edit_form.ruido3)}}
+                    {{form_widget(edit_form.ruido4)}}
+                    <label class="control-label">Soplos: </label>
+                    {{form_widget(edit_form.soplos, {'label':'Sí'})}}
+                    {{form_widget(edit_form.soplosComentario)}}
+                </div>
+                {{form_errors(edit_form.ruido1)}}
+                {{form_errors(edit_form.ruido2)}}
+                {{form_errors(edit_form.ruido3)}}
+                {{form_errors(edit_form.ruido4)}}
+                {{form_errors(edit_form.soplos)}}
+                {{form_errors(edit_form.soplosComentario)}}
+                {{form_row(edit_form.aparatoRespiratorio)}}
+                {{form_row(edit_form.electrocardiograma)}}
+            </div>
+        </div>
+        {{form_row(edit_form.comentarios)}}
+        {{form_row(edit_form.gradoRiesgo)}}
 
         <input type="submit" value="Guardar cambios" class="btn btn-primary" />
         <a class="btn btn-danger" href="{{ path('paciente_examenes', {'id': examen.paciente.id }) }}">Cancelar</a>
-        {{ form_end(edit_form) }}
+    {{ form_end(edit_form) }}
     {% endblock %}
