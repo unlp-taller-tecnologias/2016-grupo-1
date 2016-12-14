@@ -94,7 +94,7 @@ class Examen
     /** @ORM\Column(name="tension_arterial_diastolica", type="integer", nullable=true) */
     protected $tensionArterialDiastolica;
 
-    /** @ORM\Column(name="soplos", type="boolean") */
+    /** @ORM\Column(name="soplos", type="boolean", nullable=true) */
     protected $soplos;
 
     /** @ORM\Column(name="comentarios", type="text", nullable=true) */
