@@ -22,9 +22,9 @@
     {% endblock %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% include 'layout/_menu.html.twig' %}
-    {% endif %}
     <div id="wrapper" class="container-fluid">
+        {% include 'layout/_menu.html.twig' %}
+        {% endif %}
         <div class="container body-container">
             {% block body %}
                 <div class="row">
@@ -50,11 +50,11 @@
                 </div>
             {% endblock %}
         </div>
-
-    </div>
         {% block footer %}
             {% include 'layout/_footer.html.twig' %}
         {% endblock %}
+    </div>
+
 
     {% block javascripts %}
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

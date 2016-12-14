@@ -1,7 +1,7 @@
 <footer>
     <div class="container-fluid">
         <div class="row">
-            <div id="footer-copyright" class="col-md-10 text-center">
+            <div id="footer-copyright" class="{{ is_granted('IS_AUTHENTICATED_FULLY') ? 'col-md-10' : 'col-md-12' }} text-center">
                 <p>&copy; {{ 'now'|date('Y') }} - Facultad de Informática UNLP </p>
             </div>
         </div>
