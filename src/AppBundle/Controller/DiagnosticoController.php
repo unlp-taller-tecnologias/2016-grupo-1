@@ -33,7 +33,7 @@ class DiagnosticoController extends Controller
         $diagnosticos = $this->get('knp_paginator')->paginate(
             $diagnosticosQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

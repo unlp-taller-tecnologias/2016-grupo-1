@@ -37,7 +37,7 @@ class VisitaController extends Controller
         $visitas = $this->get('knp_paginator')->paginate(
             $visitasQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

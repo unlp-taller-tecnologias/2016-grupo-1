@@ -33,7 +33,7 @@ class MedicacionController extends Controller
         $medicaciones = $this->get('knp_paginator')->paginate(
             $medicacionesQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

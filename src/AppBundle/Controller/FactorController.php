@@ -33,7 +33,7 @@ class FactorController extends Controller
         $factores = $this->get('knp_paginator')->paginate(
             $factoresQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

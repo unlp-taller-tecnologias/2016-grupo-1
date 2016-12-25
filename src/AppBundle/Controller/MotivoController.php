@@ -33,7 +33,7 @@ class MotivoController extends Controller
         $motivos = $this->get('knp_paginator')->paginate(
             $motivosQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

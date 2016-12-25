@@ -38,7 +38,7 @@ class UsuarioController extends Controller
         $usuarios = $this->get('knp_paginator')->paginate(
             $usuariosQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

@@ -32,7 +32,7 @@ class ExamenController extends Controller
         $examenesRepo = $this->getDoctrine()->getRepository('AppBundle:Examen');
         $examenesQB = $examenesRepo->findByPaciente($paciente);
         $examenes = $this->get('knp_paginator')->paginate(
-                $examenesQB, $request->query->getInt('page', 1), 5
+                $examenesQB, $request->query->getInt('page', 1), 25
         );
 
         $deleteForms = [];

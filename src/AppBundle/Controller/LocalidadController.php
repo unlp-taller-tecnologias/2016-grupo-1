@@ -33,7 +33,7 @@ class LocalidadController extends Controller
         $localidades = $this->get('knp_paginator')->paginate(
             $localidadesQB,
             $request->query->getInt('page', 1),
-            5
+            25
         );
 
         $deleteForms = [];

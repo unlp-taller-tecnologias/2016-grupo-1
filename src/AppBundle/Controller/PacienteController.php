@@ -35,7 +35,7 @@ class PacienteController extends Controller {
         }
 
         $pacientes = $this->get('knp_paginator')->paginate(
-                $pacientesQB, $request->query->getInt('page', 1), 5
+                $pacientesQB, $request->query->getInt('page', 1), 25
         );
 
         $deleteForms = [];

@@ -29,7 +29,7 @@ class PartidoController extends Controller {
         $partidosRepo = $this->getDoctrine()->getRepository('AppBundle:Partido');
         $partidosQB = $partidosRepo->createQueryBuilder('p')->orderBy('p.partido');
         $partidos = $this->get('knp_paginator')->paginate(
-                $partidosQB, $request->query->getInt('page', 1), 5
+                $partidosQB, $request->query->getInt('page', 1), 25
         );
 
         $deleteForms = [];
