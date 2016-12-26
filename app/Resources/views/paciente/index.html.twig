@@ -2,66 +2,72 @@
 
 {% block body_id 'paciente_index' %}
 
-{% block main %}
-    <div class="h4">Listado de pacientes</div>
+    {% block main %}
+        <div class="h4">
+            {% if busquedaRealizada == true %}
+                Resultados de la búsqueda <a class="btn btn-sm btn-default" href="{{ path('paciente_index') }}">Quitar filtros</a>
+            {% else %}
+                Listado de pacientes del servicio
+            {% endif %}
+        </div>
 
-    {% if pacientes is not empty %}
-    {{ include ('_delete_entity_confirmation.html.twig') }}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Apellido</th>
-                <th>Nombre</th>
-                <th>DNI</th>
-                <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for paciente in pacientes %}
-            <tr>
-                <td>{{ paciente.apellido }}</td>
-                <td>{{ paciente.nombre }}</td>
-                <td>{{ paciente.dni|default('-') }}</td>
-                <td>
-                    <div class="item-actions">
-                        <a href="{{ path('paciente_show', { 'id': paciente.id }) }}" class="btn btn-sm btn-default">Ver</a>
-                        <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                        </a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            {{ include('_delete_form.html.twig', {
+        {% if pacientes is not empty %}
+            {{ include ('_delete_entity_confirmation.html.twig') }}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Apellido</th>
+                        <th>Nombre</th>
+                        <th>DNI</th>
+                        <th><i class="fa fa-cogs" aria-hidden="true"></i> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                        <tr>
+                            <td>{{ paciente.apellido }}</td>
+                            <td>{{ paciente.nombre }}</td>
+                            <td>{{ paciente.dni|default('-') }}</td>
+                            <td>
+                                <div class="item-actions">
+                                    <a href="{{ path('paciente_show', { 'id': paciente.id }) }}" class="btn btn-sm btn-default">Ver</a>
+                                    <a href="{{ path('paciente_edit', { 'id': paciente.id }) }}" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                    </a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        {{ include('_delete_form.html.twig', {
                                 attr: {'style': 'display: inline-block'},
                                 form: delete_forms[paciente.id],
                                 includeModal: false,
                                 button_label: 'Eliminar',
                                 button_css: 'btn-sm',
                             }) }}
-                        {% endif %}
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(pacientes) }}
-    </div>
-    {% else %}
-        {% if app.request.query is not empty %}
-            <p>Lo sentimos, ningún paciente satisface los criterios de búsqueda.</p>
-            <p>¿Desea <a href="{{ path('paciente_index') }}">ver el listado completo</a>?</p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pacientes) }}
+            </div>
         {% else %}
-            <p>Aún no se ha registrado ningún paciente.</p>
+            {% if app.request.query is not empty %}
+                <p>Lo sentimos, ningún paciente satisface los criterios de búsqueda.</p>
+                <p>¿Desea <a href="{{ path('paciente_index') }}">ver el listado completo</a>?</p>
+            {% else %}
+                <p>Aún no se ha registrado ningún paciente.</p>
+            {% endif %}
         {% endif %}
-    {% endif %}
-{% endblock %}
+    {% endblock %}
 
-{% block sidebar %}
-    <div class="section">
-        <a href="{{ path('paciente_new') }}" class="btn btn-md btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
-        </a>
-    </div>
+    {% block sidebar %}
+        <div class="section">
+            <a href="{{ path('paciente_new') }}" class="btn btn-md btn-block btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar paciente
+            </a>
+        </div>
         <div class="section search">
             <div class="well well-lg">
                 {{ include('paciente/_search_form.html.twig', {
@@ -73,4 +79,4 @@
                 }) }}
             </div>
         </div>
-{% endblock %}
+    {% endblock %}

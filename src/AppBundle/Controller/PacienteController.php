@@ -31,7 +31,7 @@ class PacienteController extends Controller {
         if ($searchForm->isSubmitted()) {
             $pacientesQB = $pacientesRepo->findAllByMultiParametros($searchForm->getData());
         } else {
-            $pacientesQB = $pacientesRepo->createQueryBuilder('p')->orderBy('p.apellido, p.nombre, p.dni');
+            $pacientesQB = $pacientesRepo->findAllServicio();
         }
 
         $pacientes = $this->get('knp_paginator')->paginate(
@@ -48,6 +48,7 @@ class PacienteController extends Controller {
                     'pacientes' => $pacientes,
                     'delete_forms' => $deleteForms,
                     'search_form' => $searchForm->createView(),
+                    'busquedaRealizada' => $searchForm->isSubmitted()
         ]);
     }
 

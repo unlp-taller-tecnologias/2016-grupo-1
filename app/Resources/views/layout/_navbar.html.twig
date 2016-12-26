@@ -3,8 +3,9 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <p>Servicio de Cardiología</p>
-                    <p>Hospital San Martín</p>
+                    <!--    <p>Servicio de Cardiología</p>
+                        <p>Hospital San Martín</p> -->
+                    <img src="{{asset('img/logos/logo-color-sm.png')}}" alt="Servicio de Cardiología">
                 </a>
 
                 <button type="button" class="navbar-toggle"
@@ -27,7 +28,7 @@
                                     {% else %}
                                         <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
                                     {% endif %}
-                                {{ app.user }}
+                                    {{ app.user }}
                                 </a>
                             </li>
                             <li>

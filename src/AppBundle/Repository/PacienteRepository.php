@@ -1,6 +1,4 @@
-<?php
-
-namespace AppBundle\Repository;
+<?php namespace AppBundle\Repository;
 
 use AppBundle\Entity\Paciente;
 use Doctrine\ORM\EntityRepository;
@@ -9,19 +7,17 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * PacienteRepository
  */
-class PacienteRepository extends EntityRepository
-{
-    public function findAllServicio()
-    {
+class PacienteRepository extends EntityRepository {
+    public function findAllServicio() {
         /** @var QueryBuilder $qb */
         $qb = $this->createQueryBuilder('p');
         $qb->andWhere('EXISTS (SELECT v FROM AppBundle:Visita v WHERE v.paciente = p)');
-
+        $qb->orWhere(' p.medico IS NOT NULL ');
+        $qb->orderBy('p.apellido, p.nombre, p.dni');
         return $qb;
     }
 
-    public function findAllPrequirugicos()
-    {
+    public function findAllPrequirugicos() {
         /** @var QueryBuilder $qb */
         $qb = $this->createQueryBuilder('p');
         $qb->andWhere('EXISTS (SELECT e FROM AppBundle:Examen e WHERE e.paciente = p)');
@@ -29,8 +25,7 @@ class PacienteRepository extends EntityRepository
         return $qb;
     }
 
-    public function findAllByMultiParametros($parametros)
-    {
+    public function findAllByMultiParametros($parametros) {
         $qb = $this->createQueryBuilder('p');
 
         if (!(is_array($parametros) && count($parametros) > 0)) {
