@@ -12,13 +12,10 @@ class LoadFactorData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $factores = [
-            'Dislipemia' => null,
-            'Diabetes' => null,
-            'Hipertensión arterial' => null,
-            'Obesidad' => null,
-            'Sedentarismo' => null,
-            'Stress' => null,
-            'Tabaquismo' => null,
+            'HTA' => null,
+            'DBT' => null,
+            'TBQ' => null,
+            'DLP' => null
         ];
 
         foreach ($factores as $factorNombre => $factor) {

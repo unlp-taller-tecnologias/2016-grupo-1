@@ -13,7 +13,7 @@ class LoadMedicacionData extends AbstractFixture implements OrderedFixtureInterf
     {
         $medicaciones = [
             'AAS' => null,
-            'IEAC' => null,
+            'IECA' => null,
             'Antiarrítmicos' => null,
             'Nitratos' => null,
             'B.Bloq.' => null,
