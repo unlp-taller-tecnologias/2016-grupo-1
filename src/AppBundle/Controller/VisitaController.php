@@ -1,6 +1,4 @@
-<?php
-
-namespace AppBundle\Controller;
+<?php namespace AppBundle\Controller;
 
 use AppBundle\Entity\Paciente;
 use AppBundle\Entity\Visita;
@@ -20,8 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  *
  * @Security("has_role('ROLE_MEDICO')")
  */
-class VisitaController extends Controller
-{
+class VisitaController extends Controller {
     /**
      * Muestra la historia clínica de un paciente.
      *
@@ -29,15 +26,12 @@ class VisitaController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction(Request $request, Paciente $paciente)
-    {
+    public function indexAction(Request $request, Paciente $paciente) {
         /** @var VisitaRepository $visitasRepo */
         $visitasRepo = $this->getDoctrine()->getRepository('AppBundle:Visita');
         $visitasQB = $visitasRepo->findByPaciente($paciente);
         $visitas = $this->get('knp_paginator')->paginate(
-            $visitasQB,
-            $request->query->getInt('page', 1),
-            25
+                $visitasQB, $request->query->getInt('page', 1), 25
         );
 
         $deleteForms = [];
@@ -47,9 +41,9 @@ class VisitaController extends Controller
         }
 
         return $this->render('visita/index.html.twig', [
-            'visitas' => $visitas,
-            'paciente' => $paciente,
-            'delete_forms' => $deleteForms,
+                    'visitas' => $visitas,
+                    'paciente' => $paciente,
+                    'delete_forms' => $deleteForms,
         ]);
     }
 
@@ -59,8 +53,7 @@ class VisitaController extends Controller
      * @Route("/paciente/{id}/registrar-visita", name="paciente_registrar-visita")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, Paciente $paciente)
-    {
+    public function newAction(Request $request, Paciente $paciente) {
         $visita = new Visita($paciente, $this->getUser());
         $form = $this->createForm('AppBundle\Form\VisitaType', $visita);
         $form->handleRequest($request);
@@ -77,8 +70,8 @@ class VisitaController extends Controller
         }
 
         return $this->render('visita/new.html.twig', [
-            'visita' => $visita,
-            'form' => $form->createView(),
+                    'visita' => $visita,
+                    'form' => $form->createView(),
         ]);
     }
 
@@ -88,8 +81,7 @@ class VisitaController extends Controller
      * @Route("/visita/reporte", name="visita_reporte")
      * @Method("GET")
      */
-    public function reporte(Request $request)
-    {
+    public function reporte(Request $request) {
         $form = $this->createForm('AppBundle\Form\ReporteType');
         $form->handleRequest($request);
         if (!$form->isSubmitted()) {
@@ -99,8 +91,7 @@ class VisitaController extends Controller
         return $this->reporteChart($request, $form);
     }
 
-    private function reporteChart(Request $request, Form $form)
-    {
+    private function reporteChart(Request $request, Form $form) {
         $em = $this->getDoctrine()->getManager();
 
         $formData = $form->getData();
@@ -133,16 +124,16 @@ class VisitaController extends Controller
         $ob->chart->type('column');
         $ob->chart->renderTo('grafico');
         $ob->title->text($title);
-        $ob->xAxis->title(['text'  => 'Período']);
+        $ob->xAxis->title(['text' => 'Período']);
         $ob->plotOptions->series(
-            array(
-                'dataLabels' => array(
-                    'enabled' => true)
-            )
+                array(
+                    'dataLabels' => array(
+                        'enabled' => true)
+                )
         );
         $ob->yAxis
-            ->title(['text'  => 'Pacientes (cantidad)'])
-            ->allowDecimals(false)
+                ->title(['text' => 'Pacientes (cantidad)'])
+                ->allowDecimals(false)
         ;
 
         $ob->xAxis->categories([$formData['desde'] . ' - ' . $formData['hasta']]);
@@ -150,10 +141,9 @@ class VisitaController extends Controller
         $ob->series($series);
 
         return $this->render('visita/reporte.html.twig', [
-            'form'  => $form->createView(),
-            'chart' => $ob,
+                    'form' => $form->createView(),
+                    'chart' => $ob,
         ]);
-
     }
 
     /**
@@ -162,13 +152,12 @@ class VisitaController extends Controller
      * @Route("/visita/{id}", name="visita_show")
      * @Method("GET")
      */
-    public function showAction(Visita $visita)
-    {
+    public function showAction(Visita $visita) {
         $deleteForm = $this->createDeleteForm($visita);
 
         return $this->render('visita/show.html.twig', [
-            'visita' => $visita,
-            'delete_form' => $deleteForm->createView(),
+                    'visita' => $visita,
+                    'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -178,8 +167,7 @@ class VisitaController extends Controller
      * @Route("/visita/{id}/editar", name="visita_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Visita $visita)
-    {
+    public function editAction(Request $request, Visita $visita) {
         if ($this->getUser() != $visita->getMedico()) {
             /** @var FlashBagInterface $flashBag */
             $flashBag = $request->getSession()->getFlashBag();
@@ -201,8 +189,8 @@ class VisitaController extends Controller
         }
 
         return $this->render('visita/edit.html.twig', [
-            'visita' => $visita,
-            'edit_form' => $editForm->createView(),
+                    'visita' => $visita,
+                    'edit_form' => $editForm->createView(),
         ]);
     }
 
@@ -212,8 +200,7 @@ class VisitaController extends Controller
      * @Route("/visita/{id}", name="visita_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Visita $visita)
-    {
+    public function deleteAction(Request $request, Visita $visita) {
         if ($this->getUser() != $visita->getMedico()) {
             /** @var FlashBagInterface $flashBag */
             $flashBag = $request->getSession()->getFlashBag();
@@ -246,8 +233,8 @@ class VisitaController extends Controller
         return $this->redirectToRoute('paciente_historia-clinica', ['id' => $pacienteID]);
     }
 
-    public function cantXPartido($desdeQuery, $hastaQuery)
-    {
+    public function cantXPartido($desdeQuery, $hastaQuery) {
+        
     }
 
     /**
@@ -257,16 +244,22 @@ class VisitaController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
-    public function printAction(Paciente $paciente)
-    {
-        $html = $this->renderView('visita/print.html.twig', ['paciente' => $paciente]);
+    public function printAction(Paciente $paciente) {
+        $img_file = $this->get('kernel')->getRootDir() . '/../web/img/logos/logo-color-sm.png';
+        $img_data = base64_encode(file_get_contents($img_file));
+        $img = 'data:' . mime_content_type($img_file) . ';base64,' . $img_data;
+
+        $html = $this->renderView('visita/print.html.twig', [
+            'paciente' => $paciente,
+            'logo_data' => $img
+        ]);
         $pdf = $this->get("knp_snappy.pdf");
 
         return new Response(
-            $pdf->getOutputFromHtml($html), 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="HC_' . $paciente->getId() . '.pdf"',
-            ]
+                $pdf->getOutputFromHtml($html), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="HC_' . $paciente->getId() . '.pdf"',
+                ]
         );
     }
 
@@ -278,9 +271,10 @@ class VisitaController extends Controller
      */
     private function createDeleteForm(Visita $visita) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('visita_delete', ['id' => $visita->getId()]))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('visita_delete', ['id' => $visita->getId()]))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }
